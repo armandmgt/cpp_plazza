@@ -8,7 +8,14 @@
 BUILD_DIR = cmake-build-release/
 
 all: dir
-	cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Release ../ && make
+	cd $(BUILD_DIR) && \
+	cmake -DCMAKE_BUILD_TYPE=Release --target plazza ../ && \
+	make
+
+tests_run: dir
+	cd $(BUILD_DIR) && \
+	cmake -DCMAKE_BUILD_TYPE=Release --target tests_run ../ && \
+	make
 
 dir:
 	@mkdir -p $(BUILD_DIR)
