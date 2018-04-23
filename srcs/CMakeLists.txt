@@ -1,4 +1,4 @@
-set(SOURCE_FILES main.cpp args_check.cpp ../include/plazza.hpp ../include/Exceptions.hpp globals.cpp)
+set(SOURCE_FILES main.cpp args_check.cpp ../include/plazza.hpp ../include/Exceptions.hpp globals.cpp ../include/Master.hpp)
 
 add_executable(plazza ${SOURCE_FILES})
 
