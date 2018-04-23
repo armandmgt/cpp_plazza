@@ -10,8 +10,9 @@
 
 	#include <string>
 	#include <list>
+#include <bits/unordered_map.h>
 
-	namespace plazza {
+namespace plazza {
 
 		typedef enum Information {
 			PHONE_NB, EMAIL_ADDR, IP_ADDR
@@ -26,8 +27,8 @@
 			void createProcesses();
 
 		private:
-			std::list<std::string> outputResult;
-
+			std::list<std::string> _outputResult;
+			std::unordered_map<plazza::InfoType, std::string> _shellInput;
 		};
 	};
 
