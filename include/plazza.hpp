@@ -1,0 +1,16 @@
+/*
+** EPITECH PROJECT, 2018
+** plazza
+** File description:
+** plazza
+*/
+
+#ifndef PLAZZA_PLAZZA_H
+#define PLAZZA_PLAZZA_H
+
+extern int const SUCCESS;
+extern int const FAILURE;
+
+int check_args(int argc, char const *argv[]);
+
+#endif //PLAZZA_PLAZZA_H

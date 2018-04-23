@@ -1,0 +1,11 @@
+*.gch
+*.gno
+*.gda
+*.gcov
+*~
+#*#
+*sublime*
+*.o
+*.so
+vgcore*
+plazza
