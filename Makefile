@@ -5,11 +5,19 @@
 ## Makefile
 ##
 
-all:
-    cmake -DCMAKE_BUILD_TYPE=Release
+BUILD_DIR = cmake-build-release/
 
-fclean:
-    rm -f plazza
+all: dir
+	cd $(BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Release ../ && make
+
+dir:
+	@mkdir -p $(BUILD_DIR)
+
+clean: dir
+	@$(MAKE) --no-print-directory -C $(BUILD_DIR) clean
+
+fclean: clean
+	@rm -f plazza
 
 re: fclean all
 
