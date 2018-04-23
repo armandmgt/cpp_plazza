@@ -1,4 +1,13 @@
-set(SOURCE_FILES test_args.cpp ../srcs/args_check.cpp ../include/plazza.hpp ../include/Exceptions.hpp ../srcs/globals.cpp ../include/Master.hpp ../srcs/master.cpp)
+set(SOURCE_FILES
+        test_args.cpp
+        ../srcs/args_check.cpp
+        ../include/plazza.hpp
+        ../include/Exceptions.hpp
+        ../srcs/globals.cpp
+        ../include/Master.hpp
+        ../include/container/SplitMap.hpp
+        container/test_SplitMap.cpp
+        ../srcs/master/Master.cpp)
 
 add_executable(tests_run ${SOURCE_FILES})
 
