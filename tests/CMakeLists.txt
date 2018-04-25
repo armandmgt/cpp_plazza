@@ -1,4 +1,4 @@
-set(SOURCE_FILES test_args.cpp ../srcs/args_check.cpp ../include/plazza.hpp ../include/Exceptions.hpp ../srcs/globals.cpp ../include/Master.hpp)
+set(SOURCE_FILES test_args.cpp ../srcs/args_check.cpp ../include/plazza.hpp ../include/Exceptions.hpp ../srcs/globals.cpp ../include/Master.hpp ../include/Search.hpp ../srcs/Search.cpp)
 
 add_executable(tests_run ${SOURCE_FILES})
 
