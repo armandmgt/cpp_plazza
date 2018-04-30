@@ -6,7 +6,7 @@ set(SOURCE_FILES
         globals.cpp
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
-        master/Master.cpp)
+        master/Master.cpp shell/Shell.hpp shell/Shell.cpp CLIParser/CLIParser.cpp CLIParser/CLIParser.hpp)
 
 add_executable(plazza ${SOURCE_FILES})
 
