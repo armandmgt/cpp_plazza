@@ -8,20 +8,20 @@
 BUILD_DIR = build/
 
 all: dir
-	cd $(BUILD_DIR) && \
+	@cd $(BUILD_DIR) && \
 	cmake -DCMAKE_BUILD_TYPE=Release --target plazza ../ && \
-	make plazza
+	$(MAKE) -s plazza
 
 tests_run: dir
-	cd $(BUILD_DIR) && \
+	@cd $(BUILD_DIR) && \
 	cmake -DCMAKE_BUILD_TYPE=Release --target tests_run ../ && \
-	make tests_run
+	$(MAKE) -s tests_run
 
 dir:
-	mkdir -p $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
 
 clean: dir
-	$(MAKE) --no-print-directory -C $(BUILD_DIR) clean
+	@$(MAKE) -s -C $(BUILD_DIR) clean
 	rm -rf $(BUILD_DIR)
 
 fclean: clean
