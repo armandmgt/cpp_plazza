@@ -7,28 +7,32 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
+#include "Exceptions.hpp"
 #include "CLIParser.hpp"
 
 plazza::CLIParser::CLIParser()
 {
-        _cli = NULL;
 }
 
-plazza::CLIParser::~CLIParser() = default;
+plazza::CLIParser::~CLIParser()
 {
 
 }
 
-std::vector plazza::CLIParser::getCLI()
+std::vector<std::string> plazza::CLIParser::getCLI()
 {
         std::string line;
 
-        while (std::getline(std::cin, line, ';')) {
-                _cli.push_back(line);
-        }
-        if (_cli.empty()) {
-                //error
+	std::getline(std::cin, line);
+	std::stringstream rd;
+	rd.str(line);
+	while (std::getline(rd, line, ';')) {
+		_cli.push_back(line);
+	}
+	if (_cli.empty()) {
+		throw ArgumentError("No input given");
         }
         return _cli;
-
 }

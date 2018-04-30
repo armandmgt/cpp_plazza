@@ -16,7 +16,7 @@ namespace plazza {
                 public:
                         CLIParser();
                         ~CLIParser();
-                        std::vector getCLI();
+                        std::vector<std::string> getCLI();
                 private:
                         std::vector<std::string> _cli;
         };
