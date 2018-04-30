@@ -23,10 +23,13 @@ void plazza::Search::parseFileData()
 	std::smatch match;
 
 	while (getline(file, fileLine)) {
-		std::cout << "nb Match : " << std::regex_match(fileLine, match, _regex) << std::endl;
-		std::cout << "Size of match object : " << match.size() << std::endl;
-		for (size_t i = 0; i < match.size(); i++) {
-			std::cout << "Result value : " <<  match[i].str() << std::endl;
+		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
+						     fileLine.end(), _regex);
+		auto cmdEnd = std::sregex_iterator();
+
+		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
+			match = *i;
+			_foundData.push_back(match.str());
 		}
 	}
 }
@@ -40,24 +43,41 @@ void plazza::Search::setRegex()
 {
 	static regexMap const regexMatch = {
 		{plazza::PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
-		{plazza::EMAIL_ADDR, "[a-zA-Z0-9_.-]+ ‘@’ [a-zA-Z0-9_.-]+"},
+		{plazza::EMAIL_ADDR, "(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+"},
 		{plazza::IP_ADDR,
-			"((25[0-5]|"
-   			"2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|[^0-9])){4}"}
+			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
 	};
 
 	_regex.assign(regexMatch.at(_typeToSearch));
 }
 
+/*
 int main()
 {
-	std::string fileName("hiden_ip_address");
-	plazza::Search item(plazza::IP_ADDR, fileName);
+	std::string fileName("hiden_data");
+	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
 
-	item.parseFileData();
-	auto list = item.getFileData();
-
+	addr.parseFileData();
+	std::cout << "Find email address : " << std::endl;
+	auto list = addr.getFileData();
 	for (std::string node : list) {
 		std::cout << "Find data : " << node << std::endl;
 	}
-}
+
+	plazza::Search phone(plazza::PHONE_NB, fileName);
+	phone.parseFileData();
+	auto list1 = phone.getFileData();
+	std::cout << "Find phone number : " << std::endl;
+	for (std::string node : list1) {
+		std::cout << "Find data : " << node << std::endl;
+	}
+
+	plazza::Search ip(plazza::IP_ADDR, fileName);
+	ip.parseFileData();
+	auto list2 = ip.getFileData();
+	std::cout << "Find ip address: " << std::endl;
+	for (std::string node : list2) {
+		std::cout << "Find data : " << node << std::endl;
+	}
+
+}*/
