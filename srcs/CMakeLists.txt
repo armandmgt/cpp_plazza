@@ -6,7 +6,9 @@ set(SOURCE_FILES
         globals.cpp
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
-        master/Master.cpp)
+        master/Master.cpp
+        ../include/Search.hpp
+        Search.cpp)
 
 add_executable(plazza ${SOURCE_FILES})
 
