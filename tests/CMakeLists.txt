@@ -7,7 +7,11 @@ set(SOURCE_FILES
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
         container/test_SplitMap.cpp
-        ../srcs/master/Master.cpp)
+        ../srcs/master/Master.cpp
+        ../include/Search.hpp
+        ../srcs/Search.cpp
+        test_search.cpp)
+
 
 add_executable(tests_run ${SOURCE_FILES})
 
