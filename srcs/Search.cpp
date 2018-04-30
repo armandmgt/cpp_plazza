@@ -50,7 +50,6 @@ void plazza::Search::setRegex()
 
 	_regex.assign(regexMatch.at(_typeToSearch));
 }
-
 /*
 int main()
 {
@@ -79,5 +78,4 @@ int main()
 	for (std::string node : list2) {
 		std::cout << "Find data : " << node << std::endl;
 	}
-
 }*/
