@@ -21,9 +21,12 @@
 			virtual ~fileManager();
 
 			virtual void on_button_clicked();
+			virtual void on_icon_pressed(Gtk::EntryIconPosition, const GdkEventButton*);
 
 
 		protected:
+			Gtk::Box m_Box;
+			Gtk::Entry m_Entry;
 			Gtk::Button m_validate;
 		};
 	}
