@@ -21,7 +21,7 @@ plazza::CLIParser::~CLIParser()
 	_cli.clear();
 }
 
-std::vector<std::string> plazza::CLIParser::getCLI()
+std::vector<std::string> plazza::CLIParser::getInput()
 {
         std::string line;
 

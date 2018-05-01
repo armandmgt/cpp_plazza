@@ -17,7 +17,7 @@ namespace plazza {
                 public:
                         Shell();
                         ~Shell() = default;
-                        std::unordered_multimap<plazza::InfoType, std::string> getInputMap();
+                        std::unordered_multimap<plazza::InfoType, std::string> getCommands();
                 private:
 	                void parseCLIInput(std::vector<std::string> const &_cli);
 	                void storeInputToMap(std::string const &line, std::pair<const std::string, InfoType> const &type);

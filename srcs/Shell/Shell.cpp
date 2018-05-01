@@ -21,11 +21,11 @@ plazza::Shell::Shell() : _input(), _cli(), _typeChecker(0),
 {
 }
 
-std::unordered_multimap<plazza::InfoType, std::string> plazza::Shell::getInputMap()
+std::unordered_multimap<plazza::InfoType, std::string> plazza::Shell::getCommands()
 {
 	_input.clear();
         CLIParser *c = new CLIParser();
-	parseCLIInput(c->getCLI());
+	parseCLIInput(c->getInput());
         delete c;
         if (_input.empty()) {
         	throw ArgumentError("No file given");
