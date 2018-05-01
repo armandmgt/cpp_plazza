@@ -9,7 +9,7 @@
 #include <fstream>
 #include "Search.hpp"
 
-plazza::Search::Search(plazza::InfoType typeToSearch,
+plazza::Search::Search(InfoType typeToSearch,
 		       std::string &fileName) :
 	_typeToSearch(typeToSearch), _fileName(fileName)
 {
@@ -42,9 +42,9 @@ std::list<std::string> plazza::Search::getFileData()
 void plazza::Search::setRegex()
 {
 	static regexMap const regexMatch = {
-		{plazza::PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
-		{plazza::EMAIL_ADDR, "(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+"},
-		{plazza::IP_ADDR,
+		{PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
+		{EMAIL_ADDR, "(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+"},
+		{IP_ADDR,
 			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
 	};
 

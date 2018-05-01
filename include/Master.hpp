@@ -9,19 +9,15 @@
 	#define PLAZZA_MASTER_HPP
 
 	#include <string>
-	#include <queue>
+	#include <list>
 	#include <unordered_map>
 	#include <list>
 	#include "plazza.hpp"
 	#include "Data.hpp"
 
+	#include "plazza.hpp"
+
 	namespace plazza {
-		class Shell {
-		public:
-			std::unordered_multimap<InfoType, std::string> getCommands() {
-				return std::unordered_multimap<InfoType, std::string>({{PHONE_NB, "example_file.txt"}});
-			}
-		};
 
 		class Master {
 		public:

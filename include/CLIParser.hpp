@@ -9,7 +9,6 @@
 #define PLAZZA_CLIPARSER_HPP
 
 #include <vector>
-#include "Shell.hpp"
 
 namespace plazza {
         class CLIParser {
