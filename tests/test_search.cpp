@@ -14,7 +14,7 @@ Test(Search, Search_email)
 	std::list<std::string> toCompare = {"thomas.burgaud@epitech.eu",
 					    "quesandra.lundh@epitech.eu",
 					    "armandmegrot@gmail.com"};
-	std::string fileName("./tests/hiden_data");
+	std::string fileName("hiden_data");
 	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
 	addr.parseFileData();
 	auto weGet = addr.getFileData();
@@ -27,7 +27,7 @@ Test(Search, Search_ipAddress)
 	std::list<std::string> toCompare = {"192.168.1.0",
 					    "192.168.1.1",
 					    "192.168.1.2"};
-	std::string fileName("./tests/hiden_data");
+	std::string fileName("hiden_data");
 	plazza::Search addr(plazza::IP_ADDR, fileName);
 	addr.parseFileData();
 	auto weGet = addr.getFileData();
@@ -39,7 +39,7 @@ Test(Search, Search_phoneNumber)
 {
 	std::list<std::string> toCompare = {"0684252849",
 					    "06 84 25 28 49"};
-	std::string fileName("./tests/hiden_data");
+	std::string fileName("hiden_data");
 	plazza::Search addr(plazza::PHONE_NB, fileName);
 	addr.parseFileData();
 	auto weGet = addr.getFileData();
