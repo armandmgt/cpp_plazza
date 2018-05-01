@@ -6,11 +6,15 @@
 */
 
 #ifndef PLAZZA_PLAZZA_H
-#define PLAZZA_PLAZZA_H
+	#define PLAZZA_PLAZZA_H
 
-extern int const SUCCESS;
-extern int const FAILURE;
+	typedef enum Information {
+		PHONE_NB, EMAIL_ADDR, IP_ADDR
+	} InfoType;
 
-int check_args(int argc, char const *argv[]);
+	extern int const SUCCESS;
+	extern int const FAILURE;
+
+	int check_args(int argc, char const *argv[]);
 
 #endif //PLAZZA_PLAZZA_H

@@ -12,11 +12,9 @@
 	#include <list>
 	#include <unordered_map>
 
-namespace plazza {
+	#include "plazza.hpp"
 
-		typedef enum Information {
-			PHONE_NB, EMAIL_ADDR, IP_ADDR
-		} 		InfoType;
+	namespace plazza {
 
 		class Master {
 		public:
@@ -28,7 +26,7 @@ namespace plazza {
 
 		private:
 			std::list<std::string> _outputResult;
-			std::unordered_map<plazza::InfoType, std::string> _shellInput;
+			std::unordered_map<InfoType, std::string> _shellInput;
 		};
 	};
 
