@@ -9,7 +9,6 @@
         #define PLAZZA_SHELL_HPP
 
 #include <unordered_map>
-#include <map>
 #include <vector>
 #include "Master.hpp"
 
@@ -22,9 +21,12 @@ namespace plazza {
                 private:
 	                void parseCLIInput(std::vector<std::string> const &_cli);
 	                void storeInputToMap(std::string const &line, std::pair<const std::string, InfoType> const &type);
-                        std::unordered_multimap<InfoType, std::string> _input;
+			void findTypeInCommand(std::string const &line, std::pair<const std::string, plazza::InfoType> const &type);
+
+			std::unordered_multimap<InfoType, std::string> _input;
                         std::vector<std::string> _cli;
-                        std::unordered_map<std::string, InfoType> _type;
+			int _typeChecker;
+			std::unordered_map<std::string, InfoType> _type;
         };
 };
 

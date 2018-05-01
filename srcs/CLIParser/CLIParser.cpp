@@ -12,13 +12,13 @@
 #include "Exceptions.hpp"
 #include "CLIParser.hpp"
 
-plazza::CLIParser::CLIParser()
+plazza::CLIParser::CLIParser() : _cli()
 {
 }
 
 plazza::CLIParser::~CLIParser()
 {
-
+	_cli.clear();
 }
 
 std::vector<std::string> plazza::CLIParser::getCLI()
@@ -28,6 +28,7 @@ std::vector<std::string> plazza::CLIParser::getCLI()
 	std::getline(std::cin, line);
 	std::stringstream rd;
 	rd.str(line);
+
 	while (std::getline(rd, line, ';')) {
 		_cli.push_back(line);
 	}

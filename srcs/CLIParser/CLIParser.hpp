@@ -22,4 +22,4 @@ namespace plazza {
         };
 };
 
-#endif //PLAZZA_CLIPASER_HPP
+#endif //PLAZZA_CLIPARSER_HPP
