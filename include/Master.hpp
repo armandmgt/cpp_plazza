@@ -9,26 +9,35 @@
 	#define PLAZZA_MASTER_HPP
 
 	#include <string>
-	#include <list>
+	#include <queue>
 	#include <unordered_map>
+	#include <list>
+	#include "plazza.hpp"
+	#include "Data.hpp"
 
-namespace plazza {
-
-		typedef enum Information {
-			PHONE_NB, EMAIL_ADDR, IP_ADDR
-		} 		InfoType;
+	namespace plazza {
+		class Shell {
+		public:
+			std::unordered_multimap<InfoType, std::string> getCommands() {
+				return std::unordered_multimap<InfoType, std::string>({{PHONE_NB, "example_file.txt"}});
+			}
+		};
 
 		class Master {
 		public:
-			Master();
-			~Master();
+			explicit Master(int threadLimit);
+			~Master() = default;
 
-			void outputFileDataResult();
-			void createProcesses();
+			void runMaster();
 
 		private:
-			std::list<std::string> _outputResult;
-			std::unordered_map<plazza::InfoType, std::string> _shellInput;
+			void createProcess();
+			void outputData(std::list<Data> data);
+			void pollShell();
+			std::list<int> slaves;
+			Shell shell;
+			int threadLimit;
+			std::ofstream logFile;
 		};
 	};
 

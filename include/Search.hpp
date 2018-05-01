@@ -9,7 +9,8 @@
 
 	#include <regex>
 	#include <unordered_map>
-	#include "Master.hpp"
+	#include <list>
+	#include "plazza.hpp"
 
 	namespace plazza {
 
