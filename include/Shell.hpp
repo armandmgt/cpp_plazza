@@ -10,7 +10,7 @@
 
 #include <unordered_map>
 #include <vector>
-#include "Master.hpp"
+#include "plazza.hpp"
 #include "CLIParser.hpp"
 
 namespace plazza {
@@ -19,7 +19,7 @@ namespace plazza {
 	public:
 		Shell();
 		~Shell() = default;
-		std::unordered_multimap<plazza::InfoType, std::string> getCommands();
+		std::unordered_multimap<InfoType, std::string> getCommands();
 	private:
 		void parseCLIInput(std::vector<std::string> const &_cli);
 		void storeInputToMap(std::string const &line, std::pair<const std::string, InfoType> const &type);

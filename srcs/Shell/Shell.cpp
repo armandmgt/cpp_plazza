@@ -35,7 +35,7 @@ void plazza::Shell::parseCLIInput(std::vector<std::string> const &input)
         for (auto command: input) {
 		_typeChecker = 0;
                 for (auto type: _type) {
-			findTypeInCommand(command, type);
+                	findTypeInCommand(command, type);
                 }
                 if (_typeChecker == 0) {
                 	throw ArgumentError("No Information Type given");

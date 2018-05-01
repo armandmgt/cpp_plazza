@@ -8,16 +8,17 @@
 	#define PLAZZA_SEARCH_HPP
 
 	#include <regex>
+	#include <list>
 	#include <unordered_map>
-	#include "Master.hpp"
+	#include "plazza.hpp"
 
 	namespace plazza {
 
-		using regexMap = std::unordered_map<plazza::InfoType, std::string>;
+		using regexMap = std::unordered_map<InfoType, std::string>;
 
 		class Search {
 		public:
-			Search(plazza::InfoType typeToSearch,
+			Search(InfoType typeToSearch,
 				std::string &fileName);
 			~Search() = default;
 
@@ -26,7 +27,7 @@
 		private:
 			void setRegex();
 
-			plazza::InfoType _typeToSearch;
+			InfoType _typeToSearch;
 			std::regex _regex;
 			std::string &_fileName;
 			std::list<std::string> _foundData;
