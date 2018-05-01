@@ -9,7 +9,10 @@ set(SOURCE_FILES
         master/Master.cpp
         ../include/Search.hpp
         Search.cpp
-        shell/Shell.hpp shell/Shell.cpp CLIParser/CLIParser.cpp CLIParser/CLIParser.hpp)
+        ../include/Shell.hpp
+        ../srcs/Shell/Shell.cpp
+        ../srcs/CLIParser/CLIParser.cpp
+        ../include/CLIParser.hpp)
 
 add_executable(plazza ${SOURCE_FILES})
 

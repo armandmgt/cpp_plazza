@@ -7,15 +7,14 @@ set(SOURCE_FILES
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
         container/test_SplitMap.cpp
-<<<<<<< HEAD
         ../srcs/master/Master.cpp
         ../include/Search.hpp
         ../srcs/Search.cpp
-        test_search.cpp)
-
-=======
-        ../srcs/master/Master.cpp ../srcs/shell/Shell.hpp ../srcs/shell/Shell.cpp ../srcs/CLIParser/CLIParser.cpp ../srcs/CLIParser/CLIParser.hpp)
->>>>>>> shell
+        test_search.cpp
+        ../include/Shell.hpp
+        ../srcs/Shell/Shell.cpp
+        ../srcs/CLIParser/CLIParser.cpp
+        ../include/CLIParser.hpp)
 
 add_executable(tests_run ${SOURCE_FILES})
 
