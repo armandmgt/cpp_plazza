@@ -14,7 +14,7 @@ set(SOURCE_FILES
         ../srcs/CLIParser/CLIParser.cpp
         ../include/CLIParser.hpp
         ../include/Data.hpp
-        Slave.cpp
+        Slave/Slave.cpp
         ../include/Slave.hpp
         ../include/Load.hpp
         )
