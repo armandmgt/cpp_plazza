@@ -11,6 +11,7 @@
 	#include <list>
 	#include <unordered_map>
 	#include "plazza.hpp"
+	#include "Exceptions.hpp"
 	#include "Data.hpp"
 
 	namespace plazza {
@@ -21,8 +22,11 @@
 		public:
 			Search(InfoType typeToSearch,
 				std::string &fileName);
+			Search() = default;
 			~Search() = default;
 
+			void setFilename(std::string &filename);
+			void setInfoType(InfoType);
 			void parseFileData();
 			Data getData();
 		private:

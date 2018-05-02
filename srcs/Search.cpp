@@ -23,6 +23,10 @@ void plazza::Search::parseFileData()
 	std::string fileLine;
 	std::smatch match;
 
+	if (_data.type == UNKNOWN)
+		throw  RuntimeError("Type to search is unknown");
+	if (_data.filename.empty())
+		throw  RuntimeError("Filename is unknown");
 	while (getline(file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
@@ -50,6 +54,17 @@ void plazza::Search::setRegex()
 	};
 
 	_regex.assign(regexMatch.at(_data.type));
+}
+
+void plazza::Search::setFilename(std::string &filename)
+{
+	_data.filename = filename;
+}
+
+void plazza::Search::setInfoType(plazza::InfoType newType)
+{
+	_data.type = newType;
+	setRegex();
 }
 
 /*
