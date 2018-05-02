@@ -9,6 +9,6 @@
 *.so
 vgcore*
 plazza
-*-build-*
+*build*
 .idea/
 a.out
