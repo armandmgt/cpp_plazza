@@ -52,7 +52,7 @@ void plazza::Master::runMaster()
 
 	s.start();
 	s.feedCommand(PHONE_NB, "file.txt");
-	std::cout << "hello" << std::endl;
+	s.feedCommand(EMAIL_ADDR, "file1.txt");
 	int status = 0;
 	wait(&status);
 }

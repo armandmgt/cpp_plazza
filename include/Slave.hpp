@@ -30,11 +30,12 @@
 			bool _isChild;
 			std::list <Search> _pool;
 			std::unordered_multimap<InfoType, std::string> buffer;
+			std::chrono::steady_clock::time_point _timer;
 
 			void installSocket();
 			void loop();
-
 			std::pair<InfoType, std::string> readCommand();
+			bool timedOut();
 		};
 		int operator>>(int sd, std::pair<InfoType,
 		std::string> &command);
