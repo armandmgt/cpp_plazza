@@ -20,24 +20,34 @@
 			CMD_LINE
 		} CLI_Mode;
 
-		class fileManager  : public Gtk::Window {
+		class Graphic  : public Gtk::Window {
 		public:
-			fileManager();
-			virtual ~fileManager();
+			Graphic();
+			virtual ~Graphic();
 
 			virtual void on_button_clicked();
 			virtual void changeMode();
 			virtual void on_icon_pressed(Gtk::EntryIconPosition, const GdkEventButton *);
-
+			void on_button_drag_data_get(
+				const Glib::RefPtr<Gdk::DragContext>&,
+				Gtk::SelectionData& selection_data, guint, guint);
+			void on_label_drop_drag_data_received(
+				const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
+				const Gtk::SelectionData& selection_data, guint info, guint time);
 
 		protected:
-			Gtk::Box m_Box;
+			Gtk::Box m_inputBox;
+			Gtk::Box m_buttonBox;
+			Gtk::Box m_dragDrop;
 			Gtk::Entry m_Entry;
 			Gtk::Button m_mode;
 			Gtk::Button m_validate;
+			Gtk::Button m_Button_Drag;
+			Gtk::Label m_Label_Drop;
 		private:
 			CLI_Mode mode = CMD_LINE;
 			void setWindow();
+			void initDragAndDrop();
 			void setBoxInputCmdLine();
 		};
 	}
