@@ -16,7 +16,7 @@
 		 * @enum IP_ADDR searches for an ip address
 		 */
 		typedef enum Information {
-			PHONE_NB, EMAIL_ADDR, IP_ADDR, UNKNOWN
+			UNKNOWN, PHONE_NB, EMAIL_ADDR, IP_ADDR
 		} InfoType;
 	}
 
@@ -24,5 +24,7 @@
 	extern int const FAILURE;
 
 	int check_args(int argc, char const *argv[]);
+	plazza::InfoType sToInfoType(std::string const &s);
+	std::string infoTypeToS(plazza::InfoType it);
 
 #endif //PLAZZA_PLAZZA_H

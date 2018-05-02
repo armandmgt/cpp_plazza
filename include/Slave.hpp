@@ -32,9 +32,15 @@
 			std::unordered_multimap<InfoType, std::string> buffer;
 
 			void installSocket();
-
 			void loop();
+
+			std::pair<InfoType, std::string> readCommand();
 		};
+		int operator>>(int sd, std::pair<InfoType,
+		std::string> &command);
+		int operator<<(int sd, std::pair<InfoType,
+		std::string> const &command);
 	}
+
 
 #endif //PLAZZA_SLAVE_HPP

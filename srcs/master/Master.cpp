@@ -5,11 +5,13 @@
 ** master
 */
 
+
 #include <thread>
 #include <iostream>
-#include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <wait.h>
+#include "Slave.hpp"
 #include "Master.hpp"
 
 plazza::Master::Master(int threadLimit)
@@ -46,4 +48,11 @@ void plazza::Master::pollShell()
 
 void plazza::Master::runMaster()
 {
+	Slave s(threadLimit);
+
+	s.start();
+	s.feedCommand(PHONE_NB, "file.txt");
+	std::cout << "hello" << std::endl;
+	int status = 0;
+	wait(&status);
 }

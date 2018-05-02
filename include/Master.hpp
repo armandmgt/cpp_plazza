@@ -12,6 +12,7 @@
 	#include <list>
 	#include <unordered_map>
 	#include <list>
+	#include <fstream>
 	#include "plazza.hpp"
 	#include "Data.hpp"
 	#include "Shell.hpp"
