@@ -15,7 +15,11 @@ set(SOURCE_FILES
         ../srcs/Shell/Shell.cpp
         ../srcs/CLIParser/CLIParser.cpp
         ../include/CLIParser.hpp
-        ../include/Data.hpp)
+        ../include/Data.hpp
+        ../srcs/Slave.cpp
+        ../include/Slave.hpp
+        ../include/Load.hpp
+        )
 
 add_executable(tests_run ${SOURCE_FILES})
 

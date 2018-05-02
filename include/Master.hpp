@@ -14,8 +14,7 @@
 	#include <list>
 	#include "plazza.hpp"
 	#include "Data.hpp"
-
-	#include "plazza.hpp"
+	#include "Shell.hpp"
 
 	namespace plazza {
 
