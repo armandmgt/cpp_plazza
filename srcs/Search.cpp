@@ -10,15 +10,16 @@
 #include "Search.hpp"
 
 plazza::Search::Search(InfoType typeToSearch,
-		       std::string &fileName) :
-	_typeToSearch(typeToSearch), _fileName(fileName)
+		       std::string &fileName)
 {
+	_data.type = typeToSearch;
+	_data.filename = fileName;
 	setRegex();
 }
 
 void plazza::Search::parseFileData()
 {
-	std::ifstream file(_fileName);
+	std::ifstream file(_data.filename);
 	std::string fileLine;
 	std::smatch match;
 
@@ -29,14 +30,14 @@ void plazza::Search::parseFileData()
 
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			_foundData.push_back(match.str());
+			_data.elems.push_back(match.str());
 		}
 	}
 }
 
-std::list<std::string> plazza::Search::getFileData()
+plazza::Data plazza::Search::getData()
 {
-	return _foundData;
+	return _data;
 }
 
 void plazza::Search::setRegex()
@@ -48,8 +49,9 @@ void plazza::Search::setRegex()
 			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
 	};
 
-	_regex.assign(regexMatch.at(_typeToSearch));
+	_regex.assign(regexMatch.at(_data.type));
 }
+
 /*
 int main()
 {
