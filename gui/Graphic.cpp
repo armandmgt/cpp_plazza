@@ -50,17 +50,16 @@ void gfx::Graphic::initDragAndDrop()
 								       &Graphic::on_label_drop_drag_data_received));
 	m_dragDrop.pack_start(m_Label_Drop);
 	m_inputBox.pack_start(m_dragDrop, Gtk::PACK_SHRINK);
-	m_Label_Drop.show();
-	m_Button_Drag.show();
-	m_dragDrop.show();
-	std::cout << "I'm here" << std::endl;
+	m_Label_Drop.hide();
+	m_Button_Drag.hide();
+	m_dragDrop.hide();
 }
 
 void gfx::Graphic::setBoxInputCmdLine()
 {
 	m_inputBox.pack_start(m_Entry, Gtk::PACK_SHRINK);
-	m_buttonBox.pack_start(m_mode, Gtk::PACK_SHRINK);
-	m_buttonBox.pack_start(m_validate, Gtk::PACK_SHRINK);
+	m_buttonBox.pack_start(m_mode);
+	m_buttonBox.pack_start(m_validate);
 	m_inputBox.pack_end(m_buttonBox, Gtk::PACK_SHRINK);
 	m_mode.signal_clicked().connect(sigc::mem_fun(*this,
 							&Graphic::changeMode));
