@@ -97,7 +97,7 @@ plazza::Load plazza::Slave::getLoad() {
 	plazza::Load load;
 	size_t running = 0;
 
-	for (auto const &t : _pool) {
+	for (auto &t : _pool) {
 		running += t.running() ? 1 : 0;
 		load.threadLoads.push_back(t.getStatus());
 	}

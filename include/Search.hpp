@@ -11,6 +11,7 @@
 	#include <unordered_map>
 	#include <list>
 	#include <thread>
+	#include <fstream>
 	#include "plazza.hpp"
 	#include "Exceptions.hpp"
 	#include "Data.hpp"
@@ -31,7 +32,7 @@
 			void parseFile();
 			bool running() const;
 			Data getData();
-			unsigned short getStatus() const;
+			unsigned short getStatus();
 		private:
 			std::ifstream::pos_type _fileSize;
 			std::thread _thread;

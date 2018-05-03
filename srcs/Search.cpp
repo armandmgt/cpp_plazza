@@ -6,7 +6,6 @@
 */
 
 #include <iostream>
-#include <fstream>
 #include <functional>
 #include "Search.hpp"
 
@@ -85,6 +84,7 @@ bool plazza::Search::running() const {
 	return _thread.joinable();
 }
 
-unsigned short plazza::Search::getStatus() const {
-	return ;
+unsigned short plazza::Search::getStatus()
+{
+	return static_cast<unsigned short>(_file.tellg() * 100 / _fileSize);
 }
