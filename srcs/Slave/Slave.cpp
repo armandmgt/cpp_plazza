@@ -100,7 +100,7 @@ plazza::Load plazza::Slave::getLoad() {
 
 	for (auto &t : _pool) {
 		running += t.running() ? 1 : 0;
-		load.threadLoads.push_back(t.getStatus());
+		load.threadLoads.emplace(t.getFileName(), t.getStatus());
 	}
 	load.waitingCommands = _buffer.size() + running;
 	return load;

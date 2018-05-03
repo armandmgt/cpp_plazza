@@ -33,6 +33,8 @@
 			bool running() const;
 			Data getData();
 			unsigned short getStatus();
+			std::string getFileName() const;
+
 		private:
 			std::ifstream::pos_type _fileSize;
 			std::thread _thread;
