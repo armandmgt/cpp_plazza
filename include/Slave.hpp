@@ -8,7 +8,7 @@
 #ifndef PLAZZA_SLAVE_HPP
 	#define PLAZZA_SLAVE_HPP
 
-	#include <list>
+	#include <vector>
 	#include "plazza.hpp"
 	#include "Search.hpp"
 	#include "Data.hpp"
@@ -30,8 +30,8 @@
 			int _threadLimit;
 			int _sd;
 			bool _isChild;
-			std::list <Search> _pool;
-			std::unordered_multimap<InfoType, std::string> buffer;
+			std::vector<Search> _pool;
+			std::unordered_multimap<InfoType, std::string> _buffer;
 			std::chrono::steady_clock::time_point _timer;
 
 			void installSocket();

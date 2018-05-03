@@ -10,6 +10,7 @@
 	#include <regex>
 	#include <unordered_map>
 	#include <list>
+	#include <thread>
 	#include "plazza.hpp"
 	#include "Exceptions.hpp"
 	#include "Data.hpp"
@@ -20,20 +21,26 @@
 
 		class Search {
 		public:
-			Search(InfoType typeToSearch,
-				std::string &fileName);
+			Search(InfoType type,
+			       std::string const &fileName);
 			Search() = default;
 			~Search() = default;
 
-			void setFilename(std::string &filename);
+			void setFilename(const std::string &filename);
 			void setInfoType(InfoType);
-			void parseFileData();
+			void parseFile();
+			bool running() const;
 			Data getData();
+			unsigned short getStatus() const;
 		private:
-			void setRegex();
-
+			std::ifstream::pos_type _fileSize;
+			std::thread _thread;
 			std::regex _regex;
+			std::ifstream _file;
 			Data _data;
+
+			void doParsing();
+			void setRegex();
 		};
 	}
 

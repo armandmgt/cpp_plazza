@@ -11,8 +11,9 @@
 	#include <list>
 
 	namespace plazza {
-		class Load {
-			unsigned int waitingCommands;
+		struct Load {
+			Load() : waitingCommands(0), threadLoads{} {};
+			unsigned long waitingCommands;
 			std::list<unsigned short int> threadLoads;
 		};
 	}

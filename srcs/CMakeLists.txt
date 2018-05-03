@@ -21,5 +21,7 @@ set(SOURCE_FILES
 
 add_executable(plazza ${SOURCE_FILES})
 
+target_link_libraries(plazza pthread)
+
 add_custom_command(TARGET plazza POST_BUILD
         COMMAND cp plazza ${PROJECT_SOURCE_DIR})

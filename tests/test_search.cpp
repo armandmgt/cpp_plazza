@@ -16,7 +16,7 @@ Test(Search, Search_email)
 					    "armandmegrot@gmail.com"};
 	std::string fileName("../../tests/hiden_data");
 	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
-	addr.parseFileData();
+	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,
 		  "Testing the research of email in hiden data");
@@ -29,7 +29,7 @@ Test(Search, Search_ipAddress)
 					    "192.168.1.2"};
 	std::string fileName("../../tests/hiden_data");
 	plazza::Search addr(plazza::IP_ADDR, fileName);
-	addr.parseFileData();
+	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,
 		  "Testing the research of ip address in hiden_data");
@@ -41,7 +41,7 @@ Test(Search, Search_phoneNumber)
 					    "06 84 25 28 49"};
 	std::string fileName("../../tests/hiden_data");
 	plazza::Search addr(plazza::PHONE_NB, fileName);
-	addr.parseFileData();
+	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,
 		  "Testing the research of phone number in hiden data");
