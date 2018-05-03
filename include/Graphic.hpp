@@ -9,12 +9,14 @@
 	#define PLAZZA_GRAPHIC_HPP
 
 	#include <array>
+	#include <vector>
 	#include <gtkmm.h>
 	#include <gtkmm/button.h>
 	#include <gtkmm/window.h>
 	#include <gtkmm/application.h>
 	#include "MyButton.hpp"
 	#include "plazza.hpp"
+	#include "Frame.hpp"
 
 	namespace gfx {
 
@@ -45,8 +47,8 @@
 			myButton m_buttonPhone;
 			myButton m_buttonEmail;
 
-			Gtk::Frame m_LeftFrame;
-			Gtk::Frame m_RightFrame;
+			MyFrame m_LeftFrame;
+			MyFrame m_RightFrame;
 			Gtk::Label m_LabelTittle;
 			Gtk::Label m_LeftLabel;
 			Gtk::Label m_RightLabel;

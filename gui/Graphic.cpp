@@ -54,7 +54,6 @@ void gfx::Graphic::setBoxLeft()
 							      &Graphic::onButtonShowProcess));
 	m_buttonEmail.signal_clicked().connect(sigc::mem_fun(*this,
 							      &Graphic::onButtonShowProcess));
-	m_thirdBox[1].set_size_request(100,100);
 	m_buttonIpAddr.setMargin(10);
 	m_thirdBox[1].pack_start(m_buttonIpAddr);
 	m_buttonPhone.setMargin(10);
@@ -81,7 +80,8 @@ void gfx::Graphic::setBoxInputCmdLine()
 	m_chooseFile.signal_clicked().connect(sigc::mem_fun(*this,
 							&Graphic::onChooseFile));
 	m_RightFrame.set_label_align(0.02, 0.5);
-	m_Close.set_size_request(10, 10);
+	m_RightFrame.setMargin(5);
+	m_LeftFrame.setMargin(5);
 	m_Close.show();
 	m_chooseFile.show();
 }
