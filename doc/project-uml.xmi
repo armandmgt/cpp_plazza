@@ -108,7 +108,7 @@
       <UML:Class isRoot="false" namespace="Logical_View" isLeaf="false" isSpecification="false" xmi.id="uc20NFaRcveyA" name="Slave" isAbstract="false" visibility="public">
        <UML:Classifier.feature>
         <UML:Attribute type="u2DYoSow7LChp" isSpecification="false" xmi.id="uhoCDtIyOliVP" name="threadLimit" visibility="private"/>
-        <UML:Attribute type="uCnxakvuw7chq" isSpecification="false" xmi.id="ut5mUJj5FmQ1B" name="pool" visibility="private"/>
+        <UML:Attribute type="uCnxakvuw7chq" isSpecification="false" xmi.id="ut5mUJj5FmQ1B" name="_pool" visibility="private"/>
         <UML:Attribute type="ugjeYe6sdw8us" isSpecification="false" xmi.id="ugknivmhCQdiE" name="buffer" visibility="private"/>
         <UML:Operation isRoot="false" isLeaf="false" isSpecification="false" xmi.id="ud8vY4bx2sniG" name="Slave" isAbstract="false" isQuery="false" visibility="public" isOverride="false">
          <UML:BehavioralFeature.parameter>
@@ -269,7 +269,7 @@
            <startpoint startx="-568.33" starty="-592"/>
            <endpoint endy="-592" endx="-695"/>
           </linepath>
-          <floatingtext usesdiagramusefillcolor="1" textcolor="none" linewidth="0" linecolor="#ff0000" height="18" isinstance="0" y="-590" x="-693" posttext="" usesdiagramfillcolor="0" autoresize="1" font="Sans Serif,9,-1,5,50,0,0,0,0,0" localid="uKK7GfE5HyXGa" xmi.id="ukUjTLwBrkqu2" fillcolor="#eeeeee" pretext="-" role="710" width="38" showstereotype="1" usefillcolor="1" text="pool"/>
+          <floatingtext usesdiagramusefillcolor="1" textcolor="none" linewidth="0" linecolor="#ff0000" height="18" isinstance="0" y="-590" x="-693" posttext="" usesdiagramfillcolor="0" autoresize="1" font="Sans Serif,9,-1,5,50,0,0,0,0,0" localid="uKK7GfE5HyXGa" xmi.id="ukUjTLwBrkqu2" fillcolor="#eeeeee" pretext="-" role="710" width="38" showstereotype="1" usefillcolor="1" text="_pool"/>
          </assocwidget>
          <assocwidget usesdiagramusefillcolor="1" textcolor="none" indexb="1" linewidth="0" totalcounta="2" widgetaid="uGcIpZmraUdYM" indexa="1" linecolor="#ff0000" totalcountb="2" seqnum="" type="510" visibilityA="1" usesdiagramfillcolor="1" visibilityB="1" autoresize="1" font="Sans Serif,9,-1,5,50,0,0,0,0,0" xmi.id="uM2U63TaqFdoI" changeabilityA="900" fillcolor="none" widgetbid="u2mqKcJCEPCqz" usefillcolor="1" changeabilityB="900">
           <linepath layout="Polyline">

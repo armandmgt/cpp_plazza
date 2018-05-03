@@ -15,7 +15,7 @@
 	namespace plazza {
 		class Data {
 		public:
-			InfoType type;
+			InfoType type = UNKNOWN;
 			std::string filename;
 			std::list<std::string> elems;
 		};

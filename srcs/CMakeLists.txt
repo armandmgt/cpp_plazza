@@ -13,7 +13,11 @@ set(SOURCE_FILES
         ../srcs/Shell/Shell.cpp
         ../srcs/CLIParser/CLIParser.cpp
         ../include/CLIParser.hpp
-        ../include/Data.hpp)
+        ../include/Data.hpp
+        Slave/Slave.cpp
+        ../include/Slave.hpp
+        ../include/Load.hpp
+        ../include/Serialization.hpp)
 
 add_executable(plazza ${SOURCE_FILES})
 

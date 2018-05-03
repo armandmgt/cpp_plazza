@@ -10,18 +10,23 @@
 #include "Search.hpp"
 
 plazza::Search::Search(InfoType typeToSearch,
-		       std::string &fileName) :
-	_typeToSearch(typeToSearch), _fileName(fileName)
+		       std::string &fileName)
 {
+	_data.type = typeToSearch;
+	_data.filename = fileName;
 	setRegex();
 }
 
 void plazza::Search::parseFileData()
 {
-	std::ifstream file(_fileName);
+	std::ifstream file(_data.filename);
 	std::string fileLine;
 	std::smatch match;
 
+	if (_data.type == UNKNOWN)
+		throw  RuntimeError("Type to search is unknown");
+	if (_data.filename.empty())
+		throw  RuntimeError("Filename is unknown");
 	while (getline(file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
@@ -29,14 +34,14 @@ void plazza::Search::parseFileData()
 
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			_foundData.push_back(match.str());
+			_data.elems.push_back(match.str());
 		}
 	}
 }
 
-std::list<std::string> plazza::Search::getFileData()
+plazza::Data plazza::Search::getData()
 {
-	return _foundData;
+	return _data;
 }
 
 void plazza::Search::setRegex()
@@ -48,8 +53,20 @@ void plazza::Search::setRegex()
 			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
 	};
 
-	_regex.assign(regexMatch.at(_typeToSearch));
+	_regex.assign(regexMatch.at(_data.type));
 }
+
+void plazza::Search::setFilename(std::string &filename)
+{
+	_data.filename = filename;
+}
+
+void plazza::Search::setInfoType(plazza::InfoType newType)
+{
+	_data.type = newType;
+	setRegex();
+}
+
 /*
 int main()
 {
