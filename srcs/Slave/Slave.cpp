@@ -11,6 +11,7 @@
 #include <chrono>
 #include <thread>
 #include <poll.h>
+#include <fcntl.h>
 #include "Exceptions.hpp"
 #include "Slave.hpp"
 
@@ -103,4 +104,8 @@ plazza::Load plazza::Slave::getLoad() {
 	}
 	load.waitingCommands = _buffer.size() + running;
 	return load;
+}
+
+bool plazza::Slave::alive() const {
+	return fcntl(_sd, F_GETFD) != -1;
 }
