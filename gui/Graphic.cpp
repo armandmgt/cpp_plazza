@@ -8,8 +8,7 @@
 #include <iostream>
 #include "Graphic.hpp"
 
-gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
-			m_principalBox(Gtk::ORIENTATION_VERTICAL),
+gfx::Graphic::Graphic(int nbThread) : m_principalBox(Gtk::ORIENTATION_VERTICAL),
 			  	m_chooseFile("Choose File"),
 				m_Close("Close"),
 			  m_buttonIpAddr("IP_ADDR"),
@@ -18,6 +17,7 @@ gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
 			  m_LeftFrame("Chosen Files"),
 			  m_RightFrame("Process")
 {
+	static_cast<void>(nbThread);
 	setWindow();
 	m_secondBox[0].set_orientation(Gtk::ORIENTATION_VERTICAL);
 	m_secondBox[1].set_orientation(Gtk::ORIENTATION_VERTICAL);
@@ -129,9 +129,19 @@ void gfx::Graphic::onChooseFile()
 
 int main(int ac, char **av)
 {
-	auto app = Gtk::Application::create(ac, av, "org.gtkmm.examples.base");
-	gfx::Graphic application;
-	application.set_position(Gtk::WIN_POS_CENTER);
+	auto app = Gtk::Application::create("org.gtkmm.examples.base");
+	if (ac != 2) {
+		std::cout << "./" << av[0] << " [nbThread by Process]" << std::endl;
+		return 84;
+	}
+	try {
+		gfx::Graphic application(std::stoi(av[1]));
+		application.set_position(Gtk::WIN_POS_CENTER);
+		return 	app->run(application);
+k	} catch (std::invalid_argument &e) {
+		std::cout << e.what() << std::endl;
+		return 84;
+	}
 
-	return 	app->run(application);
+
 }
