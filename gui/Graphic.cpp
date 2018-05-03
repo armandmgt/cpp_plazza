@@ -138,7 +138,7 @@ int main(int ac, char **av)
 		gfx::Graphic application(std::stoi(av[1]));
 		application.set_position(Gtk::WIN_POS_CENTER);
 		return 	app->run(application);
-k	} catch (std::invalid_argument &e) {
+	} catch (std::invalid_argument &e) {
 		std::cout << e.what() << std::endl;
 		return 84;
 	}
