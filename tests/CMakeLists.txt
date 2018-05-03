@@ -19,7 +19,7 @@ set(SOURCE_FILES
         ../srcs/Slave/Slave.cpp
         ../include/Slave.hpp
         ../include/Load.hpp
-        )
+        ../include/Serialization.hpp)
 
 add_executable(tests_run ${SOURCE_FILES})
 

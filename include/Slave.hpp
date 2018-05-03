@@ -13,6 +13,7 @@
 	#include "Search.hpp"
 	#include "Data.hpp"
 	#include "Load.hpp"
+	#include "Serialization.hpp"
 
 	namespace plazza {
 		class Slave {
@@ -24,6 +25,7 @@
 			void feedCommand(InfoType type, std::string file);
 			Load getLoad();
 			std::list<Data> getData();
+
 		private:
 			int _threadLimit;
 			int _sd;
@@ -37,10 +39,6 @@
 			std::pair<InfoType, std::string> readCommand();
 			bool timedOut();
 		};
-		int operator>>(int sd, std::pair<InfoType,
-		std::string> &command);
-		int operator<<(int sd, std::pair<InfoType,
-		std::string> const &command);
 	}
 
 

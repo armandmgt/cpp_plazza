@@ -18,6 +18,11 @@
 		typedef enum Information {
 			UNKNOWN, PHONE_NB, EMAIL_ADDR, IP_ADDR
 		} InfoType;
+
+		struct command {
+			InfoType type;
+			char file[128];
+		};
 	}
 
 	extern int const SUCCESS;
