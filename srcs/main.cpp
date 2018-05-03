@@ -6,11 +6,8 @@
 */
 
 #include <exception>
+#include <Master.hpp>
 #include "plazza.hpp"
-
-static void do_nothing()
-{
-}
 
 int main(int argc, char const *argv[])
 {
@@ -18,7 +15,8 @@ int main(int argc, char const *argv[])
     		return (FAILURE);
 	} else {
 		try {
-			do_nothing();
+			plazza::Master m(std::stoi(argv[1]));
+			m.runMaster();
 		} catch (std::exception const &e) {
 			return (FAILURE);
 		}

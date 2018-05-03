@@ -9,27 +9,39 @@
 
 	#include <regex>
 	#include <unordered_map>
-	#include "Master.hpp"
+	#include <list>
+	#include <thread>
+	#include <fstream>
+	#include "plazza.hpp"
+	#include "Exceptions.hpp"
+	#include "Data.hpp"
 
 	namespace plazza {
 
-		using regexMap = std::unordered_map<plazza::InfoType, std::string>;
+		using regexMap = std::unordered_map<InfoType, std::string>;
 
 		class Search {
 		public:
-			Search(plazza::InfoType typeToSearch,
-				std::string &fileName);
+			Search(InfoType type,
+			       std::string const &fileName);
+			Search() = default;
 			~Search() = default;
 
-			void parseFileData();
-			std::list<std::string> getFileData();
+			void setFilename(const std::string &filename);
+			void setInfoType(InfoType);
+			void parseFile();
+			bool running() const;
+			Data getData();
+			unsigned short getStatus();
 		private:
-			void setRegex();
-
-			plazza::InfoType _typeToSearch;
+			std::ifstream::pos_type _fileSize;
+			std::thread _thread;
 			std::regex _regex;
-			std::string &_fileName;
-			std::list<std::string> _foundData;
+			std::ifstream _file;
+			Data _data;
+
+			void doParsing();
+			void setRegex();
 		};
 	}
 

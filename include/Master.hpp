@@ -10,23 +10,35 @@
 
 	#include <string>
 	#include <list>
-	#include <unordered_map>
-
-	#include "plazza.hpp"
+	#include <utility>
+	#include <fstream>
+	#include "Shell.hpp"
+	#include "Slave.hpp"
 
 	namespace plazza {
 
 		class Master {
+			using slaveManagement = std::pair<unsigned long, Slave *>;
+			//using slaveManagement = std::list<std::pair<unsigned long, Slave>>;
 		public:
-			Master();
-			~Master();
+			explicit Master(unsigned int threadLimit);
+			~Master() = default;
 
-			void outputFileDataResult();
-			void createProcesses();
+			void runMaster();
 
 		private:
-			std::list<std::string> _outputResult;
-			std::unordered_map<InfoType, std::string> _shellInput;
+			void createProcess();
+			void deleteProcess(slaveManagement const &slave);
+			void outputData(std::list<Data> data);
+			void distributeIllegalWork(std::unordered_multimap<InfoType, std::string> const &input);
+			void retrieveData();
+			void setWorkLoad();
+			void sortSlaveOrder();
+
+			Shell _shell;
+			unsigned int _threadLimit;
+			std::ofstream _logFile;
+			std::list<slaveManagement> _workPriority;
 		};
 	};
 

@@ -6,76 +6,85 @@
 */
 
 #include <iostream>
-#include <fstream>
+#include <functional>
 #include "Search.hpp"
 
-plazza::Search::Search(plazza::InfoType typeToSearch,
-		       std::string &fileName) :
-	_typeToSearch(typeToSearch), _fileName(fileName)
+plazza::Search::Search(InfoType type, std::string const &fileName)
+	: _fileSize(0)
 {
-	setRegex();
+	setFilename(fileName);
+	setInfoType(type);
 }
 
-void plazza::Search::parseFileData()
+void plazza::Search::parseFile()
 {
-	std::ifstream file(_fileName);
+	if (_data.type == UNKNOWN) {
+		throw  RuntimeError("type requested is unknown");
+	} else if (_data.filename.empty()) {
+		throw  RuntimeError("filename is empty");
+	}
+	_thread = std::thread(&Search::doParsing, this);
+}
+
+void plazza::Search::doParsing()
+{
 	std::string fileLine;
 	std::smatch match;
 
-	while (getline(file, fileLine)) {
+	while (getline(_file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
 		auto cmdEnd = std::sregex_iterator();
-
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			_foundData.push_back(match.str());
+			_data.elems.push_back(match.str());
 		}
 	}
 }
 
-std::list<std::string> plazza::Search::getFileData()
+plazza::Data plazza::Search::getData()
 {
-	return _foundData;
+	Data rtn(std::move(_data));
+	_data.elems.clear();
+	return rtn;
 }
 
 void plazza::Search::setRegex()
 {
 	static regexMap const regexMatch = {
-		{plazza::PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
-		{plazza::EMAIL_ADDR, "(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+"},
-		{plazza::IP_ADDR,
-			"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
+		{PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
+		{EMAIL_ADDR, R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)"},
+		{IP_ADDR, "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
+	    		"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
 	};
 
-	_regex.assign(regexMatch.at(_typeToSearch));
+	try {
+		_regex.assign(regexMatch.at(_data.type));
+	} catch (std::out_of_range &e) {
+		throw  RuntimeError("type requested is unknown");
+	}
 }
-/*
-int main()
+
+void plazza::Search::setFilename(const std::string &filename)
 {
-	std::string fileName("hiden_data");
-	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
+	std::ifstream ifs(filename, std::ifstream::ate | std::ifstream::binary);
+	_file = std::ifstream(filename);
+	_data.filename = filename;
+	_data.elems.clear();
+	_fileSize = ifs.tellg();
+}
 
-	addr.parseFileData();
-	std::cout << "Find email address : " << std::endl;
-	auto list = addr.getFileData();
-	for (std::string node : list) {
-		std::cout << "Find data : " << node << std::endl;
-	}
+void plazza::Search::setInfoType(plazza::InfoType newType)
+{
+	_data.type = newType;
+	setRegex();
+}
 
-	plazza::Search phone(plazza::PHONE_NB, fileName);
-	phone.parseFileData();
-	auto list1 = phone.getFileData();
-	std::cout << "Find phone number : " << std::endl;
-	for (std::string node : list1) {
-		std::cout << "Find data : " << node << std::endl;
-	}
+bool plazza::Search::running() const {
+	return _thread.joinable();
+}
 
-	plazza::Search ip(plazza::IP_ADDR, fileName);
-	ip.parseFileData();
-	auto list2 = ip.getFileData();
-	std::cout << "Find ip address: " << std::endl;
-	for (std::string node : list2) {
-		std::cout << "Find data : " << node << std::endl;
-	}
-}*/
+unsigned short plazza::Search::getStatus()
+{
+	return static_cast<unsigned short>(_file.tellg() * 100 / _fileSize);
+}

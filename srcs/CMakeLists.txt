@@ -8,9 +8,20 @@ set(SOURCE_FILES
         ../include/container/SplitMap.hpp
         master/Master.cpp
         ../include/Search.hpp
-        Search.cpp)
+        Search.cpp
+        ../include/Shell.hpp
+        ../srcs/Shell/Shell.cpp
+        ../srcs/CLIParser/CLIParser.cpp
+        ../include/CLIParser.hpp
+        ../include/Data.hpp
+        Slave/Slave.cpp
+        ../include/Slave.hpp
+        ../include/Load.hpp
+        ../include/Serialization.hpp)
 
 add_executable(plazza ${SOURCE_FILES})
+
+target_link_libraries(plazza pthread)
 
 add_custom_command(TARGET plazza POST_BUILD
         COMMAND cp plazza ${PROJECT_SOURCE_DIR})

@@ -4,6 +4,8 @@ set(SOURCE_FILES
         ../include/MyButton.hpp
         ../include/Master.hpp
         ../srcs/master/Master.cpp
+        ../srcs/Shell/Shell.cpp
+        ../include/Shell.hpp
         MyButton.cpp Frame.cpp ../include/Frame.hpp)
 
 link_directories(
