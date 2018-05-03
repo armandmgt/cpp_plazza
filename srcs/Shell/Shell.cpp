@@ -22,7 +22,9 @@ plazza::Shell::Shell() : _input(), _typeChecker(0),
 
 std::unordered_multimap<plazza::InfoType, std::string> plazza::Shell::getCommands()
 {
-	_input.clear();
+	while (!_input.empty()) {
+		_input.erase(_input.begin());
+	}
 	parseCLIInput(_cli.getInput());
         if (_input.empty()) {
         	throw ArgumentError("No file given");
