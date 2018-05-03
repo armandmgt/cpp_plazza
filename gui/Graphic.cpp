@@ -8,7 +8,8 @@
 #include <iostream>
 #include "Graphic.hpp"
 
-gfx::Graphic::Graphic() : m_principalBox(Gtk::ORIENTATION_VERTICAL),
+gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
+			m_principalBox(Gtk::ORIENTATION_VERTICAL),
 			  	m_chooseFile("Choose File"),
 				m_Close("Close"),
 			  m_buttonIpAddr("IP_ADDR"),
@@ -24,8 +25,6 @@ gfx::Graphic::Graphic() : m_principalBox(Gtk::ORIENTATION_VERTICAL),
 	add(m_principalBox);
 	setBoxInputCmdLine();
 	show_all_children();
-//	m_secondBox[0].hide();
-//	m_secondBox[1].hide();
 }
 
 gfx::Graphic::~Graphic()
@@ -100,8 +99,6 @@ void gfx::Graphic::onButtonShowProcess()
 
 void gfx::Graphic::selectFile()
 {
-	m_secondBox[1].show();
-	m_secondBox[0].show();
 }
 
 void gfx::Graphic::onChooseFile()
@@ -121,8 +118,10 @@ void gfx::Graphic::onChooseFile()
 	if (result == Gtk::RESPONSE_OK) {
 		auto allFileName = dialog.get_filenames();
 		for (unsigned int i = 0; i < allFileName.size(); i++) {
-			filesName += allFileName[i] + "\n";
-			selectedFiles.push_back(allFileName[i]);
+			if (!std::filesystem::is_directory(allFileName[i])) {
+				filesName += allFileName[i] + "\n";
+				selectedFiles.push_back(allFileName[i]);
+			}
 		}
 		m_LeftLabel.set_text(m_LeftLabel.get_text() + filesName);
 	}

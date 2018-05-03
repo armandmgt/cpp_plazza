@@ -14,15 +14,17 @@
 	#include <gtkmm/button.h>
 	#include <gtkmm/window.h>
 	#include <gtkmm/application.h>
+	#include <filesystem>
 	#include "MyButton.hpp"
-	#include "plazza.hpp"
+	#include "Master.hpp"
+
 	#include "Frame.hpp"
 
 	namespace gfx {
 
 		class Graphic  : public Gtk::Window {
 		public:
-			Graphic();
+			Graphic(int nbThread);
 			virtual ~Graphic();
 
 			virtual void onButtonClicked();
@@ -52,8 +54,9 @@
 			Gtk::Label m_LabelTittle;
 			Gtk::Label m_LeftLabel;
 			Gtk::Label m_RightLabel;
-
 		private:
+			plazza::Master masterProcess;
+			std::unordered_map<std::string, Gtk::ProgressBar> allProgressBar;
 			std::vector<std::string> selectedFiles;
 			void setWindow();
 			void setBoxInputCmdLine();
