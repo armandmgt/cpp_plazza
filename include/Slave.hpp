@@ -25,6 +25,7 @@
 			void feedCommand(InfoType type, std::string file);
 			Load getLoad();
 			std::list<Data> getData();
+			bool alive() const;
 
 		private:
 			int _threadLimit;
@@ -38,7 +39,6 @@
 			void loop();
 			std::pair<InfoType, std::string> readCommand();
 			bool timedOut();
-			bool alive() const;
 		};
 	}
 
