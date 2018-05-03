@@ -9,6 +9,7 @@
 	#define PLAZZA_SLAVE_HPP
 
 	#include <vector>
+	#include <chrono>
 	#include "plazza.hpp"
 	#include "Search.hpp"
 	#include "Data.hpp"
