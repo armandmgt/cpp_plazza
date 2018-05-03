@@ -38,6 +38,7 @@
 			void loop();
 			std::pair<InfoType, std::string> readCommand();
 			bool timedOut();
+			bool alive() const;
 		};
 	}
 
