@@ -13,6 +13,7 @@
 	#include <gtkmm/button.h>
 	#include <gtkmm/window.h>
 	#include <gtkmm/application.h>
+	#include "MyButton.hpp"
 	#include "plazza.hpp"
 
 	namespace gfx {
@@ -38,11 +39,11 @@
 			Gtk::Box DisplayBox;
 			Gtk::Box m_buttonBox;
 
-			Gtk::Button m_chooseFile;
-			Gtk::Button m_Close;
-			Gtk::Button m_buttonIpAddr;
-			Gtk::Button m_buttonPhone;
-			Gtk::Button m_buttonEmail;
+			myButton m_chooseFile;
+			myButton m_Close;
+			myButton m_buttonIpAddr;
+			myButton m_buttonPhone;
+			myButton m_buttonEmail;
 
 			Gtk::Frame m_LeftFrame;
 			Gtk::Frame m_RightFrame;

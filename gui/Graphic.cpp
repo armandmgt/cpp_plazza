@@ -24,8 +24,8 @@ gfx::Graphic::Graphic() : m_principalBox(Gtk::ORIENTATION_VERTICAL),
 	add(m_principalBox);
 	setBoxInputCmdLine();
 	show_all_children();
-	m_secondBox[0].hide();
-	m_secondBox[1].hide();
+//	m_secondBox[0].hide();
+//	m_secondBox[1].hide();
 }
 
 gfx::Graphic::~Graphic()
@@ -44,7 +44,7 @@ void gfx::Graphic::setWindow()
 void gfx::Graphic::setBoxLeft()
 {
 	m_secondBox[0].pack_start(m_thirdBox[0]);
-	m_secondBox[0].pack_end(m_thirdBox[1]);
+	m_secondBox[0].pack_end(m_thirdBox[1], Gtk::PACK_SHRINK);
 	m_thirdBox[0].pack_start(m_LeftFrame);
 	m_LeftFrame.add(m_LeftLabel);
 	m_LeftFrame.set_label_align(0.01, 0.5);
@@ -54,11 +54,12 @@ void gfx::Graphic::setBoxLeft()
 							      &Graphic::onButtonShowProcess));
 	m_buttonEmail.signal_clicked().connect(sigc::mem_fun(*this,
 							      &Graphic::onButtonShowProcess));
-	m_buttonIpAddr.set_size_request(10,10);
-	m_buttonPhone.set_size_request(10,10);
-	m_buttonEmail.set_size_request(10,10);
+	m_thirdBox[1].set_size_request(100,100);
+	m_buttonIpAddr.setMargin(10);
 	m_thirdBox[1].pack_start(m_buttonIpAddr);
+	m_buttonPhone.setMargin(10);
 	m_thirdBox[1].pack_start(m_buttonPhone);
+	m_buttonEmail.setMargin(10);
 	m_thirdBox[1].pack_start(m_buttonEmail);
 }
 
@@ -70,7 +71,9 @@ void gfx::Graphic::setBoxInputCmdLine()
 	DisplayBox.pack_start(m_secondBox[0], Gtk::PACK_EXPAND_WIDGET);
 	DisplayBox.pack_start(m_secondBox[1], Gtk::PACK_EXPAND_WIDGET);
 	m_buttonBox.pack_start(m_Close);
+	m_Close.setMargin(10);
 	m_buttonBox.pack_start(m_chooseFile);
+	m_chooseFile.setMargin(10);
 	setBoxLeft();
 	m_secondBox[1].pack_start(m_RightFrame);
 	m_Close.signal_clicked().connect(sigc::mem_fun(*this,
