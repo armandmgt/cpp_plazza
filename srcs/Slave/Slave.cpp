@@ -15,7 +15,7 @@
 #include "Slave.hpp"
 
 plazza::Slave::Slave(int threadLimit)
-	: _threadLimit(threadLimit), _isChild(false), _pool{}, buffer{},
+	: _threadLimit(threadLimit), _isChild(false), _pool{}, _buffer{},
 	_timer(std::chrono::steady_clock::now())
 {
 }
@@ -25,7 +25,7 @@ void plazza::Slave::start()
 	installSocket();
 	if (!_isChild)
 		return;
-	_pool = std::list<Search>(static_cast<unsigned long>(_threadLimit));
+	_pool = std::vector<Search>(static_cast<unsigned long>(_threadLimit));
 	loop();
 }
 
@@ -58,7 +58,7 @@ void plazza::Slave::loop()
 			exit(0);
 		}
 		std::cout << infoTypeToS(c.first) << " "
-				<< c.second << std::endl;
+				       << c.second << std::endl;
 	}
 }
 
@@ -84,4 +84,23 @@ bool plazza::Slave::timedOut()
 	elapsed = std::chrono::duration_cast<std::chrono::seconds>(
 		std::chrono::steady_clock::now() - _timer);
 	return elapsed.count() >= 5;
+}
+
+std::list<plazza::Data> plazza::Slave::getData() {
+	std::list<plazza::Data> list;
+	for (auto &t : _pool)
+		list.push_back(t.getData());
+	return list;
+}
+
+plazza::Load plazza::Slave::getLoad() {
+	plazza::Load load;
+	size_t running = 0;
+
+	for (auto &t : _pool) {
+		running += t.running() ? 1 : 0;
+		load.threadLoads.push_back(t.getStatus());
+	}
+	load.waitingCommands = _buffer.size() + running;
+	return load;
 }
