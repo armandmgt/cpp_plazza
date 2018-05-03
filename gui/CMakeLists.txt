@@ -6,6 +6,14 @@ set(SOURCE_FILES
         ../srcs/master/Master.cpp
         ../srcs/Shell/Shell.cpp
         ../include/Shell.hpp
+        ../include/CLIParser.hpp
+        ../srcs/CLIParser/CLIParser.cpp
+        ../include/Slave.hpp
+        ../srcs/Slave/Slave.cpp
+        ../include/Search.hpp
+        ../srcs/Search.cpp
+        ../srcs/globals.cpp
+        ../include/Load.hpp
         MyButton.cpp Frame.cpp ../include/Frame.hpp)
 
 link_directories(
@@ -17,7 +25,7 @@ include_directories(
 add_executable(plazzaui ${SOURCE_FILES})
 
 target_link_libraries(plazzaui
-        ${GTKMM_LIBRARIES} stdc++fs)
+        ${GTKMM_LIBRARIES} stdc++fs pthread)
 
 add_custom_command(TARGET plazzaui POST_BUILD
         COMMAND cp plazzaui ${PROJECT_SOURCE_DIR})

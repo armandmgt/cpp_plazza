@@ -109,3 +109,8 @@ void plazza::Master::runMaster()
 		retrieveData();
 	}
 }
+
+std::list<plazza::Load> plazza::Master::getLoad()
+{
+
+}

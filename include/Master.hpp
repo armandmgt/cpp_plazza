@@ -34,6 +34,7 @@
 			void retrieveData();
 			void setWorkLoad();
 			void sortSlaveOrder();
+			std::list<Load> getLoad();
 
 			Shell _shell;
 			unsigned int _threadLimit;

@@ -17,7 +17,6 @@
 	#include <filesystem>
 	#include "MyButton.hpp"
 	#include "Master.hpp"
-
 	#include "Frame.hpp"
 
 	namespace gfx {
