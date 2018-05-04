@@ -12,6 +12,12 @@
 int const SUCCESS = 0;
 int const FAILURE = 84;
 
+std::ostream &plazza::operator<<(std::ostream &os, InfoType it)
+{
+	os << infoTypeToS(it);
+	return os;
+}
+
 plazza::InfoType sToInfoType(std::string const &s)
 {
 	static std::unordered_map<std::string, plazza::InfoType> const m = {

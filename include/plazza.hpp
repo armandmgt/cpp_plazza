@@ -23,6 +23,7 @@
 			InfoType type;
 			char file[128];
 		};
+		std::ostream & operator<<(std::ostream &os, InfoType it);
 	}
 
 	extern int const SUCCESS;

@@ -71,9 +71,9 @@ std::pair<plazza::InfoType, std::string> plazza::Slave::readCommand()
 	return std::pair<plazza::InfoType, std::string>(c.type, c.file);
 }
 
-void plazza::Slave::feedCommand(plazza::InfoType type, std::string file)
+void plazza::Slave::feedCommand(plazza::InfoType type, const std::string &file)
 {
-	command c = {type};
+	command c = {type, 0};
 
 	sprintf(c.file, "%.128s", file.c_str());
 	_sd << c;

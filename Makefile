@@ -18,13 +18,13 @@ tests_run: dir
 	$(MAKE) -s tests_run
 
 dir:
-	@mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)
 
-clean: dir
-	@$(MAKE) -s -C $(BUILD_DIR) clean
-	rm -rf $(BUILD_DIR)
+clean:
+	@if [ -d dir ]; then $(MAKE) -s -C $(BUILD_DIR) clean; fi
 
 fclean: clean
+	rm -rf $(BUILD_DIR)
 	rm -f plazza
 
 re: fclean all
