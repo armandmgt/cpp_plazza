@@ -14,7 +14,7 @@ set(SOURCE_FILES
         ../srcs/Search.cpp
         ../srcs/globals.cpp
         ../include/Load.hpp
-        MyButton.cpp Frame.cpp ../include/Frame.hpp)
+        MyButton.cpp Frame.cpp ../include/Frame.hpp Utils.cpp ../include/Utils.hpp)
 
 link_directories(
         ${GTKMM_LIBRARY_DIRS}  )
@@ -25,7 +25,7 @@ include_directories(
 add_executable(plazzaui ${SOURCE_FILES})
 
 target_link_libraries(plazzaui
-        ${GTKMM_LIBRARIES} stdc++fs pthread)
+        ${GTKMM_LIBRARIES} pthread)
 
 add_custom_command(TARGET plazzaui POST_BUILD
         COMMAND cp plazzaui ${PROJECT_SOURCE_DIR})

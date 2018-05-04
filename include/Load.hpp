@@ -8,13 +8,13 @@
 #ifndef PLAZZA_LOAD_HPP
 	#define PLAZZA_LOAD_HPP
 
-	#include <list>
+	#include <unordered_map>
 
 	namespace plazza {
 		struct Load {
-			Load() : waitingCommands(0), threadLoads{} {};
+			Load() : waitingCommands(0), threadLoads({}) {};
 			unsigned long waitingCommands;
-			std::list<unsigned short int> threadLoads;
+			std::unordered_map<std::string, unsigned short int> threadLoads;
 		};
 	}
 

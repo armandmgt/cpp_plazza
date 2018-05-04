@@ -16,7 +16,7 @@ Test(Search, Search_email)
 					    "armandmegrot@gmail.com"};
 	std::string fileName("hiden_data");
 	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
-	addr.parseFileData();
+	addr.parseFile();
 	auto weGet = addr.getFileData();
 	cr_expect(toCompare == weGet,
 		  "Testing the research of email in hiden data");

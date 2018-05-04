@@ -23,11 +23,11 @@
 
 		class Graphic  : public Gtk::Window {
 		public:
-			Graphic(int nbThread);
-			virtual ~Graphic();
+			Graphic(unsigned int nbThread);
+			~Graphic() override;
 
 			virtual void onButtonClicked();
-			virtual void onChooseFile();
+			virtual void onChosenFile();
 			virtual void selectFile();
 			virtual void onButtonShowProcess();
 
@@ -52,14 +52,16 @@
 			MyFrame m_RightFrame;
 			Gtk::Label m_LabelTittle;
 			Gtk::Label m_LeftLabel;
-			Gtk::Label m_RightLabel;
+			Gtk::Grid m_GridProgress;
 		private:
 			plazza::Master masterProcess;
 			std::unordered_map<std::string, Gtk::ProgressBar> allProgressBar;
+			std::unordered_map<std::string, Gtk::Label> allLabelforBar;
 			std::vector<std::string> selectedFiles;
 			void setWindow();
 			void setBoxInputCmdLine();
 			void setBoxLeft();
+			void setProgressBar(std::string &name, int pos);
 		};
 	}
 

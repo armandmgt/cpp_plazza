@@ -9,10 +9,6 @@
 MyFrame::MyFrame(const Glib::ustring &label) : Gtk::Frame(label)
 {}
 
-MyFrame::MyFrame()
-{
-}
-
 void MyFrame::setMargin(int margin)
 {
 	set_margin_left(margin);

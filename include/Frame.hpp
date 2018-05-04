@@ -12,9 +12,9 @@
 
 	class MyFrame : public Gtk::Frame {
 	public:
-		MyFrame(const Glib::ustring& label);
-		MyFrame();
-		~MyFrame() = default;
+		explicit MyFrame(const Glib::ustring& label);
+		MyFrame() = default;
+		~MyFrame() override = default;
 
 		void setMargin(int margin);
 	};

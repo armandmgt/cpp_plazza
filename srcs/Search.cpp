@@ -88,3 +88,8 @@ unsigned short plazza::Search::getStatus()
 {
 	return static_cast<unsigned short>(_file.tellg() * 100 / _fileSize);
 }
+
+std::string plazza::Search::getFileName() const
+{
+	return _data.filename;
+}
