@@ -22,7 +22,9 @@ namespace plazza {
 		std::unordered_multimap<InfoType, std::string> getCommands();
 	private:
 		void parseCLIInput(std::vector<std::string> const &_cli);
-		void storeInputToMap(std::string const &line, std::pair<const std::string, InfoType> const &type);
+		void storeInputToMap(
+			std::stringstream line,
+			std::pair<const std::string, InfoType> const &type);
 		void findTypeInCommand(std::string const &line, std::pair<const std::string, plazza::InfoType> const &type);
 
 		CLIParser _cli;

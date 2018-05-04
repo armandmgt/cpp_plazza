@@ -57,20 +57,20 @@ void plazza::Shell::findTypeInCommand(std::string const &command, std::pair<cons
 			_input.clear();
 			throw ArgumentError("Too many Information Types on one command");
 		}
-		storeInputToMap(command, type);
+		storeInputToMap(std::stringstream(command), type);
 		_typeChecker++;
 	}
 }
 
-void plazza::Shell::storeInputToMap(std::string const &command, std::pair<const std::string, plazza::InfoType> const &type)
+void plazza::Shell::storeInputToMap(
+	std::stringstream command,
+	std::pair<const std::string, plazza::InfoType> const &type)
 {
         std::string file;
-        std::stringstream rd;
-        rd.str(command);
 
-        while (std::getline(rd, file, ' ')) {
+        while (std::getline(command, file, ' ')) {
                 if (file != type.first && !file.empty()) {
-                        _input.insert(std::pair<InfoType, std::string>(type.second, file));
+                        _input.insert({type.second, file});
                 }
         }
 }

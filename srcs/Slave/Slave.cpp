@@ -12,6 +12,7 @@
 #include <thread>
 #include <poll.h>
 #include <fcntl.h>
+#include <cstdlib>
 #include "Exceptions.hpp"
 #include "Slave.hpp"
 
@@ -19,6 +20,10 @@ plazza::Slave::Slave(int threadLimit)
 	: _threadLimit(threadLimit), _isChild(false), _pool{}, _buffer{},
 	_timer(std::chrono::steady_clock::now())
 {
+}
+
+plazza::Slave::~Slave() {
+	close(_sd);
 }
 
 void plazza::Slave::start()
@@ -60,8 +65,10 @@ void plazza::Slave::loop()
 			std::cout << "timed out !" << std::endl;
 			exit(0);
 		}
-		std::cout << infoTypeToS(c.first) << " "
-				       << c.second << std::endl;
+		if (c.first == UNKNOWN)
+			continue;
+		std::cout << "received command " << infoTypeToS(c.first)
+			  << " " << c.second << std::endl;
 	}
 }
 
@@ -70,7 +77,7 @@ std::pair<plazza::InfoType, std::string> plazza::Slave::readCommand()
 	command c = {};
 
 	_sd >> c;
-	return std::pair<plazza::InfoType, std::string>(c.type, c.file);
+	return {c.type, c.file};
 }
 
 void plazza::Slave::feedCommand(plazza::InfoType type, const std::string &file)
@@ -110,5 +117,9 @@ plazza::Load plazza::Slave::getLoad() {
 }
 
 bool plazza::Slave::alive() const {
-	return fcntl(_sd, F_GETFD) != -1;
+	int error = 0;
+	socklen_t len = sizeof(error);
+
+	int rtn = getsockopt(_sd, SOL_SOCKET, SO_ERROR, &error, &len);
+	return !(rtn != 0 || error != 0);
 }

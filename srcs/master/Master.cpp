@@ -76,7 +76,7 @@ void plazza::Master::sortSlaveOrder()
 void plazza::Master::distributeIllegalWork(shellInput const &input)
 {
 	for (auto it : input) {
-		std::cout << it.first << " " << it.second << std::endl;
+		std::cout << "command to send " << it.first << " " << it.second << std::endl;
 	}
 	for (auto const &command : input) {
 		setWorkLoad();

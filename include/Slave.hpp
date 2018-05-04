@@ -20,7 +20,7 @@
 		class Slave {
 		public:
 			explicit Slave(int threadLimit);
-			~Slave() = default;
+			~Slave();
 
 			void start();
 			void feedCommand(InfoType type, const std::string &file);
