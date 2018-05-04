@@ -36,6 +36,8 @@ std::unordered_multimap<plazza::InfoType, std::string> plazza::Shell::getCommand
 
 void plazza::Shell::parseCLIInput(std::vector<std::string> const &input)
 {
+	if (input.empty())
+		return;
         for (auto const &command: input) {
 		_typeChecker = 0;
                 for (auto const &type: _type) {
@@ -49,9 +51,8 @@ void plazza::Shell::parseCLIInput(std::vector<std::string> const &input)
 
 void plazza::Shell::findTypeInCommand(std::string const &command, std::pair<const std::string, plazza::InfoType> const &type)
 {
-	auto res = std::find_first_of(command.begin(), command.end(), type.first.begin(), type.first.end());
-	if (auto i = command.find(type.first)) {//std::strstr(command.c_str(), type.first.c_str())) {
-		std::cout << i << std::endl;
+	auto res = command.find(type.first);
+	if (res != std::string::npos) {
 		if (_typeChecker > 0) {
 			_input.clear();
 			throw ArgumentError("Too many Information Types on one command");
