@@ -12,8 +12,9 @@
 #include <ctime>
 #include "Master.hpp"
 
-plazza::Master::Master(int threadLimit) : _shell(), _threadLimit(threadLimit),
-					  _logFile(), _workPriority()
+plazza::Master::Master(int threadLimit) : _shell(),
+	_threadLimit(static_cast<unsigned int>(threadLimit)),
+	_logFile(), _workPriority()
 {
 	auto t = std::time(nullptr);
 	auto tm = *std::localtime(&t);
@@ -31,12 +32,16 @@ void plazza::Master::createProcess()
 
 void plazza::Master::outputData(std::list<Data> data)
 {
+	static std::unordered_map<InfoType, std::string> type = {
+		{PHONE_NB, "PHONE_NB"}, {EMAIL_ADDR, "EMAL_ADDR"}, {IP_ADDR, "IP_ADDR"}
+	};
+
 	for (auto const &e : data) {
-		std::cout << "In data" << std::endl;
+		std::cout << "In data loop" << std::endl;
 		for (auto const &s : e.elems) {
 			//Yammer 2017: No supplimetary data should be shown!
-			std::cout /*<< type[e.type] << " in " << e.filename << ": "*/ << s << std::endl;
-			_logFile /*<< type[e.type] << " in " << e.filename << ": "*/ << s << std::endl;
+			std::cout << s << std::endl;
+			_logFile << s << std::endl;
 		}
 	}
 }
@@ -44,6 +49,7 @@ void plazza::Master::outputData(std::list<Data> data)
 void plazza::Master::retrieveData()
 {
 	for (auto &slave: _workPriority) {
+		std::cout << " In retrieve data\n";
 		outputData(slave.second->getData());
 	}
 }
@@ -67,8 +73,7 @@ void plazza::Master::sortSlaveOrder()
 	});
 }
 
-void plazza::Master::distributeIllegalWork(
-	std::unordered_multimap<plazza::InfoType, std::string> const &input)
+void plazza::Master::distributeIllegalWork(shellInput const &input)
 {
 	for (auto it : input) {
 		std::cout << it.first << " " << it.second << std::endl;
