@@ -100,6 +100,8 @@ void plazza::Master::runMaster()
 			std::cerr << e.what() << std::endl;
 			return;
 		}
+		if (input.empty())
+			return;
 		distributeIllegalWork(input);
 		retrieveData();
 	}

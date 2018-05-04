@@ -24,6 +24,7 @@ plazza::CLIParser::~CLIParser()
 std::vector<std::string> plazza::CLIParser::getInput()
 {
         std::string line;
+	_cli.clear();
 
 	std::getline(std::cin, line);
 	std::stringstream rd;

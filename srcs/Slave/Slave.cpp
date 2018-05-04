@@ -78,6 +78,7 @@ void plazza::Slave::feedCommand(plazza::InfoType type, const std::string &file)
 	command c = {type, 0};
 
 	sprintf(c.file, "%.128s", file.c_str());
+	std::cout << "in feed command in slave\n";
 	_sd << c;
 }
 
