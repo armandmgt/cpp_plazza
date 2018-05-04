@@ -12,8 +12,8 @@
 #include <ctime>
 #include "Master.hpp"
 
-plazza::Master::Master(unsigned int threadLimit) : _shell(), _threadLimit(threadLimit),
-						_logFile(), _workPriority()
+plazza::Master::Master(int threadLimit) : _shell(), _threadLimit(threadLimit),
+					  _logFile(), _workPriority()
 {
 	auto t = std::time(nullptr);
 	auto tm = *std::localtime(&t);
@@ -26,19 +26,11 @@ plazza::Master::Master(unsigned int threadLimit) : _shell(), _threadLimit(thread
 void plazza::Master::createProcess()
 {
 	_workPriority.push_back({0, new Slave(_threadLimit)});
-}
-
-void plazza::Master::deleteProcess(slaveManagement const &slave)
-{
-	//_workPriority.erase(slave);
+	_workPriority.back().second->start();
 }
 
 void plazza::Master::outputData(std::list<Data> data)
 {
-	static std::unordered_map<InfoType, std::string> type = {
-		{PHONE_NB, "PHONE_NB"}, {EMAIL_ADDR, "EMAL_ADDR"}, {IP_ADDR, "IP_ADDR"}
-	};
-
 	for (auto const &e : data) {
 		std::cout << "In data" << std::endl;
 		for (auto const &s : e.elems) {
@@ -58,15 +50,12 @@ void plazza::Master::retrieveData()
 
 void plazza::Master::setWorkLoad()
 {
-	for (auto slave = _workPriority.begin(); slave != _workPriority.end(); slave++) {//auto &slave: _workPriority) {
-		if (!slave->second->alive()) {
-			delete[] slave->second;
-			slave = _workPriority.erase(slave);
-
-			//deleteProcess(slave);
+	for (auto it = _workPriority.begin(); it != _workPriority.end(); it++) {
+		if (!it->second->alive()) {
+			delete it->second;
+			_workPriority.erase(it++);
 		} else {
-			auto const &workLoad = slave->second->getLoad();
-			slave->first = workLoad.waitingCommands;
+			it->first = it->second->getLoad().waitingCommands;
 		}
 	}
 }
@@ -78,7 +67,8 @@ void plazza::Master::sortSlaveOrder()
 	});
 }
 
-void plazza::Master::distributeIllegalWork(std::unordered_multimap<plazza::InfoType, std::string> const &input)
+void plazza::Master::distributeIllegalWork(
+	std::unordered_multimap<plazza::InfoType, std::string> const &input)
 {
 	for (auto it : input) {
 		std::cout << it.first << " " << it.second << std::endl;
@@ -86,11 +76,11 @@ void plazza::Master::distributeIllegalWork(std::unordered_multimap<plazza::InfoT
 	for (auto const &command : input) {
 		setWorkLoad();
 		sortSlaveOrder();
-		if (_workPriority.empty() || _workPriority.begin()->first == (_threadLimit * 2)) {
+		if (_workPriority.empty() ||
+		    _workPriority.front().first == (_threadLimit * 2)) {
 			createProcess();
 		}
-		std::cout << "in FeedCommand" << std::endl;
-		_workPriority.begin()->second->feedCommand(command.first, command.second);
+		_workPriority.front().second->feedCommand(command.first, command.second);
 	}
 }
 
@@ -101,8 +91,8 @@ void plazza::Master::runMaster()
 	while (true) {
 		try {
 			input = _shell.getCommands();
-		} catch (std::exception const &msg) {
-			msg.what();
+		} catch (std::exception const &e) {
+			std::cerr << e.what() << std::endl;
 			return;
 		}
 		distributeIllegalWork(input);

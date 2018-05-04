@@ -21,14 +21,13 @@
 			using slaveManagement = std::pair<unsigned long, Slave *>;
 			//using slaveManagement = std::list<std::pair<unsigned long, Slave>>;
 		public:
-			explicit Master(unsigned int threadLimit);
+			explicit Master(int threadLimit);
 			~Master() = default;
 
 			void runMaster();
 
 		private:
 			void createProcess();
-			void deleteProcess(slaveManagement const &slave);
 			void outputData(std::list<Data> data);
 			void distributeIllegalWork(std::unordered_multimap<InfoType, std::string> const &input);
 			void retrieveData();

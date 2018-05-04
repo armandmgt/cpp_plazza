@@ -32,7 +32,7 @@ void plazza::Slave::start()
 
 void plazza::Slave::installSocket()
 {
-	int sds[2];
+	int sds[2] = {0};
 	pid_t pid;
 
 	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1) {
@@ -44,9 +44,11 @@ void plazza::Slave::installSocket()
 		close(sds[0]);
 		_sd = sds[1];
 		_isChild = true;
+		std::cout << "sd in child: " << _sd << std::endl;
 	} else {
 		_sd = sds[0];
 		close(sds[1]);
+		std::cout << "sd in parent: " << _sd << std::endl;
 	}
 }
 

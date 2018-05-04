@@ -23,7 +23,7 @@
 			~Slave() = default;
 
 			void start();
-			void feedCommand(InfoType type, std::string file);
+			void feedCommand(InfoType type, const std::string &file);
 			Load getLoad();
 			std::list<Data> getData();
 			bool alive() const;

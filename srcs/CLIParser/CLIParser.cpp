@@ -28,7 +28,6 @@ std::vector<std::string> plazza::CLIParser::getInput()
 	std::getline(std::cin, line);
 	std::stringstream rd;
 	rd.str(line);
-
 	while (std::getline(rd, line, ';')) {
 		_cli.push_back(line);
 	}
