@@ -19,9 +19,9 @@ plazza::Search::Search(InfoType type, std::string const &fileName)
 void plazza::Search::parseFile()
 {
 	if (_data.type == UNKNOWN) {
-		throw  RuntimeError("type requested is unknown");
+		throw  std::runtime_error("type requested is unknown");
 	} else if (_data.filename.empty()) {
-		throw  RuntimeError("filename is empty");
+		throw  std::runtime_error("filename is empty");
 	}
 	_thread = std::thread(&Search::doParsing, this);
 }
@@ -61,7 +61,7 @@ void plazza::Search::setRegex()
 	try {
 		_regex.assign(regexMatch.at(_data.type));
 	} catch (std::out_of_range &e) {
-		throw  RuntimeError("type requested is unknown");
+		throw  std::runtime_error("type requested is unknown");
 	}
 }
 
