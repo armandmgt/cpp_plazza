@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** plazza
 ** File description:
-** master
+** Master
 */
 
 #include <thread>

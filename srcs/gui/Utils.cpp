@@ -26,7 +26,7 @@ bool Filesystem::isDirectory(std::string const &name)
 
 	if (stat(name.c_str(), &sb) == -1)
 		return false;
-	return (sb.st_mode & S_IFMT) == S_IFDIR;
+	return (sb.st_mode & static_cast<unsigned int>(S_IFMT)) == S_IFDIR;
 }
 
 

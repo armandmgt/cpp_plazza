@@ -1,0 +1,11 @@
+set(SOURCE_FILES
+        ${SOURCE_FILES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../include/Graphic.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Graphic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../include/MyButton.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MyButton.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Frame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../include/Frame.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../include/Utils.hpp
+        PARENT_SCOPE)

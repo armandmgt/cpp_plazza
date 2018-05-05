@@ -6,7 +6,7 @@ set(SOURCE_FILES
         tools.cpp
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
-        master/Master.cpp
+        Master/Master.cpp
         ../include/Search.hpp
         Search.cpp
         ../include/Shell.hpp
@@ -18,9 +18,19 @@ set(SOURCE_FILES
         ../include/Slave.hpp
         ../include/Load.hpp
         ../include/Serialization.hpp
-        ../include/Serialization.cpp)
+        Serialization.cpp)
 
-add_executable(plazza ${SOURCE_FILES})
+if (${GRAPHICAL})
+    add_subdirectory(gui)
+    link_directories(${GTKMM_LIBRARY_DIRS})
+    include_directories(${GTKMM_INCLUDE_DIRS})
+
+    add_executable(plazza ${SOURCE_FILES})
+    target_compile_definitions(plazza PRIVATE GRAPHICAL=true)
+    target_link_libraries(plazza ${GTKMM_LIBRARIES})
+else (${GRAPHICAL})
+    add_executable(plazza ${SOURCE_FILES})
+endif (${GRAPHICAL})
 
 target_link_libraries(plazza pthread)
 

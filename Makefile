@@ -9,16 +9,11 @@ BUILD_DIR = build/
 
 all: dir
 	@cd $(BUILD_DIR) && \
-	cmake -DCMAKE_BUILD_TYPE=Release --target plazza ../ && \
+	cmake $(UI) -DCMAKE_BUILD_TYPE=Release --target plazza ../ && \
 	$(MAKE) -s plazza
 
-tests_run: dir
-	@cd $(BUILD_DIR) && \
-	cmake -DCMAKE_BUILD_TYPE=Release --target tests_run ../ && \
-	$(MAKE) -s tests_run
-
-dir:
-	mkdir -p $(BUILD_DIR)
+ui: UI = -DTARGET=graphical
+ui: all
 
 clean:
 	@if [ -d dir ]; then $(MAKE) -s -C $(BUILD_DIR) clean; fi

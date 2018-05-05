@@ -84,6 +84,7 @@ int plazza::operator>>(int sd, plazza::command &command)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
+	std::cerr << "serializing: [" << iss.str() << "]" << std::endl;
 	iss.ignore();
 	command.cmd = sToCommandType(deserializeProp(iss).second);
 	iss.ignore();
@@ -104,6 +105,6 @@ int plazza::operator<<(int sd, plazza::command &command)
 	oss << sepJson;
 	serializeProp(oss, "filename", command.ope.file);
 	oss << endJsonObj;
+	std::cerr << "serializing: [" << oss.str() << "]" << std::endl;
 	return sendData(oss, sd);
 }
-

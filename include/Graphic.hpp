@@ -23,8 +23,7 @@
 
 		class Graphic  : public Gtk::Window {
 		public:
-			Graphic(int nbThread);
-			~Graphic() override;
+			explicit Graphic(int nbThread);
 
 			virtual void onButtonClicked();
 			virtual void onChosenFile();
@@ -34,10 +33,7 @@
 			virtual void onButtonShowProcessPhone();
 
 		protected:
-
-			plazza::InfoType typeLastFile;
 			Gtk::Box m_principalBox;
-
 
 			std::array<Gtk::Box, 2> m_secondBox;
 			std::array<Gtk::Box, 2> m_thirdBox;

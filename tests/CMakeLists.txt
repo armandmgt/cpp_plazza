@@ -7,7 +7,7 @@ set(SOURCE_FILES
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
         container/test_SplitMap.cpp
-        ../srcs/master/Master.cpp
+        ../srcs/Master/Master.cpp
         ../include/Search.hpp
         ../srcs/Search.cpp
         test_search.cpp
@@ -20,7 +20,7 @@ set(SOURCE_FILES
         ../include/Slave.hpp
         ../include/Load.hpp
         ../include/Serialization.hpp
-        ../include/Serialization.cpp)
+        ../srcs/Serialization.cpp)
 
 add_custom_target(data DEPENDS hiden_data)
 

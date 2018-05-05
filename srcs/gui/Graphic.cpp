@@ -10,15 +10,12 @@
 #include "Utils.hpp"
 #include "Graphic.hpp"
 
-gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
-				      m_principalBox(Gtk::ORIENTATION_VERTICAL),
-				      m_chooseFile("Choose File"),
-				      m_Close("Close"),
-				      m_buttonIpAddr("IP_ADDR"),
-				      m_buttonPhone("PHONE_NUMBER"),
-				      m_buttonEmail("EMAIL_ADDR"),
-				      m_LeftFrame("Chosen Files"),
-				      m_RightFrame("Process")
+gfx::Graphic::Graphic(int nbThread)
+	: masterProcess(nbThread), m_principalBox(Gtk::ORIENTATION_VERTICAL),
+	  m_chooseFile("Choose File"), m_Close("Close"),
+	  m_buttonIpAddr("IP_ADDR"), m_buttonPhone("PHONE_NUMBER"),
+	  m_buttonEmail("EMAIL_ADDR"), m_LeftFrame("Chosen Files"),
+	  m_RightFrame("Process")
 {
 	setWindow();
 	m_secondBox[0].set_orientation(Gtk::ORIENTATION_VERTICAL);
@@ -27,10 +24,6 @@ gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
 	add(m_principalBox);
 	setBoxInputCmdLine();
 	show_all_children();
-}
-
-gfx::Graphic::~Graphic()
-{
 }
 
 void gfx::Graphic::setWindow()
@@ -93,7 +86,7 @@ void gfx::Graphic::onButtonClicked()
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
 	plazza::shellInput inputShell;
-	for (auto it : selectedFiles)
+	for (auto const &it : selectedFiles)
 		inputShell.push_back({plazza::IP_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
@@ -106,7 +99,7 @@ void gfx::Graphic::onButtonShowProcessIpAddr()
 void gfx::Graphic::onButtonShowProcessEmail()
 {
 	plazza::shellInput inputShell;
-	for (auto it : selectedFiles)
+	for (const auto &it : selectedFiles)
 		inputShell.push_back({plazza::EMAIL_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
@@ -119,7 +112,7 @@ void gfx::Graphic::onButtonShowProcessEmail()
 void gfx::Graphic::onButtonShowProcessPhone()
 {
 	plazza::shellInput inputShell;
-	for (auto it : selectedFiles)
+	for (const auto &it : selectedFiles)
 		inputShell.push_back({plazza::PHONE_NB, it});
 	for (auto &it : allProgressBar)
 		it.second.show();
@@ -172,21 +165,4 @@ void gfx::Graphic::setProgressBar(std::string &name, int pos)
 	allLabelforBar[name].set_justify(Gtk::JUSTIFY_LEFT);
 	allProgressBar[name].hide();
 	allLabelforBar[name].hide();
-}
-
-int main(int ac, char **av)
-{
-	auto app = Gtk::Application::create("org.gtkmm.examples.base");
-	if (ac != 2) {
-		std::cout << "./" << av[0] << " [nbThread by Process]" << std::endl;
-		return 84;
-	}
-	try {
-		gfx::Graphic application(std::stoi(av[1]));
-		application.set_position(Gtk::WIN_POS_CENTER);
-		return 	app->run(application);
-	} catch (std::invalid_argument &e) {
-		std::cout << e.what() << std::endl;
-		return 84;
-	}
 }
