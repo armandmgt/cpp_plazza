@@ -135,7 +135,8 @@ plazza::Load plazza::Slave::getLoad() {
 void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
-//			_sd << t.getData();
+			for (auto const &s : t.getData().elems)
+				std::cerr << s << std::endl;
 		}
 	}
 }

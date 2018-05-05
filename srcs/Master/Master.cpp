@@ -100,12 +100,12 @@ void plazza::Master::runMaster()
 	shellInput input;
 
 	while (true) {
-		input = _shell.getCommands();
 		if (std::cin.eof()) {
 			int status = 0;
 			wait(&status);
 			return;
 		}
+		input = _shell.getCommands();
 		if (input.empty())
 			continue;
 		distributeIllegalWork(input);
