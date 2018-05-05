@@ -62,9 +62,9 @@ namespace {
 				return std::istringstream();
 			default:
 				recv(sd, &msglen, sizeof(msglen), MSG_DONTWAIT);
-				auto buf = std::make_unique<char *>(new char[msglen]());
-				recv(sd, *buf, msglen, MSG_DONTWAIT);
-				return std::istringstream(*buf);
+				std::unique_ptr<char[]> buf(new char[msglen]());
+				recv(sd, buf.get(), msglen - 1, MSG_DONTWAIT);
+				return std::istringstream(buf.get());
 		}
 	}
 
