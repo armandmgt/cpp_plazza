@@ -18,6 +18,7 @@
 
 int main(int argc, char const *argv[])
 {
+	freopen("input.txt", "r", stdin);
 	if (check_args(argc, argv)) {
     		return (FAILURE);
 	} else {
@@ -26,7 +27,7 @@ int main(int argc, char const *argv[])
 			auto app = Gtk::Application::create("org.gtkmm.examples.base");
 			gfx::Graphic application(std::stoi(argv[1]));
 			application.set_position(Gtk::WIN_POS_CENTER);
-			return 	app->run(application);
+			return app->run(application);
 		#else
 			plazza::Master m(std::stoi(argv[1]));
 			m.runMaster();
