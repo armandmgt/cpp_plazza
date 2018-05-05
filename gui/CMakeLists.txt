@@ -14,7 +14,11 @@ set(SOURCE_FILES
         ../srcs/Search.cpp
         ../srcs/globals.cpp
         ../include/Load.hpp
-        MyButton.cpp Frame.cpp ../include/Frame.hpp Utils.cpp ../include/Utils.hpp)
+        MyButton.cpp Frame.cpp
+        ../include/Frame.hpp
+        Utils.cpp
+        ../include/Utils.hpp
+        ../srcs/tools.cpp)
 
 link_directories(
         ${GTKMM_LIBRARY_DIRS}  )

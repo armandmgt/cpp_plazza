@@ -28,6 +28,7 @@
 
 			void runMaster();
 			void distributeIllegalWork(shellInput const &input);
+			std::list<Load> getLoad() const;
 
 		private:
 			void outputData(std::list<Data> data);
@@ -36,6 +37,7 @@
 			void sortSlaveOrder();
 			void createProcess(const operation &ope);
 			bool trySlaves(const operation &ope);
+
 
 			Shell _shell;
 			unsigned int _threadLimit;

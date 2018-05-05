@@ -12,6 +12,7 @@
 #include <thread>
 #include <poll.h>
 #include <fcntl.h>
+#include <cstdlib>
 #include "Exceptions.hpp"
 #include "Slave.hpp"
 
@@ -19,6 +20,10 @@ plazza::Slave::Slave(int threadLimit)
 	: _threadLimit(threadLimit), _isChild(false), _pool{}, _buffer{},
 	_timer(std::chrono::steady_clock::now())
 {
+}
+
+plazza::Slave::~Slave() {
+	close(_sd);
 }
 
 void plazza::Slave::start()
@@ -32,12 +37,12 @@ void plazza::Slave::start()
 
 void plazza::Slave::installSocket()
 {
-	int sds[2];
+	int sds[2] = {0};
 	pid_t pid;
 
 	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1) {
 		std::cerr << strerror(errno) << std::endl;
-		throw RuntimeError(strerror(errno));
+		throw std::runtime_error(strerror(errno));
 	}
 	pid = fork();
 	if (pid == 0) {
@@ -53,30 +58,39 @@ void plazza::Slave::installSocket()
 void plazza::Slave::loop()
 {
 	while (true) {
-		auto c = readCommand();
+		auto cmd = readCommand();
 		if (timedOut()) {
 			std::cout << "timed out !" << std::endl;
 			exit(0);
 		}
-		std::cout << infoTypeToS(c.first) << " "
-				       << c.second << std::endl;
+		if (cmd.ope.type == UNKNOWN)
+			continue;
+		std::cout << "received command " << infoTypeToS(cmd.ope.type)
+			  << " " << cmd.ope.file << std::endl;
+		_timer = std::chrono::steady_clock::now();
 	}
 }
 
-std::pair<plazza::InfoType, std::string> plazza::Slave::readCommand()
+plazza::command plazza::Slave::readCommand()
 {
 	command c = {};
 
 	_sd >> c;
-	return std::pair<plazza::InfoType, std::string>(c.type, c.file);
+	return c;
 }
 
-void plazza::Slave::feedCommand(plazza::InfoType type, std::string file)
+bool plazza::Slave::feedCommand(operation const &ope)
 {
-	command c = {type};
+	command c = {OPERATION, ope};
 
-	sprintf(c.file, "%.128s", file.c_str());
-	_sd << c;
+	try {
+		_sd << c;
+	} catch (std::runtime_error const &e) {
+		std::cerr << "feedCommand failed !" << std::endl;
+		return false;
+	}
+	std::cerr << "feedCommand succeeded" << std::endl;
+	return true;
 }
 
 bool plazza::Slave::timedOut()
@@ -104,8 +118,4 @@ plazza::Load plazza::Slave::getLoad() {
 	}
 	load.waitingCommands = _buffer.size() + running;
 	return load;
-}
-
-bool plazza::Slave::alive() const {
-	return fcntl(_sd, F_GETFD) != -1;
 }
