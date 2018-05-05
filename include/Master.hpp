@@ -17,9 +17,9 @@
 
 	namespace plazza {
 
+		using shellInput = std::list<operation>;
 
 		class Master {
-			using shellInput = std::list<operation>;
 			using slaveManagement =
 				std::pair<unsigned long, Slave *>;
 		public:

@@ -12,7 +12,6 @@ set(SOURCE_FILES
         ../srcs/Slave/Slave.cpp
         ../include/Search.hpp
         ../srcs/Search.cpp
-        ../srcs/globals.cpp
         ../include/Load.hpp
         MyButton.cpp Frame.cpp
         ../include/Frame.hpp

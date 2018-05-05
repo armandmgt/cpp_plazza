@@ -3,7 +3,6 @@ set(SOURCE_FILES
         ../srcs/args_check.cpp
         ../include/plazza.hpp
         ../include/Exceptions.hpp
-        ../srcs/globals.cpp
         ../include/Master.hpp
         ../include/container/SplitMap.hpp
         container/test_SplitMap.cpp

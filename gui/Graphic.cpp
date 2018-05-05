@@ -92,41 +92,41 @@ void gfx::Graphic::onButtonClicked()
 
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
-	//plazza::shellInput inputShell;
-	//for (auto &it : selectedFiles)
-	//	inputShell.insert({plazza::IP_ADDR, it});
+	plazza::shellInput inputShell;
+	for (auto it : selectedFiles)
+		inputShell.push_back({plazza::IP_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
-	//masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessEmail()
 {
-	//plazza::shellInput inputShell;
-	//for (auto &it : selectedFiles)
-	//	inputShell.insert({plazza::EMAIL_ADDR, it});
+	plazza::shellInput inputShell;
+	for (auto it : selectedFiles)
+		inputShell.push_back({plazza::EMAIL_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
-	//masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessPhone()
 {
-//	plazza::shellInput inputShell;
-//	for (auto &it : selectedFiles)
-//		inputShell.insert({plazza::PHONE_NB, it});
+	plazza::shellInput inputShell;
+	for (auto it : selectedFiles)
+		inputShell.push_back({plazza::PHONE_NB, it});
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
 	selectedFiles.clear();
-//	masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::selectFile()
@@ -153,7 +153,7 @@ void gfx::Graphic::onChosenFile()
 	for (unsigned int i = 0; i < allFileName.size(); i++) {
 		if (!Filesystem::isDirectory(allFileName[i])) {
 			filesName += allFileName[i] + "\n";
-			selectedFiles.push_back(allFileName[i]);
+			selectedFiles.emplace_back(allFileName[i]);
 			setProgressBar(allFileName[i], i);
 		}
 	}
@@ -189,6 +189,4 @@ int main(int ac, char **av)
 		std::cout << e.what() << std::endl;
 		return 84;
 	}
-
-
 }
