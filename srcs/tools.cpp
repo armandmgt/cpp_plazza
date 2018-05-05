@@ -28,7 +28,7 @@ std::ostream &plazza::operator<<(std::ostream &os, CommandType ct)
 plazza::InfoType sToInfoType(std::string const &s)
 {
 	static std::unordered_map<std::string, plazza::InfoType> const m = {
-		{"PHONE_NB", plazza::PHONE_NB},
+		{"PHONE_NUMBER", plazza::PHONE_NUMBER},
 		{"EMAIL_ADDR", plazza::EMAIL_ADDR},
 		{"IP_ADDR", plazza::IP_ADDR},
 	};
@@ -43,7 +43,7 @@ plazza::InfoType sToInfoType(std::string const &s)
 std::string infoTypeToS(plazza::InfoType it)
 {
 	static std::unordered_map<plazza::InfoType, std::string> const m = {
-		{plazza::PHONE_NB, "PHONE_NB"},
+		{plazza::PHONE_NUMBER, "PHONE_NUMBER"},
 		{plazza::EMAIL_ADDR, "EMAIL_ADDR"},
 		{plazza::IP_ADDR, "IP_ADDR"},
 		{plazza::UNKNOWN, "UNKNOWN"},

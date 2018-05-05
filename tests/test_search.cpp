@@ -40,7 +40,7 @@ Test(Search, Search_phoneNumber)
 	std::list<std::string> toCompare = {"0684252849",
 					    "06 84 25 28 49"};
 	std::string fileName("../../tests/hiden_data");
-	plazza::Search addr(plazza::PHONE_NB, fileName);
+	plazza::Search addr(plazza::PHONE_NUMBER, fileName);
 	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,

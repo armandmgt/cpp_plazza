@@ -16,7 +16,7 @@
 		 * @enum IP_ADDR searches for an ip address
 		 */
 		typedef enum Information {
-			UNKNOWN, PHONE_NB, EMAIL_ADDR, IP_ADDR
+			UNKNOWN, PHONE_NUMBER, EMAIL_ADDR, IP_ADDR
 		} InfoType;
 
 		enum CommandType {
