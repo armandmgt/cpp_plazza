@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <sstream>
 #include <ctime>
+#include <wait.h>
 #include "Master.hpp"
 
 plazza::Master::Master(int threadLimit) : _shell(),
@@ -24,22 +25,20 @@ plazza::Master::Master(int threadLimit) : _shell(),
 	_logFile = std::ofstream(oss.str());
 }
 
-void plazza::Master::createProcess()
+void plazza::Master::createProcess(plazza::operation const &ope)
 {
 	_workPriority.push_back({0, new Slave(_threadLimit)});
-	_workPriority.back().second->start();
+	auto const &[waiting, newBorn] = _workPriority.back();
+	if (waiting == 0) {
+		newBorn->start();
+		newBorn->feedCommand(ope);
+	}
 }
-
 void plazza::Master::outputData(std::list<Data> data)
 {
-	static std::unordered_map<InfoType, std::string> type = {
-		{PHONE_NB, "PHONE_NB"}, {EMAIL_ADDR, "EMAL_ADDR"}, {IP_ADDR, "IP_ADDR"}
-	};
-
 	for (auto const &e : data) {
-		std::cout << "In data loop" << std::endl;
+		std::cout << "in data loop" << std::endl;
 		for (auto const &s : e.elems) {
-			//Yammer 2017: No supplimetary data should be shown!
 			std::cout << s << std::endl;
 			_logFile << s << std::endl;
 		}
@@ -48,21 +47,17 @@ void plazza::Master::outputData(std::list<Data> data)
 
 void plazza::Master::retrieveData()
 {
-	for (auto &slave: _workPriority) {
-		std::cout << " In retrieve data\n";
-		outputData(slave.second->getData());
+	for (auto &[waiting, slave] : _workPriority) {
+		if (waiting > 0)
+			outputData(slave->getData());
 	}
 }
 
 void plazza::Master::setWorkLoad()
 {
-	for (auto it = _workPriority.begin(); it != _workPriority.end(); it++) {
-		if (!it->second->alive()) {
-			delete it->second;
-			_workPriority.erase(it++);
-		} else {
-			it->first = it->second->getLoad().waitingCommands;
-		}
+	for (auto &wp : _workPriority) {
+		std::cout << "fetching the number of waiting commands" << std::endl;
+		wp.first = wp.second->getLoad().waitingCommands;
 	}
 }
 
@@ -73,34 +68,49 @@ void plazza::Master::sortSlaveOrder()
 	});
 }
 
+bool plazza::Master::trySlaves(plazza::operation const &ope)
+{
+	for (auto it = _workPriority.begin(); it != _workPriority.end();) {
+		auto &[waiting, slave] = *it;
+		if (waiting < _threadLimit * 2) {
+			if (!slave->feedCommand(ope)) {
+				delete it->second;
+				_workPriority.erase(it++);
+			} else {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void plazza::Master::distributeIllegalWork(shellInput const &input)
 {
-	for (auto it : input) {
-		std::cout << it.first << " " << it.second << std::endl;
-	}
-	for (auto const &command : input) {
+	for (auto const &ope : input) {
+		std::cout << "command to send " << ope.type << " " << ope.file << std::endl;
 		setWorkLoad();
 		sortSlaveOrder();
-		if (_workPriority.empty() ||
-		    _workPriority.front().first == (_threadLimit * 2)) {
-			createProcess();
+		if (_workPriority.empty() || !trySlaves(ope)) {
+			createProcess(ope);
 		}
-		_workPriority.front().second->feedCommand(command.first, command.second);
 	}
 }
 
-
 void plazza::Master::runMaster()
 {
-	std::unordered_multimap<InfoType, std::string> input;
+	shellInput input;
 
 	while (true) {
 		try {
 			input = _shell.getCommands();
 		} catch (std::exception const &e) {
 			std::cerr << e.what() << std::endl;
+			int status = 0;
+			wait(&status);
 			return;
 		}
+		if (input.empty())
+			continue;
 		distributeIllegalWork(input);
 		retrieveData();
 	}

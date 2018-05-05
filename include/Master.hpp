@@ -27,15 +27,15 @@
 			~Master() = default;
 
 			void runMaster();
-			void distributeIllegalWork(std::unordered_multimap<InfoType, std::string> const &input);
-			std::list<Load> getLoad() const;
+			void distributeIllegalWork(shellInput const &input);
 
 		private:
-			void createProcess();
 			void outputData(std::list<Data> data);
 			void retrieveData();
 			void setWorkLoad();
 			void sortSlaveOrder();
+			void createProcess(const operation &ope);
+			bool trySlaves(const operation &ope);
 
 			Shell _shell;
 			unsigned int _threadLimit;
