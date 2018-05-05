@@ -17,8 +17,9 @@
 
 	namespace plazza {
 
+		using shellInput = std::list<operation>;
+
 		class Master {
-			using shellInput = std::list<operation>;
 			using slaveManagement =
 				std::pair<unsigned long, Slave *>;
 		public:
@@ -35,6 +36,7 @@
 			void sortSlaveOrder();
 			void createProcess(const operation &ope);
 			bool trySlaves(const operation &ope);
+			std::list<Load> getLoad() const;
 
 			Shell _shell;
 			unsigned int _threadLimit;

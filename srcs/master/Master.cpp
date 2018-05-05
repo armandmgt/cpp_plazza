@@ -115,3 +115,12 @@ void plazza::Master::runMaster()
 		retrieveData();
 	}
 }
+
+std::list<plazza::Load> plazza::Master::getLoad() const
+{
+	std::list<plazza::Load> returnList;
+
+	for (auto it : _workPriority)
+		returnList.push_back(it.second->getLoad());
+	return returnList;
+}

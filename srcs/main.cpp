@@ -6,9 +6,9 @@
 */
 
 #include <exception>
-#include <Master.hpp>
 #include <iostream>
 #include "plazza.hpp"
+#include "Master.hpp"
 
 int main(int argc, char const *argv[])
 {

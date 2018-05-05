@@ -22,7 +22,12 @@ set(SOURCE_FILES
         ../include/Serialization.hpp
         ../include/Serialization.cpp)
 
+add_custom_target(data DEPENDS hiden_data)
+
+configure_file(hiden_data hiden_data COPYONLY)
 add_executable(tests_run ${SOURCE_FILES})
+
+add_dependencies(tests_run data)
 
 target_link_libraries(tests_run criterion)
 
