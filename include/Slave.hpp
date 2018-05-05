@@ -39,6 +39,7 @@
 			void loop();
 			command readCommand();
 			bool timedOut();
+			void checkForData();
 		};
 	}
 

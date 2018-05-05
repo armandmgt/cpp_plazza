@@ -22,15 +22,13 @@
 
 		class Search {
 		public:
-			Search(InfoType type,
-			       std::string const &fileName);
-			Search() = default;
+			Search();
 			~Search() = default;
 
 			void setFilename(const std::string &filename);
 			void setInfoType(InfoType);
 			void parseFile();
-			bool running() const;
+			bool running();
 			Data getData();
 			unsigned short getStatus();
 			std::string getFileName() const;
@@ -41,6 +39,7 @@
 			std::regex _regex;
 			std::ifstream _file;
 			Data _data;
+			bool _running;
 
 			void doParsing();
 			void setRegex();

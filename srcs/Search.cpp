@@ -9,11 +9,8 @@
 #include <functional>
 #include "Search.hpp"
 
-plazza::Search::Search(InfoType type, std::string const &fileName)
-	: _fileSize(0)
+plazza::Search::Search() : _fileSize(0)
 {
-	setFilename(fileName);
-	setInfoType(type);
 }
 
 void plazza::Search::parseFile()
@@ -32,7 +29,6 @@ void plazza::Search::doParsing()
 	std::string fileLine;
 	std::smatch match;
 
-	std::cerr << "hello" << std::endl;
 	while (std::getline(_file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
@@ -40,7 +36,6 @@ void plazza::Search::doParsing()
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
 			_data.elems.push_back(match.str());
-			std::cerr << "found [" << match.str() << std::endl;
 		}
 	}
 	_running = false;
