@@ -92,39 +92,41 @@ void gfx::Graphic::onButtonClicked()
 
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
-	plazza::shellInput inputShell;
-	for (auto &it : selectedFiles)
-		inputShell.insert({plazza::IP_ADDR, it});
+	//plazza::shellInput inputShell;
+	//for (auto &it : selectedFiles)
+	//	inputShell.insert({plazza::IP_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
+	//masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessEmail()
 {
-	plazza::shellInput inputShell;
-	for (auto &it : selectedFiles)
-		inputShell.insert({plazza::EMAIL_ADDR, it});
+	//plazza::shellInput inputShell;
+	//for (auto &it : selectedFiles)
+	//	inputShell.insert({plazza::EMAIL_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
+	//masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessPhone()
 {
-	plazza::shellInput inputShell;
-	for (auto &it : selectedFiles)
-		inputShell.insert({plazza::PHONE_NB, it});
+//	plazza::shellInput inputShell;
+//	for (auto &it : selectedFiles)
+//		inputShell.insert({plazza::PHONE_NB, it});
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)
 		it.second.show();
 	selectedFiles.clear();
-//	masterProcess.distributeIllegalWork();
+//	masterProcess.distributeIllegalWork(inputShell);
 }
 
 void gfx::Graphic::selectFile()
