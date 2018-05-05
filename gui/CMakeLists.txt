@@ -18,7 +18,8 @@ set(SOURCE_FILES
         ../include/Frame.hpp
         Utils.cpp
         ../include/Utils.hpp
-        ../srcs/tools.cpp)
+        ../srcs/tools.cpp
+        ../include/plazza.hpp)
 
 link_directories(
         ${GTKMM_LIBRARY_DIRS}  )
