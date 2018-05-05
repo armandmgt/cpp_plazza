@@ -29,6 +29,7 @@ void plazza::Search::doParsing()
 	std::string fileLine;
 	std::smatch match;
 
+	std::cerr << "start parsing" << std::endl;
 	while (std::getline(_file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
@@ -36,6 +37,7 @@ void plazza::Search::doParsing()
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
 			_data.elems.push_back(match.str());
+			std::cerr << "found [" << match.str() << "]" << std::endl;
 		}
 	}
 	_running = false;
