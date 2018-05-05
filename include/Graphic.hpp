@@ -23,13 +23,15 @@
 
 		class Graphic  : public Gtk::Window {
 		public:
-			Graphic(unsigned int nbThread);
+			Graphic(int nbThread);
 			~Graphic() override;
 
 			virtual void onButtonClicked();
 			virtual void onChosenFile();
 			virtual void selectFile();
-			virtual void onButtonShowProcess();
+			virtual void onButtonShowProcessIpAddr();
+			virtual void onButtonShowProcessEmail();
+			virtual void onButtonShowProcessPhone();
 
 		protected:
 

@@ -6,18 +6,19 @@
 */
 
 #include <iostream>
+#include "Shell.hpp"
 #include "Utils.hpp"
 #include "Graphic.hpp"
 
-gfx::Graphic::Graphic(unsigned int nbThread) : masterProcess(nbThread),
-				m_principalBox(Gtk::ORIENTATION_VERTICAL),
-			  	m_chooseFile("Choose File"),
-				m_Close("Close"),
-			  m_buttonIpAddr("IP_ADDR"),
-			  m_buttonPhone("PHONE_NUMBER"),
-			  m_buttonEmail("EMAIL_ADDR"),
-			  m_LeftFrame("Chosen Files"),
-			  m_RightFrame("Process")
+gfx::Graphic::Graphic(int nbThread) : masterProcess(nbThread),
+				      m_principalBox(Gtk::ORIENTATION_VERTICAL),
+				      m_chooseFile("Choose File"),
+				      m_Close("Close"),
+				      m_buttonIpAddr("IP_ADDR"),
+				      m_buttonPhone("PHONE_NUMBER"),
+				      m_buttonEmail("EMAIL_ADDR"),
+				      m_LeftFrame("Chosen Files"),
+				      m_RightFrame("Process")
 {
 	setWindow();
 	m_secondBox[0].set_orientation(Gtk::ORIENTATION_VERTICAL);
@@ -48,9 +49,9 @@ void gfx::Graphic::setBoxLeft()
 	m_thirdBox[0].pack_start(m_LeftFrame);
 	m_LeftFrame.add(m_LeftLabel);
 	m_LeftFrame.set_label_align(0.02, 0.5);
-	m_buttonIpAddr.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcess));
-	m_buttonPhone.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcess));
-	m_buttonEmail.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcess));
+	m_buttonIpAddr.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcessIpAddr));
+	m_buttonPhone.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcessPhone));
+	m_buttonEmail.signal_clicked().connect(sigc::mem_fun(*this, &Graphic::onButtonShowProcessEmail));
 	m_buttonIpAddr.setMargin(10);
 	m_thirdBox[1].pack_start(m_buttonIpAddr);
 	m_buttonPhone.setMargin(10);
@@ -89,13 +90,42 @@ void gfx::Graphic::onButtonClicked()
 	hide();
 }
 
-void gfx::Graphic::onButtonShowProcess()
+void gfx::Graphic::onButtonShowProcessIpAddr()
 {
+	plazza::shellInput inputShell;
+	for (auto &it : selectedFiles)
+		inputShell.insert({plazza::IP_ADDR, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
+	for (auto &it : allLabelforBar)
+		it.second.show();
 }
 
+void gfx::Graphic::onButtonShowProcessEmail()
+{
+	plazza::shellInput inputShell;
+	for (auto &it : selectedFiles)
+		inputShell.insert({plazza::EMAIL_ADDR, it});
+	selectedFiles.clear();
+	for (auto &it : allProgressBar)
+		it.second.show();
+	for (auto &it : allLabelforBar)
+		it.second.show();
+}
+
+void gfx::Graphic::onButtonShowProcessPhone()
+{
+	plazza::shellInput inputShell;
+	for (auto &it : selectedFiles)
+		inputShell.insert({plazza::PHONE_NB, it});
+	for (auto &it : allProgressBar)
+		it.second.show();
+	for (auto &it : allLabelforBar)
+		it.second.show();
+	selectedFiles.clear();
+//	masterProcess.distributeIllegalWork();
+}
 
 void gfx::Graphic::selectFile()
 {
@@ -115,17 +145,17 @@ void gfx::Graphic::onChosenFile()
 	Gtk::Button *select = dialog.add_button("Select", Gtk::RESPONSE_OK);
 	select->signal_clicked().connect(sigc::mem_fun(*this, &Graphic::selectFile));
 	int result = dialog.run();
-	if (result == Gtk::RESPONSE_OK) {
-		auto allFileName = dialog.get_filenames();
-		for (unsigned int i = 0; i < allFileName.size(); i++) {
-			if (!Filesystem::isDirectory(allFileName[i])) {
-				filesName += allFileName[i] + "\n";
-				selectedFiles.push_back(allFileName[i]);
-				setProgressBar(allFileName[i], i);
-			}
+	if (result != Gtk::RESPONSE_OK)
+		return;
+	auto allFileName = dialog.get_filenames();
+	for (unsigned int i = 0; i < allFileName.size(); i++) {
+		if (!Filesystem::isDirectory(allFileName[i])) {
+			filesName += allFileName[i] + "\n";
+			selectedFiles.push_back(allFileName[i]);
+			setProgressBar(allFileName[i], i);
 		}
-		m_LeftLabel.set_text(m_LeftLabel.get_text() + filesName);
 	}
+	m_LeftLabel.set_text(m_LeftLabel.get_text() + filesName);
 }
 
 void gfx::Graphic::setProgressBar(std::string &name, int pos)
@@ -138,8 +168,8 @@ void gfx::Graphic::setProgressBar(std::string &name, int pos)
 	allProgressBar[name].set_valign(Gtk::ALIGN_CENTER);
 	allProgressBar[name].set_fraction(0.2);
 	allLabelforBar[name].set_justify(Gtk::JUSTIFY_LEFT);
-	allProgressBar[name].show();
-	allLabelforBar[name].show();
+	allProgressBar[name].hide();
+	allLabelforBar[name].hide();
 }
 
 int main(int ac, char **av)

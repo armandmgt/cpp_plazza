@@ -17,9 +17,10 @@
 
 	namespace plazza {
 
+		using shellInput = std::unordered_multimap<plazza::InfoType, std::string>;
+		using slaveManagement = std::pair<unsigned long, Slave *>;
+
 		class Master {
-			using shellInput = std::unordered_multimap<plazza::InfoType, std::string>;
-			using slaveManagement = std::pair<unsigned long, Slave *>;
 			//using slaveManagement = std::list<std::pair<unsigned long, Slave>>;
 		public:
 			explicit Master(int threadLimit);
@@ -27,7 +28,7 @@
 
 			void runMaster();
 			void distributeIllegalWork(std::unordered_multimap<InfoType, std::string> const &input);
-			std::list<Load> getLoad();
+			std::list<Load> getLoad() const;
 
 		private:
 			void createProcess();

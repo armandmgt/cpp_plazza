@@ -89,6 +89,7 @@ void plazza::Master::distributeIllegalWork(shellInput const &input)
 	}
 }
 
+
 void plazza::Master::runMaster()
 {
 	std::unordered_multimap<InfoType, std::string> input;
@@ -105,7 +106,7 @@ void plazza::Master::runMaster()
 	}
 }
 
-std::list<plazza::Load> plazza::Master::getLoad()
+std::list<plazza::Load> plazza::Master::getLoad() const
 {
 	std::list<plazza::Load> returnList;
 
