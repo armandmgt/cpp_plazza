@@ -14,7 +14,10 @@
 	namespace plazza {
 		int operator>>(int sd, plazza::command &cmd);
 		int operator<<(int sd, plazza::command &cmd);
-
+		int operator>>(int sd, plazza::Data &cmd);
+		int operator<<(int sd, plazza::Data &cmd);
+		int operator>>(int sd, plazza::Load &cmd);
+		int operator<<(int sd, plazza::Load &cmd);
 	}
 
 #endif //PLAZZA_SERIALIZATION_HPP

@@ -12,6 +12,9 @@ all: dir
 	cmake $(UI) -DCMAKE_BUILD_TYPE=Release --target plazza ../ && \
 	$(MAKE) -s plazza
 
+dir:
+	mkdir -p $(BUILD_DIR)
+
 ui: UI = -DTARGET=graphical
 ui: all
 
