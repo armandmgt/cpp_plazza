@@ -58,15 +58,24 @@ void plazza::Slave::installSocket()
 void plazza::Slave::loop()
 {
 	while (true) {
+		checkForData();
 		auto cmd = readCommand();
-		if (timedOut()) {
-			std::cout << "timed out !" << std::endl;
+		if (timedOut())
 			exit(0);
-		}
 		if (cmd.ope.type == UNKNOWN)
 			continue;
-		std::cout << "received command " << infoTypeToS(cmd.ope.type)
-			  << " " << cmd.ope.file << std::endl;
+		for (auto &t : _pool) {
+			if (!t.running()) {
+				t.setInfoType(cmd.ope.type);
+				t.setFilename(cmd.ope.file);
+				try {
+					t.parseFile();
+					break;
+				} catch (std::runtime_error const &e) {
+					std::cerr << "thread: " << e.what() << std::endl;
+				}
+			}
+		}
 		_timer = std::chrono::steady_clock::now();
 	}
 }
@@ -86,10 +95,8 @@ bool plazza::Slave::feedCommand(operation const &ope)
 	try {
 		_sd << c;
 	} catch (std::runtime_error const &e) {
-		std::cerr << "feedCommand failed !" << std::endl;
 		return false;
 	}
-	std::cerr << "feedCommand succeeded" << std::endl;
 	return true;
 }
 
@@ -118,4 +125,14 @@ plazza::Load plazza::Slave::getLoad() {
 	}
 	load.waitingCommands = _buffer.size() + running;
 	return load;
+}
+
+void plazza::Slave::checkForData() {
+	for (auto &t : _pool) {
+		if (!t.running()) {
+			for (auto const &str : t.getData().elems) {
+				std::cerr << str << std::endl;
+			}
+		}
+	}
 }

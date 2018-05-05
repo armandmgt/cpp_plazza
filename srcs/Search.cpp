@@ -9,11 +9,8 @@
 #include <functional>
 #include "Search.hpp"
 
-plazza::Search::Search(InfoType type, std::string const &fileName)
-	: _fileSize(0)
+plazza::Search::Search() : _fileSize(0)
 {
-	setFilename(fileName);
-	setInfoType(type);
 }
 
 void plazza::Search::parseFile()
@@ -23,7 +20,8 @@ void plazza::Search::parseFile()
 	} else if (_data.filename.empty()) {
 		throw  std::runtime_error("filename is empty");
 	}
-	_thread = std::thread(&Search::doParsing, this);
+	_running = true;
+	_thread = std::thread([=]{ doParsing(); });
 }
 
 void plazza::Search::doParsing()
@@ -31,7 +29,7 @@ void plazza::Search::doParsing()
 	std::string fileLine;
 	std::smatch match;
 
-	while (getline(_file, fileLine)) {
+	while (std::getline(_file, fileLine)) {
 		auto cmdBegin = std::sregex_iterator(fileLine.begin(),
 						     fileLine.end(), _regex);
 		auto cmdEnd = std::sregex_iterator();
@@ -40,6 +38,7 @@ void plazza::Search::doParsing()
 			_data.elems.push_back(match.str());
 		}
 	}
+	_running = false;
 }
 
 plazza::Data plazza::Search::getData()
@@ -80,8 +79,10 @@ void plazza::Search::setInfoType(plazza::InfoType newType)
 	setRegex();
 }
 
-bool plazza::Search::running() const {
-	return _thread.joinable();
+bool plazza::Search::running() {
+	if (!_running && _thread.joinable())
+		_thread.join();
+	return _running;
 }
 
 unsigned short plazza::Search::getStatus()

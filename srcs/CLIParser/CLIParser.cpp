@@ -24,16 +24,13 @@ plazza::CLIParser::~CLIParser()
 std::vector<std::string> plazza::CLIParser::getInput()
 {
         std::string line;
-	_cli.clear();
 
+	_cli.clear();
 	std::getline(std::cin, line);
 	std::stringstream rd;
 	rd.str(line);
 	while (std::getline(rd, line, ';')) {
 		_cli.push_back(line);
 	}
-	if (_cli.empty()) {
-		throw ArgumentError("No input given");
-        }
         return _cli;
 }

@@ -119,23 +119,27 @@ namespace {
 
 		switch (poll(&pfd, 1, 1000)) {
 			case -1:
-				throw std::runtime_error(strerror(errno));
+				throw std::runtime_error("This is not working ??");
 			case 0:
 				return std::istringstream();
 			default:
 				recv(sd, &msglen, sizeof(msglen), MSG_DONTWAIT);
 				std::unique_ptr<char[]> buf(new char[msglen]());
-				recv(sd, buf.get(), msglen - 1, MSG_DONTWAIT);
+				recv(sd, buf.get(), msglen, MSG_DONTWAIT);
 				return std::istringstream(buf.get());
 		}
 	}
 
 	int sendData(std::ostringstream const &oss, int sd)
 	{
-		size_t msglen = oss.str().size();
-		if (send(sd, &msglen, sizeof(msglen), MSG_NOSIGNAL) == -1 ||
-		    send(sd, oss.str().c_str(), msglen, MSG_NOSIGNAL) == -1)
-			throw std::runtime_error("");
+		size_t msglen = oss.str().size() + 1;
+		if (send(sd, &msglen, sizeof(msglen), MSG_NOSIGNAL) == -1) {
+			std::cout << "this is the first send() of sendData" << std::endl;
+			throw std::runtime_error(std::string("first: ") + strerror(errno));
+		} else if (send(sd, oss.str().c_str(), msglen, MSG_NOSIGNAL) == -1) {
+			std::cout << "this is the second send() of sendData" << std::endl;
+			throw std::runtime_error(std::string("second: ") + strerror(errno));
+		}
 		return sd;
 	}
 }
@@ -160,9 +164,9 @@ int plazza::operator<<(int sd, plazza::command &command)
 	std::ostringstream oss;
 
 	oss << startJsonObj;
-	serializeProp(oss, "cmd", command.cmd);
+	serializeProp(oss, "cmd", commandTypeToS(command.cmd));
 	oss << sepJson;
-	serializeProp(oss, "type", command.ope.type);
+	serializeProp(oss, "type", infoTypeToS(command.ope.type));
 	oss << sepJson;
 	serializeProp(oss, "filename", command.ope.file);
 	oss << endJsonObj;
@@ -189,7 +193,7 @@ int plazza::operator<<(int sd, plazza::Data &cmd)
 	std::ostringstream oss;
 
 	oss << startJsonObj;
-	serializeProp(oss, "type", cmd.type);
+	serializeProp(oss, "type", infoTypeToS(cmd.type));
 	oss << sepJson;
 	serializeProp(oss, "filename", cmd.filename);
 	oss << sepJson;

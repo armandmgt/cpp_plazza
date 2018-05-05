@@ -87,7 +87,6 @@ bool plazza::Master::trySlaves(plazza::operation const &ope)
 void plazza::Master::distributeIllegalWork(shellInput const &input)
 {
 	for (auto const &ope : input) {
-		std::cout << "command to send " << ope.type << " " << ope.file << std::endl;
 		setWorkLoad();
 		sortSlaveOrder();
 		if (_workPriority.empty() || !trySlaves(ope)) {
@@ -101,10 +100,8 @@ void plazza::Master::runMaster()
 	shellInput input;
 
 	while (true) {
-		try {
-			input = _shell.getCommands();
-		} catch (std::exception const &e) {
-			std::cerr << e.what() << std::endl;
+		input = _shell.getCommands();
+		if (std::cin.eof()) {
 			int status = 0;
 			wait(&status);
 			return;
