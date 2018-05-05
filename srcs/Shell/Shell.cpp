@@ -10,67 +10,26 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <list>
 #include "Shell.hpp"
 #include "Exceptions.hpp"
 
-plazza::Shell::Shell() : _input(), _typeChecker(0),
-        _type({
-        {"PHONE_NB", PHONE_NB}, {"EMAIL_ADDR", EMAIL_ADDR},
-        {"IP_ADDR", IP_ADDR}
-        })
+plazza::Shell::Shell() : _cli()
 {
 }
 
-std::unordered_multimap<plazza::InfoType, std::string> plazza::Shell::getCommands()
+std::list<plazza::operation> plazza::Shell::getCommands()
 {
-	while (!_input.empty()) {
-		_input.erase(_input.begin());
+	std::list<operation> commands{};
+
+	auto cliInput = _cli.getInput();
+	for (auto const &line : cliInput) {
+		auto file = line.substr(0, line.find(' ', 0));
+		auto type = line.substr(line.find(' ', 0) + 1);
+		if (sToInfoType(type) == UNKNOWN)
+			throw ArgumentError("unknown information type");
+		commands.push_back({sToInfoType(type), file});
 	}
-	_input.clear();
-	parseCLIInput(_cli.getInput());
-        if (_input.empty()) {
-        	throw ArgumentError("No file given");
-        }
-	return _input;
+	return commands;
 }
 
-void plazza::Shell::parseCLIInput(std::vector<std::string> const &input)
-{
-	if (input.empty())
-		return;
-        for (auto const &command: input) {
-		_typeChecker = 0;
-                for (auto const &type: _type) {
-                	findTypeInCommand(command, type);
-                }
-                if (_typeChecker == 0) {
-                	throw ArgumentError("No Information Type given");
-                }
-        }
-}
-
-void plazza::Shell::findTypeInCommand(std::string const &command, std::pair<const std::string, plazza::InfoType> const &type)
-{
-	auto res = command.find(type.first);
-	if (res != std::string::npos) {
-		if (_typeChecker > 0) {
-			_input.clear();
-			throw ArgumentError("Too many Information Types on one command");
-		}
-		storeInputToMap(std::stringstream(command), type);
-		_typeChecker++;
-	}
-}
-
-void plazza::Shell::storeInputToMap(
-	std::stringstream command,
-	std::pair<const std::string, plazza::InfoType> const &type)
-{
-        std::string file;
-
-        while (std::getline(command, file, ' ')) {
-                if (file != type.first && !file.empty()) {
-                        _input.insert({type.second, file});
-                }
-        }
-}

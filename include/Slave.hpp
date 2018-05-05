@@ -23,10 +23,9 @@
 			~Slave();
 
 			void start();
-			void feedCommand(InfoType type, const std::string &file);
+			bool feedCommand(const operation &ope);
 			Load getLoad();
 			std::list<Data> getData();
-			bool alive() const;
 
 		private:
 			int _threadLimit;
@@ -38,10 +37,9 @@
 
 			void installSocket();
 			void loop();
-			std::pair<InfoType, std::string> readCommand();
+			command readCommand();
 			bool timedOut();
 		};
 	}
-
 
 #endif //PLAZZA_SLAVE_HPP

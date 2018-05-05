@@ -42,7 +42,7 @@ void plazza::Slave::installSocket()
 
 	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1) {
 		std::cerr << strerror(errno) << std::endl;
-		throw RuntimeError(strerror(errno));
+		throw std::runtime_error(strerror(errno));
 	}
 	pid = fork();
 	if (pid == 0) {
@@ -60,33 +60,38 @@ void plazza::Slave::installSocket()
 void plazza::Slave::loop()
 {
 	while (true) {
-		auto c = readCommand();
+		auto cmd = readCommand();
 		if (timedOut()) {
 			std::cout << "timed out !" << std::endl;
 			exit(0);
 		}
-		if (c.first == UNKNOWN)
+		if (cmd.ope.type == UNKNOWN)
 			continue;
-		std::cout << "received command " << infoTypeToS(c.first)
-			  << " " << c.second << std::endl;
+		std::cout << "received command " << infoTypeToS(cmd.ope.type)
+			  << " " << cmd.ope.file << std::endl;
 	}
 }
 
-std::pair<plazza::InfoType, std::string> plazza::Slave::readCommand()
+plazza::command plazza::Slave::readCommand()
 {
 	command c = {};
 
 	_sd >> c;
-	return {c.type, c.file};
+	return c;
 }
 
-void plazza::Slave::feedCommand(plazza::InfoType type, const std::string &file)
+bool plazza::Slave::feedCommand(operation const &ope)
 {
-	command c = {type, 0};
+	command c = {OPERATION, ope};
 
-	sprintf(c.file, "%.128s", file.c_str());
-	std::cout << "in feed command in slave\n";
-	_sd << c;
+	try {
+		_sd << c;
+	} catch (std::runtime_error const &e) {
+		std::cerr << "feedCommand failed !" << std::endl;
+		return false;
+	}
+	std::cerr << "feedCommand succeeded" << std::endl;
+	return true;
 }
 
 bool plazza::Slave::timedOut()
@@ -114,12 +119,4 @@ plazza::Load plazza::Slave::getLoad() {
 	}
 	load.waitingCommands = _buffer.size() + running;
 	return load;
-}
-
-bool plazza::Slave::alive() const {
-	int error = 0;
-	socklen_t len = sizeof(error);
-
-	int rtn = getsockopt(_sd, SOL_SOCKET, SO_ERROR, &error, &len);
-	return !(rtn != 0 || error != 0);
 }

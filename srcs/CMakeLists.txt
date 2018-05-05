@@ -17,7 +17,8 @@ set(SOURCE_FILES
         Slave/Slave.cpp
         ../include/Slave.hpp
         ../include/Load.hpp
-        ../include/Serialization.hpp)
+        ../include/Serialization.hpp
+        ../include/Serialization.cpp)
 
 add_executable(plazza ${SOURCE_FILES})
 

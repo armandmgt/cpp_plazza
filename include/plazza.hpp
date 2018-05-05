@@ -19,11 +19,22 @@
 			UNKNOWN, PHONE_NB, EMAIL_ADDR, IP_ADDR
 		} InfoType;
 
-		struct command {
-			InfoType type;
-			char file[128];
+		enum CommandType {
+			NONE, OPERATION, GET_DATA, GET_LOAD
 		};
-		std::ostream & operator<<(std::ostream &os, InfoType it);
+
+		struct operation {
+			InfoType type;
+			std::string file;
+		};
+
+		struct command {
+			CommandType cmd;
+			operation ope;
+		};
+
+		std::ostream &operator<<(std::ostream &os, InfoType it);
+		std::ostream &operator<<(std::ostream &os, CommandType ct);
 	}
 
 	extern int const SUCCESS;
@@ -32,5 +43,7 @@
 	int check_args(int argc, char const *argv[]);
 	plazza::InfoType sToInfoType(std::string const &s);
 	std::string infoTypeToS(plazza::InfoType it);
+	plazza::CommandType sToCommandType(std::string const &s);
+	std::string commandTypeToS(plazza::CommandType ct);
 
 #endif //PLAZZA_PLAZZA_H
