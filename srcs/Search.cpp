@@ -51,7 +51,7 @@ plazza::Data plazza::Search::getData()
 void plazza::Search::setRegex()
 {
 	static regexMap const regexMatch = {
-		{PHONE_NB, "(0|\\+33|0033)[1-9][0-9]{8}"},
+		{PHONE_NUMBER, "(0|\\+33|0033)[1-9][0-9]{8}"},
 		{EMAIL_ADDR, R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)"},
 		{IP_ADDR, "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
 	    		"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}

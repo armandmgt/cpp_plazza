@@ -58,10 +58,13 @@ void plazza::Slave::installSocket()
 void plazza::Slave::loop()
 {
 	while (true) {
-		checkForData();
 		auto cmd = readCommand();
 		if (timedOut())
 			exit(0);
+		switch (cmd.cmd) {
+			case GET_DATA: checkForData(); break;
+			case GET_LOAD: retrieveLoad(); break;
+		}
 		if (cmd.ope.type == UNKNOWN)
 			continue;
 		for (auto &t : _pool) {
@@ -72,7 +75,8 @@ void plazza::Slave::loop()
 					t.parseFile();
 					break;
 				} catch (std::runtime_error const &e) {
-					std::cerr << "thread: " << e.what() << std::endl;
+					std::cerr << "thread: "
+		  				<< e.what() << std::endl;
 				}
 			}
 		}
@@ -130,9 +134,10 @@ plazza::Load plazza::Slave::getLoad() {
 void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
-			for (auto const &str : t.getData().elems) {
-				std::cerr << str << std::endl;
-			}
 		}
 	}
+}
+
+void plazza::Slave::retrieveLoad() {
+
 }

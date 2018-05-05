@@ -113,7 +113,7 @@ void gfx::Graphic::onButtonShowProcessPhone()
 {
 	plazza::shellInput inputShell;
 	for (const auto &it : selectedFiles)
-		inputShell.push_back({plazza::PHONE_NB, it});
+		inputShell.push_back({plazza::PHONE_NUMBER, it});
 	for (auto &it : allProgressBar)
 		it.second.show();
 	for (auto &it : allLabelforBar)

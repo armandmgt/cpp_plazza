@@ -40,6 +40,7 @@
 			command readCommand();
 			bool timedOut();
 			void checkForData();
+			void retrieveLoad();
 		};
 	}
 
