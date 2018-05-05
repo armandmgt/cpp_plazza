@@ -49,11 +49,9 @@ void plazza::Slave::installSocket()
 		close(sds[0]);
 		_sd = sds[1];
 		_isChild = true;
-		std::cout << "sd in child: " << _sd << std::endl;
 	} else {
 		_sd = sds[0];
 		close(sds[1]);
-		std::cout << "sd in parent: " << _sd << std::endl;
 	}
 }
 
@@ -69,6 +67,7 @@ void plazza::Slave::loop()
 			continue;
 		std::cout << "received command " << infoTypeToS(cmd.ope.type)
 			  << " " << cmd.ope.file << std::endl;
+		_timer = std::chrono::steady_clock::now();
 	}
 }
 

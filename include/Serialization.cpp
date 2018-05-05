@@ -11,18 +11,19 @@
 #include <cstring>
 #include <cerrno>
 #include <sstream>
+#include <iostream>
 #include "Serialization.hpp"
 #include "Exceptions.hpp"
 #include "Slave.hpp"
 
 namespace {
-	auto startJsonObj = "{";
-	auto endJsonObj = "}";
+	auto startJsonObj = '{';
+	auto endJsonObj = '}';
 
-	auto startJsonArr = "[";
-	auto endJsonArr = "]";
+	auto startJsonArr = '[';
+	auto endJsonArr = ']';
 
-	auto sepJson = ",";
+	auto sepJson = ',';
 
 	template<typename T>
 	void serializeValue(std::ostringstream &oss,
@@ -44,9 +45,8 @@ namespace {
 	deserializeProp(std::istringstream &iss) {
 		std::pair<std::string, std::string> p;
 
-		std::getline(iss.ignore(1), p.first, '"');
-		std::getline(iss.ignore(3), p.second, '"');
-		iss.ignore(1);
+		std::getline(iss.ignore(), p.first, '"');
+		std::getline(iss.ignore(2), p.second, '"');
 		return p;
 	}
 
@@ -62,15 +62,15 @@ namespace {
 				return std::istringstream();
 			default:
 				recv(sd, &msglen, sizeof(msglen), MSG_DONTWAIT);
-				auto *buf = new char[msglen];
-				recv(sd, buf, msglen, MSG_DONTWAIT);
-				return std::istringstream(buf);
+				auto buf = std::make_unique<char *>(new char[msglen]());
+				recv(sd, *buf, msglen, MSG_DONTWAIT);
+				return std::istringstream(*buf);
 		}
 	}
 
 	int sendData(std::ostringstream const &oss, int sd)
 	{
-		auto msglen = oss.str().size();
+		size_t msglen = oss.str().size();
 		if (send(sd, &msglen, sizeof(msglen), MSG_NOSIGNAL) == -1 ||
 		    send(sd, oss.str().c_str(), msglen, MSG_NOSIGNAL) == -1)
 			throw std::runtime_error("");
@@ -82,13 +82,13 @@ int plazza::operator>>(int sd, plazza::command &command)
 {
 	std::istringstream iss = receiveData(sd);
 
-	if (!iss.good() || iss.eof())
+	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-	iss.ignore(strlen(startJsonObj));
+	iss.ignore();
 	command.cmd = sToCommandType(deserializeProp(iss).second);
-	iss.ignore(strlen(sepJson));
+	iss.ignore();
 	command.ope.type = sToInfoType(deserializeProp(iss).second);
-	iss.ignore(strlen(sepJson));
+	iss.ignore();
 	command.ope.file = deserializeProp(iss).second;
 	return sd;
 }

@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <sstream>
 #include <ctime>
+#include <wait.h>
 #include "Master.hpp"
 
 plazza::Master::Master(int threadLimit) : _shell(),
@@ -104,6 +105,8 @@ void plazza::Master::runMaster()
 			input = _shell.getCommands();
 		} catch (std::exception const &e) {
 			std::cerr << e.what() << std::endl;
+			int status = 0;
+			wait(&status);
 			return;
 		}
 		if (input.empty())
