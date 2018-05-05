@@ -15,7 +15,7 @@ Test(Search, Search_email)
 					    "quesandra.lundh@epitech.eu",
 					    "armandmegrot@gmail.com"};
 	std::string fileName("../../tests/hiden_data");
-	plazza::Search addr(plazza::EMAIL_ADDR, fileName);
+	plazza::Search addr(plazza::EMAIL_ADDRESS, fileName);
 	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,
@@ -28,7 +28,7 @@ Test(Search, Search_ipAddress)
 					    "192.168.1.1",
 					    "192.168.1.2"};
 	std::string fileName("../../tests/hiden_data");
-	plazza::Search addr(plazza::IP_ADDR, fileName);
+	plazza::Search addr(plazza::IP_ADDRESS, fileName);
 	addr.parseFile();
 	auto weGet = addr.getData();
 	cr_expect(toCompare == weGet.elems,

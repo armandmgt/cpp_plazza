@@ -13,8 +13,8 @@
 gfx::Graphic::Graphic(int nbThread)
 	: masterProcess(nbThread), m_principalBox(Gtk::ORIENTATION_VERTICAL),
 	  m_chooseFile("Choose File"), m_Close("Close"),
-	  m_buttonIpAddr("IP_ADDR"), m_buttonPhone("PHONE_NUMBER"),
-	  m_buttonEmail("EMAIL_ADDR"), m_LeftFrame("Chosen Files"),
+	  m_buttonIpAddr("IP_ADDRESS"), m_buttonPhone("PHONE_NUMBER"),
+	  m_buttonEmail("EMAIL_ADDRESS"), m_LeftFrame("Chosen Files"),
 	  m_RightFrame("Process")
 {
 	setWindow();
@@ -87,7 +87,7 @@ void gfx::Graphic::onButtonShowProcessIpAddr()
 {
 	plazza::shellInput inputShell;
 	for (auto const &it : selectedFiles)
-		inputShell.push_back({plazza::IP_ADDR, it});
+		inputShell.push_back({plazza::IP_ADDRESS, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();
@@ -100,7 +100,7 @@ void gfx::Graphic::onButtonShowProcessEmail()
 {
 	plazza::shellInput inputShell;
 	for (const auto &it : selectedFiles)
-		inputShell.push_back({plazza::EMAIL_ADDR, it});
+		inputShell.push_back({plazza::EMAIL_ADDRESS, it});
 	selectedFiles.clear();
 	for (auto &it : allProgressBar)
 		it.second.show();

@@ -63,6 +63,7 @@ void plazza::Slave::loop()
 		switch (cmd.cmd) {
 			case GET_DATA: checkForData(); break;
 			case GET_LOAD: retrieveLoad(); break;
+			default: break;
 		}
 		if (cmd.ope.type == UNKNOWN)
 			continue;
@@ -133,6 +134,7 @@ plazza::Load plazza::Slave::getLoad() {
 void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
+//			_sd << t.getData();
 		}
 	}
 }

@@ -29,8 +29,8 @@ plazza::InfoType sToInfoType(std::string const &s)
 {
 	static std::unordered_map<std::string, plazza::InfoType> const m = {
 		{"PHONE_NUMBER", plazza::PHONE_NUMBER},
-		{"EMAIL_ADDR", plazza::EMAIL_ADDR},
-		{"IP_ADDR", plazza::IP_ADDR},
+		{"EMAIL_ADDRESS", plazza::EMAIL_ADDRESS},
+		{"IP_ADDRESS", plazza::IP_ADDRESS},
 	};
 
 	if (m.find(s) != m.end()) {
@@ -44,8 +44,8 @@ std::string infoTypeToS(plazza::InfoType it)
 {
 	static std::unordered_map<plazza::InfoType, std::string> const m = {
 		{plazza::PHONE_NUMBER, "PHONE_NUMBER"},
-		{plazza::EMAIL_ADDR, "EMAIL_ADDR"},
-		{plazza::IP_ADDR, "IP_ADDR"},
+		{plazza::EMAIL_ADDRESS, "EMAIL_ADDRESS"},
+		{plazza::IP_ADDRESS, "IP_ADDRESS"},
 		{plazza::UNKNOWN, "UNKNOWN"},
 	};
 
