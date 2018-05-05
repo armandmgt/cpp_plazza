@@ -41,7 +41,6 @@ void plazza::Slave::installSocket()
 	pid_t pid;
 
 	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1) {
-		std::cerr << strerror(errno) << std::endl;
 		throw std::runtime_error(strerror(errno));
 	}
 	pid = fork();

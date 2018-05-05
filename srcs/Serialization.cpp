@@ -152,6 +152,9 @@ int plazza::operator>>(int sd, plazza::command &command)
 	command.ope.type = sToInfoType(deserializeProp<std::string>(iss).second);
 	iss.ignore();
 	command.ope.file = deserializeProp<std::string>(iss).second;
+	std::cerr << command.cmd << std::endl;
+	std::cerr << command.ope.type<< std::endl;
+	std::cerr << command.cmd << std::endl;
 	return sd;
 }
 
