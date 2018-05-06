@@ -120,7 +120,7 @@ std::list<plazza::Data> plazza::Slave::getData() {
 
 	_sd << c;
 	_sd >> buf;
-	while (buf.type != UNKNOWN) {
+	while (buf.type != END) {
 		d.push_back(buf);
 		_sd >> buf;
 	}
@@ -143,6 +143,7 @@ void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
 			auto d = t.getData();
+			std::cout << "Receive data : " << d.type << std::endl;
 			std::cout << "found " << d.elems.size() << std::endl;
 			_sd << d;
 		}
