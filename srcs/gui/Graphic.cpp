@@ -18,6 +18,7 @@ gfx::Graphic::Graphic(int nbThread)
 	  m_RightFrame("Process")
 {
 	setWindow();
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	m_secondBox[0].set_orientation(Gtk::ORIENTATION_VERTICAL);
 	m_secondBox[1].set_orientation(Gtk::ORIENTATION_VERTICAL);
 	DisplayBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
@@ -83,23 +84,22 @@ void gfx::Graphic::onButtonClicked()
 	hide();
 }
 
-
-void gfx::Graphic::displayProcess(std::list<plazza::Load> const &map)
-{
-
-}
-
-
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
 	plazza::shellInput inputShell;
 	for (auto const &it : selectedFiles)
 		inputShell.push_back({plazza::IP_ADDRESS, it});
-	selectedFiles.clear();
-	for (auto &it : allProgressBar)
-		it.second.show();
-	for (auto &it : allLabelforBar)
-		it.second.show();
+	for (auto &it : allProgressBar) {
+		it.second.label.show();
+		it.second.progress.show();
+	}
+	for (float i = 0.0; i <= 100.0; i++) {
+		for (auto &it : allProgressBar) {
+			it.second.progress.set_fraction(i / 100.0);
+		}
+		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
+		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
+	}
 	masterProcess.distributeIllegalWork(inputShell);
 }
 
@@ -109,11 +109,17 @@ void gfx::Graphic::onButtonShowProcessEmail()
 
 	for (const auto &it : selectedFiles)
 		inputShell.push_back({plazza::EMAIL_ADDRESS, it});
-	selectedFiles.clear();
-	for (auto &it : allProgressBar)
-		it.second.show();
-	for (auto &it : allLabelforBar)
-		it.second.show();
+	for (auto &it : allProgressBar) {
+		it.second.label.show();
+		it.second.progress.show();
+	}
+	for (float i = 0.0; i <= 100.0; i++) {
+		for (auto &it : allProgressBar) {
+			it.second.progress.set_fraction(i / 100.0);
+		}
+		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
+		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
+	}
 	masterProcess.distributeIllegalWork(inputShell);
 }
 
@@ -122,11 +128,17 @@ void gfx::Graphic::onButtonShowProcessPhone()
 	plazza::shellInput inputShell;
 	for (const auto &it : selectedFiles)
 		inputShell.push_back({plazza::PHONE_NUMBER, it});
-	for (auto &it : allProgressBar)
-		it.second.show();
-	for (auto &it : allLabelforBar)
-		it.second.show();
-	selectedFiles.clear();
+	for (auto &it : allProgressBar) {
+		it.second.label.show();
+		it.second.progress.show();
+	}
+	for (float i = 0.0; i <= 100.0; i++) {
+		for (auto &it : allProgressBar) {
+			it.second.progress.set_fraction(i / 100.0);
+		}
+		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
+		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
+	}
 	masterProcess.distributeIllegalWork(inputShell);
 }
 
@@ -140,8 +152,8 @@ void gfx::Graphic::onChosenFile()
 	Gtk::FileChooserDialog dialog("Please choose files", Gtk::FILE_CHOOSER_ACTION_OPEN);
 	dialog.set_select_multiple();
 	filesName.clear();
+	selectedFiles.clear();
 	allProgressBar.clear();
-	allLabelforBar.clear();
 	m_LeftLabel.set_text("");
 	dialog.set_transient_for(*this);
 	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
@@ -163,14 +175,15 @@ void gfx::Graphic::onChosenFile()
 
 void gfx::Graphic::setProgressBar(std::string &name, int pos)
 {
-	allLabelforBar.emplace(name, Gtk::Label(Filesystem::getFilename(name)));
-	allProgressBar.emplace(name, Gtk::ProgressBar());
-	m_GridProgress.attach(allLabelforBar.at(name), 0, pos, 1, 1);
-	m_GridProgress.attach(allProgressBar.at(name), 1, pos, 1, 1);
-	allProgressBar[name].set_halign(Gtk::ALIGN_CENTER);
-	allProgressBar[name].set_valign(Gtk::ALIGN_CENTER);
-	allProgressBar[name].set_fraction(0.2);
-	allLabelforBar[name].set_justify(Gtk::JUSTIFY_LEFT);
-	allProgressBar[name].hide();
-	allLabelforBar[name].hide();
+	allProgressBar.emplace(name, elem());
+	allProgressBar[name].timer = std::chrono::steady_clock::now();
+	allProgressBar[name].label.set_text(Filesystem::getFilename(name));
+	m_GridProgress.attach(allProgressBar[name].label, 0, pos, 1, 1);
+	m_GridProgress.attach(allProgressBar[name].progress, 1, pos, 1, 1);
+	allProgressBar[name].progress.set_halign(Gtk::ALIGN_CENTER);
+	allProgressBar[name].progress.set_valign(Gtk::ALIGN_CENTER);
+	allProgressBar[name].progress.set_fraction(0.0);
+	allProgressBar[name].label.set_justify(Gtk::JUSTIFY_LEFT);
+	allProgressBar[name].progress.hide();
+	allProgressBar[name].label.hide();
 }

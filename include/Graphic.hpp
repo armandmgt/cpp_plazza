@@ -21,6 +21,12 @@
 
 	namespace gfx {
 
+		struct elem {
+			std::chrono::steady_clock::time_point timer;
+			Gtk::ProgressBar progress;
+			Gtk::Label label;
+		};
+
 		class Graphic  : public Gtk::Window {
 		public:
 			explicit Graphic(int nbThread);
@@ -53,14 +59,12 @@
 			Gtk::Grid m_GridProgress;
 		private:
 			plazza::Master masterProcess;
-			std::unordered_map<std::string, Gtk::ProgressBar> allProgressBar;
-			std::unordered_map<std::string, Gtk::Label> allLabelforBar;
+			std::unordered_map<std::string, elem> allProgressBar;
 			std::vector<std::string> selectedFiles;
 			void setWindow();
 			void setBoxInputCmdLine();
 			void setBoxLeft();
 			void setProgressBar(std::string &name, int pos);
-			void displayProcess(std::list<plazza::Load> const &map);
 		};
 	}
 
