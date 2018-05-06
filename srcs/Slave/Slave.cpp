@@ -65,7 +65,6 @@ void plazza::Slave::installSocket()
 		fdBlock(_sd, false);
 		fdBlock(_sdData, true);
 		_isChild = true;
-//		freopen("child.out", "w", stdout);
 	} else {
 		_sd = sds[0];
 		_sdData = sds[2];
@@ -73,7 +72,6 @@ void plazza::Slave::installSocket()
 		close(sds[3]);
 		fdBlock(_sd, false);
 		fdBlock(_sdData, true);
-//		freopen("parent.out", "w", stdout);
 	}
 }
 

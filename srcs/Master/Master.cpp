@@ -68,7 +68,7 @@ bool plazza::Master::trySlaves(plazza::operation const &ope)
 {
 	for (auto it = _workPriority.begin(); it != _workPriority.end();) {
 		auto &[waiting, slave] = *it;
-		if (waiting < _threadLimit * 2) {
+		if (waiting < _threadLimit) {
 			if (!slave->feedCommand(ope)) {
 				delete it->second;
 				_workPriority.erase(it++);
