@@ -18,7 +18,7 @@ set(SOURCE_FILES
         ../include/Slave.hpp
         ../include/Load.hpp
         ../include/Serialization.hpp
-        Serialization.cpp)
+        Serialization.cpp trim.cpp)
 
 if (${GRAPHICAL})
     add_subdirectory(gui)

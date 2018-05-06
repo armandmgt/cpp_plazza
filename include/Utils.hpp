@@ -9,6 +9,8 @@
 
 #include <string>
 
+void trim(std::string &s);
+
 class Filesystem {
 public:
 	static bool isDirectory(std::string const &name);

@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include "Exceptions.hpp"
 #include "CLIParser.hpp"
 

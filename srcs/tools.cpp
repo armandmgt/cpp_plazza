@@ -7,6 +7,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <iostream>
 #include "Slave.hpp"
 #include "plazza.hpp"
 
@@ -27,6 +28,7 @@ std::ostream &plazza::operator<<(std::ostream &os, CommandType ct)
 
 plazza::InfoType sToInfoType(std::string const &s)
 {
+	std::cerr << "Type in : " << "\"" << s << "\"" << std::endl;
 	static std::unordered_map<std::string, plazza::InfoType> const m = {
 		{"PHONE_NUMBER", plazza::PHONE_NUMBER},
 		{"EMAIL_ADDRESS", plazza::EMAIL_ADDRESS},
