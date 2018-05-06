@@ -21,7 +21,7 @@ void plazza::Search::parseFile()
 		throw  std::runtime_error("filename is empty");
 	}
 	_running = true;
-	_thread = std::thread([=]{ doParsing(); });
+	_thread = std::thread(&Search::doParsing, this);
 }
 
 void plazza::Search::doParsing()

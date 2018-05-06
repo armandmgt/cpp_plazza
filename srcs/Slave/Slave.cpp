@@ -35,22 +35,45 @@ void plazza::Slave::start()
 	loop();
 }
 
+namespace {
+	int fdBlock(int fd, bool block) {
+		int flags;
+		if(flags = fcntl(fd, F_GETFL, 0); flags == -1) {
+			return -1;
+		}
+		block ? flags &= ~O_NONBLOCK : flags |= O_NONBLOCK;
+		return fcntl(fd, F_SETFL, flags);
+	}
+}
+
 void plazza::Slave::installSocket()
 {
-	int sds[2] = {0};
+	int sds[4] = {0};
 	pid_t pid;
 
-	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1) {
+	if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sds) == -1 ||
+		socketpair(PF_LOCAL, SOCK_STREAM, 0, sds + 2) == -1) {
+		std::cerr << strerror(errno) << std::endl;
 		throw std::runtime_error(strerror(errno));
 	}
 	pid = fork();
 	if (pid == 0) {
 		close(sds[0]);
+		close(sds[2]);
 		_sd = sds[1];
+		_sdData = sds[3];
+		fdBlock(_sd, false);
+		fdBlock(_sdData, true);
 		_isChild = true;
+//		freopen("child.out", "w", stdout);
 	} else {
 		_sd = sds[0];
+		_sdData = sds[2];
 		close(sds[1]);
+		close(sds[3]);
+		fdBlock(_sd, false);
+		fdBlock(_sdData, true);
+//		freopen("parent.out", "w", stdout);
 	}
 }
 
@@ -60,28 +83,15 @@ void plazza::Slave::loop()
 		auto cmd = readCommand();
 		if (timedOut())
 			exit(0);
-		std::cout << "received command" << cmd.cmd << std::endl;
+//		std::cout << "received command" << cmd.cmd << std::endl;
 		switch (cmd.cmd) {
 			case GET_DATA: checkForData(); break;
 			case GET_LOAD: retrieveLoad(); break;
+			case OPERATION: launchOperation(cmd); break;
 			default: break;
 		}
-		if (cmd.ope.type == UNKNOWN)
-			continue;
-		for (auto &t : _pool) {
-			if (!t.running()) {
-				t.setInfoType(cmd.ope.type);
-				t.setFilename(cmd.ope.file);
-				try {
-					t.parseFile();
-					break;
-				} catch (std::runtime_error const &e) {
-					std::cerr << "thread: "
-		  				<< e.what() << std::endl;
-				}
-			}
-		}
-		_timer = std::chrono::steady_clock::now();
+		if (cmd.cmd == OPERATION)
+			_timer = std::chrono::steady_clock::now();
 	}
 }
 
@@ -89,6 +99,7 @@ plazza::command plazza::Slave::readCommand()
 {
 	command c = {};
 
+//	std::cout << "in slave ";
 	_sd >> c;
 	return c;
 }
@@ -98,6 +109,7 @@ bool plazza::Slave::feedCommand(operation const &ope)
 	command c = {OPERATION, ope};
 
 	try {
+//		std::cout << "from master process ";
 		_sd << c;
 	} catch (std::runtime_error const &e) {
 		return false;
@@ -119,10 +131,10 @@ std::list<plazza::Data> plazza::Slave::getData() {
 	Data buf{};
 
 	_sd << c;
-	_sd >> buf;
+	_sdData >> buf;
 	while (buf.type != END) {
 		d.push_back(buf);
-		_sd >> buf;
+		_sdData >> buf;
 	}
 	return d;
 }
@@ -143,12 +155,29 @@ void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
 			auto d = t.getData();
-			std::cout << "Receive data : " << d.type << std::endl;
-			std::cout << "found " << d.elems.size() << std::endl;
-			_sd << d;
+//			std::cout << "found " << d.elems.size() << std::endl;
+			_sdData << d;
 		}
 	}
+	Data d{END};
+	_sdData << d;
 }
 
 void plazza::Slave::retrieveLoad() {
+}
+
+void plazza::Slave::launchOperation(const command &cmd) {
+	for (auto &t : _pool) {
+		if (!t.running()) {
+			t.setInfoType(cmd.ope.type);
+			t.setFilename(cmd.ope.file);
+			try {
+				t.parseFile();
+				break;
+			} catch (std::runtime_error const &e) {
+				std::cerr << "thread: "
+					  << e.what() << std::endl;
+			}
+		}
+	}
 }

@@ -18,6 +18,7 @@
 
 int main(int argc, char const *argv[])
 {
+	freopen("input.txt", "r", stdin);
 	if (check_args(argc, argv)) {
     		return (FAILURE);
 	} else {

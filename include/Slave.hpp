@@ -30,6 +30,7 @@
 		private:
 			int _threadLimit;
 			int _sd;
+			int _sdData;
 			bool _isChild;
 			std::vector<Search> _pool;
 			std::unordered_multimap<InfoType, std::string> _buffer;
@@ -41,6 +42,8 @@
 			bool timedOut();
 			void checkForData();
 			void retrieveLoad();
+
+			void launchOperation(const command &cmd);
 		};
 	}
 

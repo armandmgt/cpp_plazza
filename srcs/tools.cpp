@@ -31,6 +31,7 @@ plazza::InfoType sToInfoType(std::string const &s)
 		{"PHONE_NUMBER", plazza::PHONE_NUMBER},
 		{"EMAIL_ADDRESS", plazza::EMAIL_ADDRESS},
 		{"IP_ADDRESS", plazza::IP_ADDRESS},
+		{"END", plazza::END},
 	};
 
 	if (m.find(s) != m.end()) {
@@ -47,6 +48,7 @@ std::string infoTypeToS(plazza::InfoType it)
 		{plazza::EMAIL_ADDRESS, "EMAIL_ADDRESS"},
 		{plazza::IP_ADDRESS, "IP_ADDRESS"},
 		{plazza::UNKNOWN, "UNKNOWN"},
+		{plazza::END, "END"},
 	};
 
 	return m.at(it);

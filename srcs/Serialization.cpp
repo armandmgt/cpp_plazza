@@ -87,10 +87,10 @@ namespace {
 		std::string value;
 
 		std::getline(iss.ignore(), pair.first, '"');
-		iss.ignore(3);
-		while (iss.peek() != endJsonArr) {
-			iss >> value;
-			iss.ignore(2);
+		iss.ignore(2);
+		while (!iss.eof() && iss.peek() != endJsonArr) {
+			std::getline(iss.ignore(), value, '"');
+			iss.ignore();
 			pair.second.emplace_back(value);
 		}
 		return pair;
@@ -103,7 +103,7 @@ namespace {
 		int value;
 
 		std::getline(iss.ignore(), pair.first, '"');
-		iss.ignore(3);
+		iss.ignore(2);
 		while (iss.peek() != endJsonArr) {
 			iss >> value;
 			iss.ignore(2);
@@ -119,14 +119,14 @@ namespace {
 
 		switch (poll(&pfd, 1, 1000)) {
 			case -1:
-				throw std::runtime_error("This is not working ??");
+				throw std::runtime_error(strerror(errno));
 			case 0:
 				return std::istringstream();
 			default:
-				recv(sd, &msglen, sizeof(msglen), MSG_DONTWAIT);
-				std::unique_ptr<char[]> buf(new char[msglen]());
-				recv(sd, buf.get(), msglen, MSG_DONTWAIT);
-				std::cout << buf.get();
+				recv(sd, &msglen, sizeof(msglen), 0);
+ 				std::unique_ptr<char[]> buf(new char[msglen]());
+				recv(sd, buf.get(), msglen, 0);
+//				std::cout << buf.get();
 				return std::istringstream(buf.get());
 		}
 	}
@@ -134,12 +134,12 @@ namespace {
 	int sendData(std::ostringstream const &oss, int sd)
 	{
 		size_t msglen = oss.str().size() + 1;
-		std::cout << oss.str() << " - " << msglen << " bytes" << std::endl;
+//		std::cout << oss.str() << " - " << msglen << " bytes" << std::endl;
 		if (send(sd, &msglen, sizeof(msglen), MSG_NOSIGNAL) == -1) {
-			std::cout << "this is the first send() of sendData" << std::endl;
+//			std::cout << "this is the first send() of sendData" << std::endl;
 			throw std::runtime_error(std::string("first: ") + strerror(errno));
 		} else if (send(sd, oss.str().c_str(), msglen, MSG_NOSIGNAL) == -1) {
-			std::cout << "this is the second send() of sendData" << std::endl;
+//			std::cout << "this is the second send() of sendData" << std::endl;
 			throw std::runtime_error(std::string("second: ") + strerror(errno));
 		}
 		return sd;
@@ -152,7 +152,7 @@ int plazza::operator>>(int sd, plazza::command &command)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-	std::cout << " to command" << std::endl;
+//	std::cout << " to command" << std::endl;
 	iss.ignore();
 	command.cmd = sToCommandType(deserializeProp<std::string>(iss).second);
 	iss.ignore();
@@ -173,7 +173,7 @@ int plazza::operator<<(int sd, plazza::command &command)
 	oss << sepJson;
 	serializeProp(oss, "filename", command.ope.file);
 	oss << endJsonObj;
-	std::cout << "sending command ";
+//	std::cout << "sending command ";
 	return sendData(oss, sd);
 }
 
@@ -183,7 +183,7 @@ int plazza::operator>>(int sd, plazza::Data &cmd)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-	std::cout << " to command" << std::endl;
+//	std::cout << " to data" << std::endl;
 	iss.ignore();
 	cmd.type = sToInfoType(deserializeProp<std::string>(iss).second);
 	iss.ignore();
@@ -204,7 +204,7 @@ int plazza::operator<<(int sd, plazza::Data &cmd)
 	oss << sepJson;
 	serializeProp<std::list<std::string>>(oss, "elems", cmd.elems);
 	oss << endJsonObj;
-	std::cout << "sending data ";
+//	std::cout << "sending data ";
 	return sendData(oss, sd);
 }
 
@@ -218,7 +218,7 @@ int plazza::operator>>(int sd, plazza::Load &cmd)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-	std::cout << " to command" << std::endl;
+//	std::cout << " to command" << std::endl;
 	iss.ignore();
 	cmd.waitingCommands = static_cast<unsigned long>(deserializeProp<int>(iss).second);
 	iss.ignore();
@@ -251,6 +251,6 @@ int plazza::operator<<(int sd, plazza::Load &cmd)
 	oss << sepJson;
 	serializeProp(oss, "progression", progression);
 	oss << endJsonObj;
-	std::cout << "sending load ";
+//	std::cout << "sending load ";
 	return sendData(oss, sd);
 }

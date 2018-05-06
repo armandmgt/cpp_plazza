@@ -37,7 +37,7 @@ void plazza::Master::createProcess(plazza::operation const &ope)
 void plazza::Master::outputData(std::list<Data> data)
 {
 	for (auto const &d : data) {
-		std::cout << "in data loop" << std::endl;
+		std::cout << "in data loop - size: " << d.elems.size() << std::endl;
 		for (auto const &s : d.elems) {
 			std::cout << s << std::endl;
 			_logFile << s << std::endl;
