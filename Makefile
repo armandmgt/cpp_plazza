@@ -15,7 +15,7 @@ all: dir
 dir:
 	mkdir -p $(BUILD_DIR)
 
-ui: UI = -DTARGET=graphical
+ui: UI = -DGRAPHICAL=true
 ui: all
 
 clean:
