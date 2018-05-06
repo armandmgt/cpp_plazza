@@ -60,6 +60,7 @@ void plazza::Slave::loop()
 		auto cmd = readCommand();
 		if (timedOut())
 			exit(0);
+		std::cout << "received command" << cmd.cmd << std::endl;
 		switch (cmd.cmd) {
 			case GET_DATA: checkForData(); break;
 			case GET_LOAD: retrieveLoad(); break;
@@ -113,10 +114,17 @@ bool plazza::Slave::timedOut()
 }
 
 std::list<plazza::Data> plazza::Slave::getData() {
-	std::list<plazza::Data> list;
-	for (auto &t : _pool)
-		list.push_back(t.getData());
-	return list;
+	command c = {GET_DATA};
+	std::list<Data> d;
+	Data buf{};
+
+	_sd << c;
+	_sd >> buf;
+	while (buf.type != UNKNOWN) {
+		d.push_back(buf);
+		_sd >> buf;
+	}
+	return d;
 }
 
 plazza::Load plazza::Slave::getLoad() {
@@ -134,12 +142,12 @@ plazza::Load plazza::Slave::getLoad() {
 void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
-			for (auto const &s : t.getData().elems)
-				std::cerr << s << std::endl;
+			auto d = t.getData();
+			std::cout << "found " << d.elems.size() << std::endl;
+			_sd << d;
 		}
 	}
 }
 
 void plazza::Slave::retrieveLoad() {
-
 }
