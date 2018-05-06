@@ -9,7 +9,7 @@
 #include <functional>
 #include "Search.hpp"
 
-plazza::Search::Search() : _fileSize(0)
+plazza::Search::Search() : _fileSize(0), _running(false)
 {
 }
 

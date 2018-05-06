@@ -36,9 +36,9 @@ void plazza::Master::createProcess(plazza::operation const &ope)
 }
 void plazza::Master::outputData(std::list<Data> data)
 {
-	for (auto const &e : data) {
+	for (auto const &d : data) {
 		std::cout << "in data loop" << std::endl;
-		for (auto const &s : e.elems) {
+		for (auto const &s : d.elems) {
 			std::cout << s << std::endl;
 			_logFile << s << std::endl;
 		}
@@ -47,9 +47,8 @@ void plazza::Master::outputData(std::list<Data> data)
 
 void plazza::Master::retrieveData()
 {
-	for (auto &[waiting, slave] : _workPriority) {
-		if (waiting > 0)
-			outputData(slave->getData());
+	for (auto &wp : _workPriority) {
+		outputData(wp.second->getData());
 	}
 }
 
