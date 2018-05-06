@@ -126,7 +126,6 @@ namespace {
 				recv(sd, &msglen, sizeof(msglen), 0);
  				std::unique_ptr<char[]> buf(new char[msglen]());
 				recv(sd, buf.get(), msglen, 0);
-//				std::cout << buf.get();
 				return std::istringstream(buf.get());
 		}
 	}
@@ -134,12 +133,9 @@ namespace {
 	int sendData(std::ostringstream const &oss, int sd)
 	{
 		size_t msglen = oss.str().size() + 1;
-//		std::cout << oss.str() << " - " << msglen << " bytes" << std::endl;
 		if (send(sd, &msglen, sizeof(msglen), MSG_NOSIGNAL) == -1) {
-//			std::cout << "this is the first send() of sendData" << std::endl;
 			throw std::runtime_error(std::string("first: ") + strerror(errno));
 		} else if (send(sd, oss.str().c_str(), msglen, MSG_NOSIGNAL) == -1) {
-//			std::cout << "this is the second send() of sendData" << std::endl;
 			throw std::runtime_error(std::string("second: ") + strerror(errno));
 		}
 		return sd;
@@ -152,7 +148,6 @@ int plazza::operator>>(int sd, plazza::command &command)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-//	std::cout << " to command" << std::endl;
 	iss.ignore();
 	command.cmd = sToCommandType(deserializeProp<std::string>(iss).second);
 	iss.ignore();
@@ -173,7 +168,6 @@ int plazza::operator<<(int sd, plazza::command &command)
 	oss << sepJson;
 	serializeProp(oss, "filename", command.ope.file);
 	oss << endJsonObj;
-//	std::cout << "sending command ";
 	return sendData(oss, sd);
 }
 
@@ -183,7 +177,6 @@ int plazza::operator>>(int sd, plazza::Data &cmd)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-//	std::cout << " to data" << std::endl;
 	iss.ignore();
 	cmd.type = sToInfoType(deserializeProp<std::string>(iss).second);
 	iss.ignore();
@@ -204,7 +197,6 @@ int plazza::operator<<(int sd, plazza::Data &cmd)
 	oss << sepJson;
 	serializeProp<std::list<std::string>>(oss, "elems", cmd.elems);
 	oss << endJsonObj;
-//	std::cout << "sending data ";
 	return sendData(oss, sd);
 }
 
@@ -218,7 +210,6 @@ int plazza::operator>>(int sd, plazza::Load &cmd)
 
 	if (!iss.good() || iss.eof() || iss.str().empty())
 		return sd;
-//	std::cout << " to command" << std::endl;
 	iss.ignore();
 	cmd.waitingCommands = static_cast<unsigned long>(deserializeProp<int>(iss).second);
 	iss.ignore();
@@ -251,6 +242,5 @@ int plazza::operator<<(int sd, plazza::Load &cmd)
 	oss << sepJson;
 	serializeProp(oss, "progression", progression);
 	oss << endJsonObj;
-//	std::cout << "sending load ";
 	return sendData(oss, sd);
 }

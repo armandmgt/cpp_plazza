@@ -83,10 +83,8 @@ void plazza::Slave::loop()
 		auto cmd = readCommand();
 		if (timedOut())
 			exit(0);
-//		std::cout << "received command" << cmd.cmd << std::endl;
 		switch (cmd.cmd) {
 			case GET_DATA: checkForData(); break;
-			case GET_LOAD: retrieveLoad(); break;
 			case OPERATION: launchOperation(cmd); break;
 			default: break;
 		}
@@ -99,7 +97,6 @@ plazza::command plazza::Slave::readCommand()
 {
 	command c = {};
 
-//	std::cout << "in slave ";
 	_sd >> c;
 	return c;
 }
@@ -109,7 +106,6 @@ bool plazza::Slave::feedCommand(operation const &ope)
 	command c = {OPERATION, ope};
 
 	try {
-//		std::cout << "from master process ";
 		_sd << c;
 	} catch (std::runtime_error const &e) {
 		return false;
@@ -155,7 +151,6 @@ void plazza::Slave::checkForData() {
 	for (auto &t : _pool) {
 		if (!t.running()) {
 			auto d = t.getData();
-//			std::cout << "found " << d.elems.size() << std::endl;
 			_sdData << d;
 		}
 	}

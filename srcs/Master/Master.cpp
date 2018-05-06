@@ -37,9 +37,7 @@ void plazza::Master::createProcess(plazza::operation const &ope)
 void plazza::Master::outputData(std::list<Data> data)
 {
 	for (auto const &d : data) {
-		std::cout << "in data loop - size: " << d.elems.size() << std::endl;
 		for (auto const &s : d.elems) {
-			std::cout << s << std::endl;
 			_logFile << s << std::endl;
 		}
 	}
@@ -55,7 +53,6 @@ void plazza::Master::retrieveData()
 void plazza::Master::setWorkLoad()
 {
 	for (auto &wp : _workPriority) {
-		std::cout << "fetching the number of waiting commands" << std::endl;
 		wp.first = wp.second->getLoad().waitingCommands;
 	}
 }
@@ -108,7 +105,6 @@ void plazza::Master::runMaster()
 		if (input.empty())
 			continue;
 		distributeIllegalWork(input);
-		retrieveData();
 	}
 }
 

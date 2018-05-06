@@ -60,6 +60,7 @@
 			void setBoxInputCmdLine();
 			void setBoxLeft();
 			void setProgressBar(std::string &name, int pos);
+			void displayProcess(std::list<plazza::Load> const &map);
 		};
 	}
 

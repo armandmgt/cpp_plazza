@@ -83,6 +83,13 @@ void gfx::Graphic::onButtonClicked()
 	hide();
 }
 
+
+void gfx::Graphic::displayProcess(std::list<plazza::Load> const &map)
+{
+
+}
+
+
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
 	plazza::shellInput inputShell;
@@ -99,6 +106,7 @@ void gfx::Graphic::onButtonShowProcessIpAddr()
 void gfx::Graphic::onButtonShowProcessEmail()
 {
 	plazza::shellInput inputShell;
+
 	for (const auto &it : selectedFiles)
 		inputShell.push_back({plazza::EMAIL_ADDRESS, it});
 	selectedFiles.clear();
