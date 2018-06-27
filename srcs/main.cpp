@@ -8,33 +8,32 @@
 #include <exception>
 #include <iostream>
 #ifdef GRAPHICAL
-#include <gtkmm/application.h>
+# include <gtkmm/application.h>
 #endif
-#include "plazza.hpp"
-#include "Master.hpp"
+#include "master/Master.hpp"
+#include "constants.hpp"
+
 #ifdef GRAPHICAL
-#include "Graphic.hpp"
+# include "Graphic.hpp"
 #endif
 
 int main(int argc, char const *argv[])
 {
-	if (check_args(argc, argv)) {
-    		return (FAILURE);
-	} else {
-		try {
+	if (argc < 2)
+		return FAILURE;
+	try {
 		#ifdef GRAPHICAL
 			auto app = Gtk::Application::create("org.gtkmm.examples.base");
 			gfx::Graphic application(std::stoi(argv[1]));
 			application.set_position(Gtk::WIN_POS_CENTER);
 			return app->run(application);
 		#else
-			plazza::Master m(std::stoi(argv[1]));
-			m.runMaster();
+			plz::Master m(static_cast<unsigned>(std::stoul(argv[1])));
+			m.run();
 		#endif
-		} catch (std::exception const &e) {
-			std::cerr << e.what() << std::endl;
-			return (FAILURE);
-		}
-		return (SUCCESS);
+	} catch (std::exception const &e) {
+		std::cerr << e.what() << std::endl;
+		return FAILURE;
 	}
+	return SUCCESS;
 }

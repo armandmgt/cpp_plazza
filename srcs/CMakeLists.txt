@@ -2,16 +2,24 @@ project(plazza)
 
 set(CORE
         main.cpp
-        master/Master.hpp
         master/Master.cpp
-        )
+        master/Master.hpp
+        parser/Parser.cpp
+        parser/Parser.hpp
+        enums.hpp)
 
 set(NETWORK
+        )
+
+set(DATA
+        command/Command.cpp
+        command/Command.hpp
         )
 
 set(SOURCE_FILES
         ${CORE}
         ${NETWORK}
+        ${DATA}
         )
 
 set(INCLUDES ${CMAKE_SOURCE_DIR}/srcs)
