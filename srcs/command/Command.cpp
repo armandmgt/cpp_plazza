@@ -7,10 +7,10 @@
 
 #include "Command.hpp"
 
-plz::Command::Command(plz::InfoType type, std::string &&filename)
-	: type{type}, filename{filename} {
+plz::Command::Command(plz::InfoType type, std::string &&filename, bool valid)
+	: _valid{valid}, type{type}, filename{filename} {
 }
 
 plz::Command::operator bool() const {
-	return _invalid;
+	return _valid;
 }

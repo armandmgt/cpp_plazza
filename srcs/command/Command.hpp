@@ -14,12 +14,12 @@ namespace plz {
 	class Command {
 	public:
 		Command() = default;
-		Command(InfoType type, std::string &&filename);
+		Command(InfoType type, std::string &&filename, bool valid = true);
 
 		explicit operator bool() const;
 
 	private:
-		bool _invalid{true};
+		bool _valid{false};
 
 	public:
 		InfoType type{};
