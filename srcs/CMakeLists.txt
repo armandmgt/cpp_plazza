@@ -1,38 +1,34 @@
-set(SOURCE_FILES
+project(plazza)
+
+set(CORE
         main.cpp
-        args_check.cpp
-        ../include/plazza.hpp
-        ../include/Exceptions.hpp
-        tools.cpp
-        ../include/Master.hpp
-        ../include/container/SplitMap.hpp
-        Master/Master.cpp
-        ../include/Search.hpp
-        Search.cpp
-        ../include/Shell.hpp
-        ../srcs/Shell/Shell.cpp
-        ../srcs/CLIParser/CLIParser.cpp
-        ../include/CLIParser.hpp
-        ../include/Data.hpp
-        Slave/Slave.cpp
-        ../include/Slave.hpp
-        ../include/Load.hpp
-        ../include/Serialization.hpp
-        Serialization.cpp trim.cpp)
+        master/Master.hpp
+        master/Master.cpp
+        )
+
+set(NETWORK
+        )
+
+set(SOURCE_FILES
+        ${CORE}
+        ${NETWORK}
+        )
+
+set(INCLUDES ${CMAKE_SOURCE_DIR}/srcs)
 
 if (${GRAPHICAL})
     add_subdirectory(gui)
     link_directories(${GTKMM_LIBRARY_DIRS})
     include_directories(${GTKMM_INCLUDE_DIRS})
-
-    add_executable(plazza ${SOURCE_FILES})
-    target_compile_definitions(plazza PRIVATE GRAPHICAL=true)
-    target_link_libraries(plazza ${GTKMM_LIBRARIES})
-else (${GRAPHICAL})
-    add_executable(plazza ${SOURCE_FILES})
+    set(INCLUDES ${INCLUDES} ${GTKMM_LIBRARIES})
 endif (${GRAPHICAL})
 
-target_link_libraries(plazza pthread)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-add_custom_command(TARGET plazza POST_BUILD
-        COMMAND cp plazza ${PROJECT_SOURCE_DIR})
+if (${GRAPHICAL})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE GRAPHICAL=true)
+endif (${GRAPHICAL})
+
+target_link_libraries(${PROJECT_NAME} pthread)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/srcs)
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
