@@ -32,6 +32,6 @@ To parse your files you need to prototype your command as follows :
 
 ### Author
 
-* **Sandra Lundh** - *The supreme leader*
+* **Sandra Lundh** - *Jar Jar Binks*
 * **Armand Megrot** - *Yoda*
-* **Thomas Burgaud** - *Kylo Ren*
+* **Thomas Burgaud** - *Darth Vader*
