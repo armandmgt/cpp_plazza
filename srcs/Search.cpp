@@ -11,6 +11,7 @@
 
 plazza::Search::Search() : _fileSize(0), _running(false)
 {
+
 }
 
 void plazza::Search::parseFile()
