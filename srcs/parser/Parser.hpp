@@ -16,6 +16,6 @@ namespace plz {
 
 		~Parser() = default;
 
-		Command getLine();
+		CommandWrapper getLine();
 	};
 }

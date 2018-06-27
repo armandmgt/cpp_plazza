@@ -7,6 +7,6 @@
 
 #include "Parser.hpp"
 
-plz::Command plz::Parser::getLine() {
-	return Command();
+plz::CommandWrapper plz::Parser::getLine() {
+	return {false};
 }

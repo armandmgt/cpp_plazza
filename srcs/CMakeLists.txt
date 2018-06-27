@@ -12,7 +12,6 @@ set(NETWORK
         )
 
 set(DATA
-        command/Command.cpp
         command/Command.hpp
         )
 

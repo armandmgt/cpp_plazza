@@ -11,18 +11,15 @@
 #include "enums.hpp"
 
 namespace plz {
-	class Command {
-	public:
-		Command() = default;
-		Command(InfoType type, std::string &&filename, bool valid = true);
-
-		explicit operator bool() const;
-
-	private:
-		bool _valid{false};
-
-	public:
+	struct Command {
 		InfoType type{};
 		std::string filename;
+	};
+
+	struct CommandWrapper {
+		explicit operator bool() const { return valid; }
+
+		bool valid = true;
+		Command cmd{};
 	};
 }
