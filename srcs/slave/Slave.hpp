@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "LinkDescriptor.hpp"
+#include "network/LinkDescriptor.hpp"
 
 namespace plz {
 	class Slave {

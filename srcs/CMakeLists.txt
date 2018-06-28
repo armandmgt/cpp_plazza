@@ -6,7 +6,10 @@ set(CORE
         master/Master.hpp
         parser/Parser.cpp
         parser/Parser.hpp
-        enums.hpp network/Slave.cpp network/Slave.hpp)
+        slave/Slave.cpp
+        slave/Slave.hpp
+        enums.hpp
+        )
 
 set(NETWORK
         network/LinkDescriptor.cpp

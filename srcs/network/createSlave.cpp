@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include "LinkDescriptor.hpp"
-#include "Slave.hpp"
+#include "slave/Slave.hpp"
 
 plz::LinkDescriptor plz::createSlave() {
 	int sv[8]{0};
