@@ -19,10 +19,6 @@ std::ostream &operator <<(std::ostream &os, plz::InfoType type) {
 	return os << assoc.at(type);
 }
 
-plz::LinkDescriptor createSlave() {
-	return {};
-}
-
 plz::Master::Master(unsigned nbThreads) : _nbThreads{nbThreads} {
 }
 

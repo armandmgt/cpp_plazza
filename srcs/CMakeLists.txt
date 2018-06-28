@@ -12,6 +12,9 @@ set(NETWORK
         network/LinkDescriptor.cpp
         network/LinkDescriptor.hpp
         serializable/ISerializable.hpp
+        network/createSlave.cpp
+        network/SocketStream.cpp
+        network/SocketStream.hpp
         )
 
 set(DATA

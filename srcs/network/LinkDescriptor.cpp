@@ -7,6 +7,10 @@
 
 #include "LinkDescriptor.hpp"
 
+plz::LinkDescriptor::LinkDescriptor(int sCommand, int sData, int sRequest, int sInfo)
+	: commands{sCommand}, data{sData}, requests{sRequest}, infos{sInfo} {
+}
+
 bool plz::LinkDescriptor::isAlive() {
 	return false;
 }
