@@ -11,12 +11,14 @@ set(CORE
 set(NETWORK
         network/LinkDescriptor.cpp
         network/LinkDescriptor.hpp
-        serializable/Serializable.hpp
+        serializable/ISerializable.hpp
         )
 
 set(DATA
         serializable/Command.hpp
+        serializable/Command.cpp
         serializable/Data.hpp
+        serializable/Data.cpp
         )
 
 set(SOURCE_FILES

@@ -10,9 +10,10 @@
 #include <string>
 #include <map>
 #include "enums.hpp"
+#include "ISerializable.hpp"
 
 namespace plz {
-	struct Command {
+	struct Command : public ISerializable {
 		Command() = default;
 		Command(const std::string &t, std::string &&f) : filename{f} {
 			static std::map<std::string, InfoType> const assoc{
@@ -21,6 +22,9 @@ namespace plz {
 			};
 			type = assoc.at(t);
 		}
+
+		std::string serialize() final;
+		void deserialize(std::string &&data) final;
 
 		InfoType type{};
 		std::string filename;

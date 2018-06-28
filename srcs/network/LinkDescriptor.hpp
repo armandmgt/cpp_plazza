@@ -8,7 +8,7 @@
 #pragma once
 
 #include <queue>
-#include "serializable/Serializable.hpp"
+#include "serializable/ISerializable.hpp"
 
 namespace plz {
 	class LinkDescriptor {
@@ -17,7 +17,7 @@ namespace plz {
 		~LinkDescriptor() = default;
 
 		bool isAlive();
-		bool send(Serializable const &data);
+		bool send(ISerializable const &data);
 		bool hasData() const;
 		template<typename T>
 		T receive() {
