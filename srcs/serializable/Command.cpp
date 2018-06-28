@@ -22,5 +22,14 @@ std::string plz::Command::serialize()
 
 void plz::Command::deserialize(std::string &&data)
 {
-
+	size_t i = 0;
+	for (; data[i] && data[i] != ':'; i++);
+	i++;
+	if (!data[i])
+		return;
+	type = static_cast<InfoType>(data[i] - '0');
+	i++;
+	for (; data[i] && data[i] != '"'; i++) {
+		filename += data[i];
+	}
 }

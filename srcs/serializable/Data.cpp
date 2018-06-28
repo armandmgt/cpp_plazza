@@ -26,5 +26,10 @@ std::string plz::Data::serialize()
 
 void plz::Data::deserialize(std::string &&data)
 {
-
+	size_t i = 0;
+	for (; data[i] && data[i] != ':'; i++);
+	i++;
+	if (!data[i])
+		return;
+	type = static_cast<InfoType>(data[i] - '0');
 }
