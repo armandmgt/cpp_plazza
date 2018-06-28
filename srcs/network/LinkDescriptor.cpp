@@ -8,7 +8,7 @@
 #include "LinkDescriptor.hpp"
 
 plz::LinkDescriptor::LinkDescriptor(int sCommand, int sData, int sRequest, int sInfo)
-	: commands{sCommand}, data{sData}, requests{sRequest}, infos{sInfo} {
+	: _commands{sCommand}, _data{sData}, _requests{sRequest}, _infos{sInfo} {
 }
 
 bool plz::LinkDescriptor::isAlive() {
@@ -16,7 +16,7 @@ bool plz::LinkDescriptor::isAlive() {
 }
 
 bool plz::LinkDescriptor::send(const plz::ISerializable &data[[maybe_unused]]) {
-	return false;
+	return _data << data;
 }
 
 bool plz::LinkDescriptor::hasData() const {

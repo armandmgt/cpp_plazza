@@ -21,10 +21,10 @@ plz::LinkDescriptor plz::createSlave() {
 	for (auto i = 0; i < 4; i++) {
 		if (pid == 0) {
 			close(sv[2 * i]);
-			sv[i] = sv[2 * i];
+			sv[i] = sv[2 * i + 1];
 		} else {
 			close(sv[2 * i + 1]);
-			sv[i] = sv[2 * i + 1];
+			sv[i] = sv[2 * i];
 		}
 	}
 	if (pid == 0)

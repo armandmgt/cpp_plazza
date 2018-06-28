@@ -7,9 +7,9 @@
 
 #include "Data.hpp"
 
-std::string plz::Data::serialize()
+std::string plz::Data::serialize() const
 {
-	std::string ser("" + startJsonObj);
+	std::string ser{startJsonObj};
 
 	ser += "type:";
 	ser += std::to_string(static_cast<int>(type));

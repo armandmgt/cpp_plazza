@@ -16,7 +16,7 @@ namespace plz {
 	struct Data : public ISerializable{
 		Data() = default;
 
-		std::string serialize() final;
+		std::string serialize() const final;
 		void deserialize(std::string &&data) final;
 		InfoType type{};
 		std::list<std::string> _data{};

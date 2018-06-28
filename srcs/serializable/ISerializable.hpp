@@ -23,7 +23,7 @@ namespace plz {
 	public:
 		virtual ~ISerializable() = default;
 
-		virtual std::string serialize() = 0;
+		virtual std::string serialize() const = 0;
 		virtual void deserialize(std::string &&data) = 0;
 	};
 }

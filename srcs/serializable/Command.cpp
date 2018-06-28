@@ -8,9 +8,9 @@
 #include <string>
 #include "Command.hpp"
 
-std::string plz::Command::serialize()
+std::string plz::Command::serialize() const
 {
-	std::string ser("" + startJsonObj);
+	std::string ser{startJsonObj};
 
 	ser += "type:";
 	ser += std::to_string(static_cast<int>(type));

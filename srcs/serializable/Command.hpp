@@ -23,7 +23,7 @@ namespace plz {
 			type = assoc.at(t);
 		}
 
-		std::string serialize() final;
+		std::string serialize() const final;
 		void deserialize(std::string &&data) final;
 
 		InfoType type{};

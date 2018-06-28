@@ -19,16 +19,22 @@ namespace plz {
 		bool hasData() const;
 		bool operator<<(ISerializable const &obj) const;
 		template<typename T>
-		bool operator>>(T &obj) const {
-			static_assert(std::is_base_of<ISerializable, T>(), "Cannot deserialize, T is not a valid type");
-			if (!hasData())
-				return false;
-			obj.deserialize("");
-			return true;
-		}
+		bool operator>>(T &obj) const;
+
+		explicit operator bool() const;
 
 	private:
-		int socket;
-		mutable std::queue<std::string> buffer{};
+		mutable int _socket;
+		mutable std::queue<std::string> _buffer{};
+
+		std::string getLine() const;
 	};
+
+	template<typename T>
+	bool SocketStream::operator>>(T &obj) const {
+		static_assert(std::is_base_of<ISerializable, T>(), "Cannot deserialize, T is not a valid type");
+		auto &&line = getLine();
+		obj.deserialize(std::move(line));
+		return true;
+	}
 }

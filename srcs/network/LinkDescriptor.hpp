@@ -21,15 +21,15 @@ namespace plz {
 		bool send(ISerializable const &data);
 		bool hasData() const;
 		template<typename T>
-		T receive() {
-			return T{};
+		bool receive(T &obj) {
+			return _commands >> obj;
 		}
 
 	private:
-		SocketStream commands{ -1 };
-		SocketStream data{ -1 };
-		SocketStream requests{ -1 };
-		SocketStream infos{ -1 };
+		SocketStream _commands{ -1 };
+		SocketStream _data{ -1 };
+		SocketStream _requests{ -1 };
+		SocketStream _infos{ -1 };
 		std::queue<std::string> buffer{};
 	};
 
