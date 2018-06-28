@@ -9,10 +9,14 @@ set(CORE
         enums.hpp)
 
 set(NETWORK
+        network/LinkDescriptor.cpp
+        network/LinkDescriptor.hpp
+        serializable/Serializable.hpp
         )
 
 set(DATA
-        command/Command.hpp
+        serializable/Command.hpp
+        serializable/Data.hpp
         )
 
 set(SOURCE_FILES

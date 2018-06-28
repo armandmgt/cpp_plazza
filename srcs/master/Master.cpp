@@ -6,7 +6,10 @@
 */
 
 #include <iostream>
+#include <map>
+#include "enums.hpp"
 #include "Master.hpp"
+#include "network/LinkDescriptor.hpp"
 
 std::ostream &operator <<(std::ostream &os, plz::InfoType type) {
 	static std::map<plz::InfoType, std::string> const assoc{
@@ -16,6 +19,9 @@ std::ostream &operator <<(std::ostream &os, plz::InfoType type) {
 	return os << assoc.at(type);
 }
 
+plz::LinkDescriptor createSlave() {
+	return {};
+}
 
 plz::Master::Master(unsigned nbThreads) : _nbThreads{nbThreads} {
 }
@@ -23,6 +29,7 @@ plz::Master::Master(unsigned nbThreads) : _nbThreads{nbThreads} {
 void plz::Master::run() {
 	while (std::cin.good()) {
 		auto commands = _parser.getLine();
+		//getSlavesWorkLoad -> asks each slave how much work they are currently processing
 		for (auto const &c : commands) {
 			std::cout << c.type << " " << c.filename << std::endl;
 		}
