@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <vector>
 #include "command/Command.hpp"
 
 namespace plz {
@@ -16,6 +17,8 @@ namespace plz {
 
 		~Parser() = default;
 
-		CommandWrapper getLine();
+		std::vector<Command> getLine();
+
+		std::vector<Command> parseCommand(std::istringstream sst);
 	};
 }
