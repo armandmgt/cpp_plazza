@@ -19,6 +19,6 @@ namespace plz {
 		std::string serialize() final;
 		void deserialize(std::string &&data) final;
 		InfoType type{};
-		std::list<std::string> data{};
+		std::list<std::string> _data{};
 	};
 }

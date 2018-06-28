@@ -15,9 +15,9 @@ std::string plz::Data::serialize()
 	ser += std::to_string(static_cast<int>(type));
 	ser += sepJson;
 	ser += "data:" + startJsonArr;
-	for (auto value = data.begin(); value != data.end();) {
+	for (auto value = _data.begin(); value != _data.end();) {
 		ser += "\"" + *value + "\"";
-		if ((++value) != data.end())
+		if ((++value) != _data.end())
 			ser += sepJson;
 	}
 	ser += endJsonArr;
@@ -32,4 +32,15 @@ void plz::Data::deserialize(std::string &&data)
 	if (!data[i])
 		return;
 	type = static_cast<InfoType>(data[i] - '0');
+	for (; data[i] && data[i] != '"'; i++);
+	for (; data[i] && data[i] != endJsonArr; i++) {
+		std::string newData;
+		if (data[i] == '"') {
+			i++;
+			for (; data[i] && data[i] != '"'; i++) {
+				newData += data[i];
+			}
+			_data.push_back(newData);
+		}
+	}
 }
