@@ -9,7 +9,6 @@
 #include <map>
 #include "enums.hpp"
 #include "Master.hpp"
-#include "network/LinkDescriptor.hpp"
 
 std::ostream &operator <<(std::ostream &os, plz::InfoType type) {
 	static std::map<plz::InfoType, std::string> const assoc{
@@ -28,6 +27,7 @@ void plz::Master::run() {
 		//getSlavesWorkLoad -> asks each slave how much work they are currently processing
 		for (auto const &c : commands) {
 			std::cout << c.type << " " << c.filename << std::endl;
+			_slaves.push_back(createSlave());
 		}
 	}
 }

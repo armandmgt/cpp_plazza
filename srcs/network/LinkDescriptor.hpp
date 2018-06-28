@@ -33,5 +33,5 @@ namespace plz {
 		std::queue<std::string> buffer{};
 	};
 
-	auto createSlave();
+	LinkDescriptor createSlave();
 }

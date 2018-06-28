@@ -10,12 +10,12 @@
 #include "LinkDescriptor.hpp"
 #include "Slave.hpp"
 
-auto plz::createSlave() {
+plz::LinkDescriptor plz::createSlave() {
 	int sv[8]{0};
 
 	for (auto i = 0; i < 4; i++) {
 		 if (socketpair(PF_LOCAL, SOCK_STREAM, 0, sv + 2 * i) == -1)
-			return LinkDescriptor{};
+			return {};
 	}
 	auto pid = fork();
 	for (auto i = 0; i < 4; i++) {
@@ -28,6 +28,6 @@ auto plz::createSlave() {
 		}
 	}
 	if (pid == 0)
-		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]});
-	return LinkDescriptor{sv[0], sv[1], sv[2], sv[3]};
+		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]}).exec();
+	return {sv[0], sv[1], sv[2], sv[3]};
 }

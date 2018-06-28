@@ -14,6 +14,8 @@ namespace plz {
 	public:
 		explicit Slave(plz::LinkDescriptor &&descriptor);
 
+		void exec();
+
 	private:
 		LinkDescriptor master;
 	};

@@ -7,7 +7,9 @@
 
 #pragma once
 
+#include <deque>
 #include "parser/Parser.hpp"
+#include "network/LinkDescriptor.hpp"
 
 namespace plz {
 	class Master {
@@ -19,5 +21,6 @@ namespace plz {
 	private:
 		unsigned _nbThreads;
 		Parser _parser;
+		std::deque<LinkDescriptor> _slaves{};
 	};
 }
