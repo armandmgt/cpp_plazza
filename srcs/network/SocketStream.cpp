@@ -19,6 +19,6 @@ bool plz::SocketStream::hasData() const {
 	return false;
 }
 
-bool plz::SocketStream::operator<<(const plz::Serializable &obj) const {
+bool plz::SocketStream::operator<<(const plz::ISerializable &obj[[maybe_unused]]) const {
 	return false;
 }

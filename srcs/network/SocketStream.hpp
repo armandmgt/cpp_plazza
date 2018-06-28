@@ -8,7 +8,7 @@
 #pragma once
 
 #include <queue>
-#include "serializable/Serializable.hpp"
+#include "serializable/ISerializable.hpp"
 
 namespace plz {
 	class SocketStream {
@@ -17,10 +17,10 @@ namespace plz {
 		~SocketStream();
 
 		bool hasData() const;
-		bool operator<<(Serializable const &obj) const;
+		bool operator<<(ISerializable const &obj) const;
 		template<typename T>
 		bool operator>>(T &obj) const {
-			static_assert(std::is_base_of<Serializable, T>(), "Cannot deserialize, T is not a valid type");
+			static_assert(std::is_base_of<ISerializable, T>(), "Cannot deserialize, T is not a valid type");
 			if (!hasData())
 				return false;
 			obj.deserialize("");

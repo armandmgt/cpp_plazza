@@ -15,7 +15,7 @@ bool plz::LinkDescriptor::isAlive() {
 	return false;
 }
 
-bool plz::LinkDescriptor::send(const plz::ISerializable &data) {
+bool plz::LinkDescriptor::send(const plz::ISerializable &data[[maybe_unused]]) {
 	return false;
 }
 

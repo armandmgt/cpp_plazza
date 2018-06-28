@@ -8,7 +8,7 @@
 #pragma once
 
 #include <vector>
-#include "command/Command.hpp"
+#include "serializable/Command.hpp"
 
 namespace plz {
 	class Parser {

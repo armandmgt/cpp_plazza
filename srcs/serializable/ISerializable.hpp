@@ -11,13 +11,13 @@
 
 namespace plz {
 
-	auto startJsonObj = '{';
-	auto endJsonObj = '}';
+	static const auto startJsonObj = '{';
+	static const auto endJsonObj = '}';
 
-	auto startJsonArr = '[';
-	auto endJsonArr = ']';
+	static const auto startJsonArr = '[';
+	static const auto endJsonArr = ']';
 
-	auto sepJson = ',';
+	static const auto sepJson = ',';
 
 	class ISerializable {
 	public:
