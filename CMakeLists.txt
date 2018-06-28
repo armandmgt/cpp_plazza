@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.6)
 
-project(plazza)
-
 set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_CXX_FLAGS "-Wextra -Wall")
 
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
 
-include_directories(include)
 add_subdirectory(srcs)
-add_subdirectory(tests)
