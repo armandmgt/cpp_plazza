@@ -6,6 +6,7 @@ set(CORE
         master/Master.hpp
         parser/Parser.cpp
         parser/Parser.hpp
+        slave/Slave.cpp
         slave/Slave.hpp
         enums.hpp
         )

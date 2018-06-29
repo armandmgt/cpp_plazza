@@ -19,7 +19,7 @@ namespace plz {
 		void run();
 
 	private:
-		unsigned const _nbThreads;
+		unsigned _nbThreads;
 		Parser _parser;
 		std::deque<LinkDescriptor> _slaves{};
 	};
