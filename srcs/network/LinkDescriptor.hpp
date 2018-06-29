@@ -39,5 +39,5 @@ namespace plz {
 		std::queue<std::string> buffer{};
 	};
 
-	LinkDescriptor createSlave();
+	plz::LinkDescriptor createSlave(unsigned nbThread);
 }

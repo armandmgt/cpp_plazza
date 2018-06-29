@@ -10,7 +10,7 @@
 #include "LinkDescriptor.hpp"
 #include "slave/Slave.hpp"
 
-plz::LinkDescriptor plz::createSlave() {
+plz::LinkDescriptor plz::createSlave(unsigned nbThread) {
 	int sv[8]{0};
 
 	for (auto i = 0; i < 4; i++) {
@@ -30,6 +30,6 @@ plz::LinkDescriptor plz::createSlave() {
 		}
 	}
 	if (pid == 0)
-		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]}).exec();
+		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]}, nbThread).exec();
 	return LinkDescriptor{sv[0], sv[1], sv[2], sv[3]};
 }
