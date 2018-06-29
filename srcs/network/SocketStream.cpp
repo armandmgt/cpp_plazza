@@ -37,8 +37,6 @@ bool plz::SocketStream::hasData() const {
 	if (poll(&fds, nfds, 0) == -1 || fds.revents & POLLHUP ||
 		fds.revents & POLLNVAL || fds.revents & POLLERR)
 		_socket = -1;
-	if (fds.revents & POLLIN)
-		std::cout << "socket has data !" << std::endl;
 	return static_cast<bool>(fds.revents & POLLIN);
 }
 
@@ -46,7 +44,6 @@ bool plz::SocketStream::operator<<(const plz::ISerializable &obj[[maybe_unused]]
 	if (_socket == -1)
 		return false;
 	auto &&s = obj.serialize();
-	std::cout << "writing [" << s << "] to socket " << _socket << std::endl;
 	s += '\n';
 	write(_socket, s.c_str(), s.size());
 	return true;
@@ -62,13 +59,10 @@ bool plz::SocketStream::getLine(std::string &string) const {
 
 	if (cbuf[0] != 0)
 		rsize -= strlen(cbuf);
-	std::cout << "socket before: " << _socket << std::endl;
-	if ((rsize = read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize))) <= 0) {
-		std::cout << "read return value " << rsize << std::endl;
+	if (read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize)) <= 0) {
 		_socket = -1;
 		return false;
 	}
-	std::cout << "received [" << cbuf << "] socket after: " << _socket << " errno: " << strerror(errno) << std::endl;
 	std::istringstream sst{cbuf};
 	std::string line;
 	while (std::getline(sst, line))
