@@ -15,10 +15,18 @@ bool plz::LinkDescriptor::isAlive() {
 	return false;
 }
 
-bool plz::LinkDescriptor::send(const plz::ISerializable &data[[maybe_unused]]) {
-	return _data << data;
+bool plz::LinkDescriptor::hasData() const {
+	return _data.hasData();
 }
 
-bool plz::LinkDescriptor::hasData() const {
-	return false;
+std::list<plz::Data> plz::LinkDescriptor::getData() const {
+	return std::list<plz::Data>{};
+}
+
+bool plz::LinkDescriptor::hasCommand() const {
+	return _commands.hasData();
+}
+
+bool plz::LinkDescriptor::sendCommand(plz::Command command) const {
+	return _commands && _commands << command;
 }

@@ -18,8 +18,8 @@ void plz::Master::run() {
 		//getSlavesWorkLoad -> asks each slave how much work they are currently processing
 		for (auto const &c : commands) {
 			std::cout << c.type << " " << c.filename << std::endl;
-			_slaves.push_back(createSlave());
-			_slaves.back().send(c);
+			_slaves.push_back(std::move(createSlave()));
+			_slaves.back().sendCommand(c);
 		}
 	}
 }

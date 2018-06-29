@@ -14,7 +14,12 @@ namespace plz {
 	class SocketStream {
 	public:
 		explicit SocketStream(int socket);
+		SocketStream(SocketStream const &rhs) = delete;
+		SocketStream(SocketStream &&rhs) = default;
 		~SocketStream();
+
+		SocketStream &operator =(SocketStream const &rhs) = delete;
+		SocketStream &operator =(SocketStream &&rhs) = default;
 
 		bool hasData() const;
 		bool operator<<(ISerializable const &obj) const;
@@ -27,13 +32,15 @@ namespace plz {
 		mutable int _socket;
 		mutable std::queue<std::string> _buffer{};
 
-		std::string getLine() const;
+		bool getLine(std::string &string) const;
 	};
 
 	template<typename T>
 	bool SocketStream::operator>>(T &obj) const {
 		static_assert(std::is_base_of<ISerializable, T>(), "Cannot deserialize, T is not a valid type");
-		auto &&line = getLine();
+		std::string line;
+		if (!getLine(line))
+			return false;
 		obj.deserialize(std::move(line));
 		return true;
 	}

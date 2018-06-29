@@ -8,6 +8,8 @@
 #pragma once
 
 #include <queue>
+#include "serializable/Data.hpp"
+#include "serializable/Command.hpp"
 #include "serializable/ISerializable.hpp"
 #include "SocketStream.hpp"
 
@@ -18,10 +20,14 @@ namespace plz {
 		LinkDescriptor(int sCommand, int sData, int sRequest, int sInfo);
 
 		bool isAlive();
-		bool send(ISerializable const &data);
+		bool sendCommand(Command command) const;
+//		bool sendRequest(Request request) const;
+//		WorkLoad getInfos() const;
 		bool hasData() const;
+		std::list<Data> getData() const;
+		bool hasCommand() const;
 		template<typename T>
-		bool receive(T &obj) {
+		bool getCommand(T &obj) {
 			return _commands >> obj;
 		}
 

@@ -16,15 +16,19 @@ plz::SocketStream::SocketStream(int socket) : _socket{socket} {
 }
 
 plz::SocketStream::~SocketStream() {
+	std::cout << "closing socket " << _socket << " !" << std::endl;
 	close(_socket);
 }
 
 bool plz::SocketStream::hasData() const {
 	pollfd fds{_socket, POLLIN, 0};
-	nfds_t nfds= 1;
+	nfds_t nfds = 1;
 
-	if (poll(&fds, nfds, 0) == -1)
+	if (poll(&fds, nfds, 0) == -1 || fds.revents & POLLHUP ||
+		fds.revents & POLLNVAL || fds.revents & POLLERR)
 		_socket = -1;
+	if (fds.revents & POLLIN)
+		std::cout << "socket has data !" << std::endl;
 	return static_cast<bool>(fds.revents & POLLIN);
 }
 
@@ -35,7 +39,6 @@ bool plz::SocketStream::operator<<(const plz::ISerializable &obj[[maybe_unused]]
 	std::cout << "writing [" << s << "] to socket " << _socket << std::endl;
 	s += '\n';
 	write(_socket, s.c_str(), s.size());
-	fflush(stdout);
 	return true;
 }
 
@@ -43,16 +46,19 @@ plz::SocketStream::operator bool() const {
 	return _socket != -1;
 }
 
-std::string plz::SocketStream::getLine() const {
+bool plz::SocketStream::getLine(std::string &string) const {
 	static char cbuf[4097]{0};
-	size_t rsize = 4096;
+	ssize_t rsize = 4096;
 
 	if (cbuf[0] != 0)
 		rsize -= strlen(cbuf);
 	std::cout << "socket before: " << _socket << std::endl;
-	if (read(_socket, cbuf + strlen(cbuf), rsize) <= 0)
+	if ((rsize = read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize))) <= 0) {
+		std::cout << "read return value " << rsize << std::endl;
 		_socket = -1;
-	std::cout << "received [" << cbuf << "] socket after: " << _socket << std::endl;
+		return false;
+	}
+	std::cout << "received [" << cbuf << "] socket after: " << _socket << " errno: " << strerror(errno) << std::endl;
 	std::istringstream sst{cbuf};
 	std::string line;
 	while (std::getline(sst, line))
@@ -62,8 +68,8 @@ std::string plz::SocketStream::getLine() const {
 		_buffer.pop();
 	}
 	if (_buffer.empty())
-		return {};
-	auto ret = _buffer.front();
+		return false;
+	string = _buffer.front();
 	_buffer.pop();
-	return ret;
+	return true;
 }

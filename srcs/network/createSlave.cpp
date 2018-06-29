@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
+#include <iostream>
 #include "LinkDescriptor.hpp"
 #include "slave/Slave.hpp"
 
@@ -18,11 +19,15 @@ plz::LinkDescriptor plz::createSlave() {
 			return {};
 	}
 	auto pid = fork();
+	if (pid == -1)
+		return {};
 	for (auto i = 0; i < 4; i++) {
 		if (pid == 0) {
+			std::cout << "in child, closing " << sv[2 * i] << " and saving " << sv[2 * i + 1] << std::endl;
 			close(sv[2 * i]);
 			sv[i] = sv[2 * i + 1];
 		} else {
+			std::cout << "in father, closing " << sv[2 * i + 1] << " and saving " << sv[2 * i] << std::endl;
 			close(sv[2 * i + 1]);
 			sv[i] = sv[2 * i];
 		}
