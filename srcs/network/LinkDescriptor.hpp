@@ -20,7 +20,7 @@ namespace plz {
 		LinkDescriptor(int sCommand, int sData, int sRequest, int sInfo);
 
 		bool isAlive();
-		bool sendCommand(Command command) const;
+		bool sendCommand(const Command &command) const;
 //		bool sendRequest(Request request) const;
 //		WorkLoad getInfos() const;
 		bool hasData() const;

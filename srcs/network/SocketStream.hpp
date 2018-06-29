@@ -13,13 +13,14 @@
 namespace plz {
 	class SocketStream {
 	public:
+		SocketStream() = default;
 		explicit SocketStream(int socket);
 		SocketStream(SocketStream const &rhs) = delete;
-		SocketStream(SocketStream &&rhs) = default;
+		SocketStream(SocketStream &&rhs) noexcept;
 		~SocketStream();
 
 		SocketStream &operator =(SocketStream const &rhs) = delete;
-		SocketStream &operator =(SocketStream &&rhs) = default;
+		SocketStream &operator =(SocketStream &&rhs) noexcept;
 
 		bool hasData() const;
 		bool operator<<(ISerializable const &obj) const;
@@ -29,7 +30,7 @@ namespace plz {
 		explicit operator bool() const;
 
 	private:
-		mutable int _socket;
+		mutable int _socket{ -1 };
 		mutable std::queue<std::string> _buffer{};
 
 		bool getLine(std::string &string) const;

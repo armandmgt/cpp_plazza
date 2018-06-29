@@ -34,5 +34,5 @@ plz::LinkDescriptor plz::createSlave() {
 	}
 	if (pid == 0)
 		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]}).exec();
-	return {sv[0], sv[1], sv[2], sv[3]};
+	return LinkDescriptor{sv[0], sv[1], sv[2], sv[3]};
 }
