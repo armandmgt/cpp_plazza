@@ -15,8 +15,18 @@
 plz::SocketStream::SocketStream(int socket) : _socket{socket} {
 }
 
+plz::SocketStream::SocketStream(plz::SocketStream &&rhs) noexcept {
+	std::swap(_socket, rhs._socket);
+	std::swap(_buffer, rhs._buffer);
+}
+
+plz::SocketStream &plz::SocketStream::operator=(plz::SocketStream &&rhs) noexcept {
+	std::swap(_socket, rhs._socket);
+	std::swap(_buffer, rhs._buffer);
+	return *this;
+}
+
 plz::SocketStream::~SocketStream() {
-	std::cout << "closing socket " << _socket << " !" << std::endl;
 	close(_socket);
 }
 

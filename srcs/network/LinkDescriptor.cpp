@@ -27,6 +27,6 @@ bool plz::LinkDescriptor::hasCommand() const {
 	return _commands.hasData();
 }
 
-bool plz::LinkDescriptor::sendCommand(plz::Command command) const {
+bool plz::LinkDescriptor::sendCommand(const Command &command) const {
 	return _commands && _commands << command;
 }
