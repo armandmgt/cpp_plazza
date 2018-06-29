@@ -29,6 +29,7 @@ void plz::Command::deserialize(std::string &&data)
 		return;
 	type = static_cast<InfoType>(data[i] - '0');
 	for (; data[i] && data[i] != '"'; i++);
+	i++;
 	for (; data[i] && data[i] != '"'; i++) {
 		filename += data[i];
 	}
