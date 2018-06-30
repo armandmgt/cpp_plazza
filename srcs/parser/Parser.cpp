@@ -40,13 +40,15 @@ std::vector<plz::Command> plz::Parser::getLine() {
 
 std::vector<plz::Command> plz::Parser::parseCommand(std::istringstream sst) {
 	std::vector<Command> cmds{};
-	std::string type;
 	std::string filename;
 
-	sst >> filename;
 	while (!sst.eof()) {
-		sst >> type;
-		cmds.emplace_back(type, std::move(filename));
+		std::getline(sst, filename, ' ');
+		cmds.emplace_back("PHONE_NUMBER", std::move(filename));
 	}
+	auto type = cmds.back().filename;
+	std::for_each(cmds.begin(), cmds.end(), [type](auto &c) { c = Command{type, std::move(c.filename)}; });
+	cmds.pop_back();
+	std::for_each(cmds.begin(), cmds.end(), [type](auto &c) { std::cout << c.type << " " << c.filename << std::endl; });
 	return cmds;
 }

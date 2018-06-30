@@ -37,5 +37,6 @@ namespace plz {
 		std::mutex _mData{};
 		std::chrono::steady_clock::time_point _timer;
 		std::vector<std::thread> _threads;
+		std::atomic_int _running{0};
 	};
 }

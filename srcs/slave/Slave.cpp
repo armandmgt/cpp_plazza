@@ -57,10 +57,12 @@ bool plz::Slave::timedOut()
 	std::chrono::seconds elapsed;
 	elapsed = std::chrono::duration_cast<std::chrono::seconds>(
 		std::chrono::steady_clock::now() - _timer);
+	if (_running > 0) {
+		_timer = std::chrono::steady_clock::now();
+		return false;
+	}
 	return elapsed.count() >= 5;
 }
-
-
 
 void plz::Slave::runThread()
 {
@@ -71,8 +73,9 @@ void plz::Slave::runThread()
 			_cv.wait(lock);
 			if (_tasks.empty())
 				return;
-			task = _tasks.front();
+			task = std::move(_tasks.front());
 			_tasks.pop();
+			_running++;
 		}
 		{
 			std::lock_guard<std::mutex> guard{printMutex};
@@ -80,6 +83,7 @@ void plz::Slave::runThread()
 		}
 		try {
 			doParsing(std::move(task));
+			_running--;
 		} catch (std::regex_error &e) {
 			{
 				std::lock_guard<std::mutex> guard{printMutex};
