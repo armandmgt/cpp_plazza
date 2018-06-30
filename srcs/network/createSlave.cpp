@@ -29,7 +29,9 @@ plz::LinkDescriptor plz::createSlave(unsigned nbThread) {
 			sv[i] = sv[2 * i];
 		}
 	}
-	if (pid == 0)
+	if (pid == 0) {
 		Slave(LinkDescriptor{sv[0], sv[1], sv[2], sv[3]}, nbThread).exec();
+		exit(0);
+	}
 	return LinkDescriptor{sv[0], sv[1], sv[2], sv[3]};
 }
