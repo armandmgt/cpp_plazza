@@ -27,6 +27,7 @@ plz::Slave::~Slave() {
 	_cv.notify_all();
 	for (auto &th : _threads)
 		th.join();
+	std::cout << "All threads are exited" << std::endl;
 }
 
 void plz::Slave::exec() {
@@ -45,7 +46,7 @@ void plz::Slave::exec() {
 			_cv.notify_one();
 		}
 	}
-	{
+	{ // Use this to print safely (no mix of outputs) in a thread
 		std::lock_guard<std::mutex> lock{printMutex};
 		std::cout << "Timed out ! Now exiting" << std::endl;
 	}
