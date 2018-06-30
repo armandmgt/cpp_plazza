@@ -26,7 +26,7 @@ namespace plz {
 		void runThread();
 		void doParsing(Command &&cmd);
 		void exec();
-		void findData(const std::string &reg, Command &&command);
+		void findData(const std::string &regex, Command &&command);
 
 	private:
 		std::condition_variable _cv{};
