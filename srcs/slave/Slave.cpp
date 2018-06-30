@@ -98,7 +98,7 @@ void plz::Slave::doParsing(Command &&cmd)
 	static regexUMap const regexMatch{
 		{InfoType::PHONE_NUMBER, R"((?:(?:\+|00)33|0)\s*[1-9](?:[\s]*\d{2}){4})"},
 		{InfoType::EMAIL_ADDRESS, R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)"},
-		{InfoType::IP_ADDRESS, R"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}
+		{InfoType::IP_ADDRESS, R"(\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?)"}
 	};
 
 	try {
