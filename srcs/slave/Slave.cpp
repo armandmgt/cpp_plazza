@@ -94,8 +94,8 @@ void plz::Slave::doParsing(Command &&cmd)
 	static regexUMap const regexMatch{
 		{InfoType::PHONE_NUMBER, std::regex{R"((?:(?:\+|00)33|0)\s*[1-9](?:[\s]*\d{2}){4})"}},
 		{InfoType::EMAIL_ADDRESS, std::regex{R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)"}},
-//		{InfoType::IP_ADDRESS, std::regex{R"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
-//	    		"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}}
+		{InfoType::IP_ADDRESS, std::regex{R"(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
+	    		"(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"}}
 	};
 
 	try {
@@ -118,6 +118,7 @@ void plz::Slave::findData(const std::regex &regex, Command &&command)
 	std::ifstream file{command.filename};
 	std::string fileLine;
 	std::smatch match;
+
 
 	if (!file)
 		throw std::runtime_error{"Invalid file"};

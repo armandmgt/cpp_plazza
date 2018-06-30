@@ -43,9 +43,9 @@ std::vector<plz::Command> plz::Parser::parseCommand(std::istringstream sst) {
 	std::string type;
 	std::string filename;
 
-	sst >> type;
+	sst >> filename;
 	while (!sst.eof()) {
-		sst >> filename;
+		sst >> type;
 		cmds.emplace_back(type, std::move(filename));
 	}
 	return cmds;
