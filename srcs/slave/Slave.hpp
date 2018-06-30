@@ -17,7 +17,7 @@
 
 namespace plz {
 	class Slave {
-		using regexUMap = std::unordered_map<InfoType, std::regex>;
+		using regexUMap = std::unordered_map<InfoType, std::string>;
 	public:
 		explicit Slave(plz::LinkDescriptor &&descriptor, unsigned nbThread);
 		~Slave();
@@ -26,7 +26,7 @@ namespace plz {
 		void runThread();
 		void doParsing(Command &&cmd);
 		void exec();
-		void findData(const std::regex &regex, Command &&command);
+		void findData(const std::string &reg, Command &&command);
 
 	private:
 		std::condition_variable _cv{};
