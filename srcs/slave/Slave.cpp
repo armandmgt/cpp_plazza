@@ -132,6 +132,7 @@ void plz::Slave::findData(const std::string &reg, Command &&command)
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
 			_data.emplace(command.type, match.str());
+			std::cout << match.str() << std::endl;
 		}
 	}
 }
