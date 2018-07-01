@@ -32,6 +32,7 @@ namespace plz {
 	private:
 		mutable int _socket{ -1 };
 		mutable std::queue<std::string> _buffer{};
+		mutable char cbuf[4097]{0};
 
 		bool getLine(std::string &string) const;
 	};

@@ -24,13 +24,13 @@ void plz::Master::run() {
 		for (auto const &s : _slaves) {
 //			std::cout << "checking slave" << std::endl;
 			if (s.hasData()) {
-				std::cout << "master process has data" << std::endl;
+//				std::cout << "master process has data" << std::endl;
 				auto data = s.getData();
-				std::cout << "has " << data.size() << " entries" << std::endl;
+//				std::cout << "has " << data.size() << " entries" << std::endl;
 				printData(data);
 			}
 		}
-		std::this_thread::yield();
+		std::this_thread::sleep_for(std::chrono::milliseconds{1});
 	}
 }
 

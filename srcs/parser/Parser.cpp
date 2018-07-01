@@ -24,11 +24,16 @@ std::vector<std::string> splitStringAt(std::istringstream &&input, char delim) {
 plz::Parser::Parser() : _th{[this]() { runThread(); }} {
 }
 
+plz::Parser::~Parser() {
+	_th.join();
+}
+
 void plz::Parser::runThread() {
 	std::string input;
 
 	while (std::cin.good()) {
-		std::getline(std::cin, input);
+		if (!std::getline(std::cin, input))
+			continue;
 		auto parts = splitStringAt(std::istringstream{input}, ';');
 		for (auto const &c : parts) {
 			auto &&next = parseCommand(c);

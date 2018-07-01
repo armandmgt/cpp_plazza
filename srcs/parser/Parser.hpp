@@ -17,7 +17,7 @@ namespace plz {
 	class Parser {
 	public:
 		Parser();
-		~Parser() = default;
+		~Parser();
 
 		std::deque<Command> getLine();
 

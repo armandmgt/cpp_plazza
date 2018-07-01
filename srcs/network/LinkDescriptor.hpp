@@ -26,10 +26,7 @@ namespace plz {
 		bool hasData() const;
 		std::list<Data> getData() const;
 		bool hasCommand() const;
-		template<typename T>
-		bool getCommand(T &obj) {
-			return _commands >> obj;
-		}
+		bool getCommand(Command &obj);
 
 		bool sendData(Data data);
 
@@ -38,7 +35,6 @@ namespace plz {
 		SocketStream _data{ -1 };
 		SocketStream _requests{ -1 };
 		SocketStream _infos{ -1 };
-		std::queue<std::string> buffer{};
 	};
 
 	plz::LinkDescriptor createSlave(unsigned nbThread);
