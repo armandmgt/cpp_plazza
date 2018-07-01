@@ -6,6 +6,10 @@
 */
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <ctime>
+#include <fstream>
 #include "enums.hpp"
 #include "Master.hpp"
 
@@ -22,10 +26,18 @@ void plz::Master::run() {
 }
 
 void plz::Master::printData(std::list<plz::Data> data) {
+	auto t = std::time(nullptr);
+	auto tm = *std::localtime(&t);
+	std::ofstream logFile;
+
+	std::ostringstream oss;
+	oss << std::put_time(&tm, "logfile-%d%m%Y-%H%M.log");
+	logFile = std::ofstream(oss.str());
 	for (auto const &d : data) {
 		std::cout << d.type << ":" << std::endl;
 		for (auto const &e : d.data) {
 			std::cout << "match: [" << e << "]" << std::endl;
+			logFile << e << std::endl;
 		}
 	}
 }
