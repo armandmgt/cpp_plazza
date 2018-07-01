@@ -46,7 +46,6 @@ void plz::Master::runQueueCommand(std::deque<plz::Command> commands)
 		_slaves.back().sendCommand(c);
 	}
 	for (auto const &s : _slaves) {
-//		std::cout << "checking slave" << std::endl;
 		if (s.hasData()) {
 			auto data = s.getData();
 			printData(data);
