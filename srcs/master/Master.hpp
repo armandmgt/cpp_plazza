@@ -17,6 +17,7 @@ namespace plz {
 		explicit Master(unsigned nbThreads);
 
 		void run();
+		void runQueueCommand(std::deque<Command> cmds);
 
 	private:
 		unsigned _nbThreads;

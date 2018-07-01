@@ -17,6 +17,7 @@ namespace plz {
 		Command() = default;
 		Command(Command const &) = default;
 		Command(Command &&) = default;
+		Command(InfoType t, std::string &file);
 		Command(const std::string &t, std::string &&f) : filename{f} {
 			static std::map<std::string, InfoType> const assoc{
 				{"IP_ADDRESS", InfoType::IP_ADDRESS}, {"EMAIL_ADDRESS", InfoType::EMAIL_ADDRESS},

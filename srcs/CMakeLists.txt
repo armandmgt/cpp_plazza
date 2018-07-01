@@ -39,13 +39,13 @@ if (${GRAPHICAL})
     add_subdirectory(gui)
     link_directories(${GTKMM_LIBRARY_DIRS})
     include_directories(${GTKMM_INCLUDE_DIRS})
-    set(INCLUDES ${INCLUDES} ${GTKMM_LIBRARIES})
 endif (${GRAPHICAL})
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 if (${GRAPHICAL})
     target_compile_definitions(${PROJECT_NAME} PRIVATE GRAPHICAL=true)
+    target_link_libraries(${PROJECT_NAME} ${GTKMM_LIBRARIES})
 endif (${GRAPHICAL})
 
 target_link_libraries(${PROJECT_NAME} pthread)

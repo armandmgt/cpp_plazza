@@ -34,3 +34,7 @@ void plz::Command::deserialize(std::string &&data)
 		filename += data[i];
 	}
 }
+
+plz::Command::Command(plz::InfoType t, std::string &file) : type(t), filename(file)
+{
+}

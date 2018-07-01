@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include "../include/Shell.hpp"
+#include "../master/Master.hpp"
 #include "../include/Utils.hpp"
 #include "../include/Graphic.hpp"
 
@@ -86,9 +86,9 @@ void gfx::Graphic::onButtonClicked()
 
 void gfx::Graphic::onButtonShowProcessIpAddr()
 {
-	plazza::shellInput inputShell;
-	for (auto const &it : selectedFiles)
-		inputShell.push_back({plazza::IP_ADDRESS, it});
+	std::deque<plz::Command> inputShell;
+	for (auto &it : selectedFiles)
+		inputShell.emplace_back(plz::InfoType::IP_ADDRESS, it);
 	for (auto &it : allProgressBar) {
 		it.second.label.show();
 		it.second.progress.show();
@@ -100,15 +100,15 @@ void gfx::Graphic::onButtonShowProcessIpAddr()
 		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
 		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
 	}
-	masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.runQueueCommand(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessEmail()
 {
-	plazza::shellInput inputShell;
+	std::deque<plz::Command> inputShell;
 
-	for (const auto &it : selectedFiles)
-		inputShell.push_back({plazza::EMAIL_ADDRESS, it});
+	for (auto &it : selectedFiles)
+		inputShell.emplace_back(plz::InfoType::EMAIL_ADDRESS, it);
 	for (auto &it : allProgressBar) {
 		it.second.label.show();
 		it.second.progress.show();
@@ -120,14 +120,14 @@ void gfx::Graphic::onButtonShowProcessEmail()
 		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
 		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
 	}
-	masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.runQueueCommand(inputShell);
 }
 
 void gfx::Graphic::onButtonShowProcessPhone()
 {
-	plazza::shellInput inputShell;
-	for (const auto &it : selectedFiles)
-		inputShell.push_back({plazza::PHONE_NUMBER, it});
+	std::deque<plz::Command> inputShell;
+	for (auto &it : selectedFiles)
+		inputShell.emplace_back(plz::InfoType::PHONE_NUMBER, it);
 	for (auto &it : allProgressBar) {
 		it.second.label.show();
 		it.second.progress.show();
@@ -139,7 +139,7 @@ void gfx::Graphic::onButtonShowProcessPhone()
 		while (Gtk::Main::events_pending()) Gtk::Main::iteration(false);
 		std::this_thread::sleep_for(std::chrono::microseconds(std::rand() % 500 + 10000));
 	}
-	masterProcess.distributeIllegalWork(inputShell);
+	masterProcess.runQueueCommand(inputShell);
 }
 
 void gfx::Graphic::selectFile()

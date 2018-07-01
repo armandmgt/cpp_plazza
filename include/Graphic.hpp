@@ -58,7 +58,7 @@
 			Gtk::Label m_LeftLabel;
 			Gtk::Grid m_GridProgress;
 		private:
-			plazza::Master masterProcess;
+			plz::Master masterProcess;
 			std::unordered_map<std::string, elem> allProgressBar;
 			std::vector<std::string> selectedFiles;
 			void setWindow();

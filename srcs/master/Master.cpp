@@ -16,20 +16,7 @@ void plz::Master::run() {
 	while (std::cin.good()) {
 		auto commands = _parser.getLine();
 		//getSlavesWorkLoad -> asks each slave how much work they are currently processing
-		for (auto const &c : commands) {
-			std::cout << "Parsed command: [" << c.type << " " << c.filename << "]" << std::endl;
-			_slaves.push_back(createSlave(_nbThreads));
-			_slaves.back().sendCommand(c);
-		}
-		for (auto const &s : _slaves) {
-//			std::cout << "checking slave" << std::endl;
-			if (s.hasData()) {
-//				std::cout << "master process has data" << std::endl;
-				auto data = s.getData();
-//				std::cout << "has " << data.size() << " entries" << std::endl;
-				printData(data);
-			}
-		}
+		runQueueCommand(commands);
 		std::this_thread::sleep_for(std::chrono::milliseconds{1});
 	}
 }
@@ -41,4 +28,22 @@ void plz::Master::printData(std::list<plz::Data> data) {
 			std::cout << "match: [" << e << "]" << std::endl;
 		}
 	}
+}
+
+void plz::Master::runQueueCommand(std::deque<plz::Command> commands)
+{
+	for (auto const &c : commands) {
+		std::cout << "Parsed command: [" << c.type << " " << c.filename << "]" << std::endl;
+		_slaves.push_back(createSlave(_nbThreads));
+		_slaves.back().sendCommand(c);
+	}
+	for (auto const &s : _slaves) {
+//			std::cout << "checking slave" << std::endl;
+			if (s.hasData()) {
+//				std::cout << "master process has data" << std::endl;
+				auto data = s.getData();
+//				std::cout << "has " << data.size() << " entries" << std::endl;
+				printData(data);
+			}
+		}
 }
