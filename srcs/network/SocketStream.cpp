@@ -60,7 +60,6 @@ bool plz::SocketStream::getLine(std::string &string) const {
 	if (cbuf[0] != 0)
 		rsize -= strlen(cbuf);
 	if (read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize)) <= 0) {
-//		std::cout << "socket " << _socket << " closed" << std::endl;
 		wait(nullptr);
 		_socket = -1;
 		return false;

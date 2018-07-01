@@ -74,7 +74,6 @@ void plz::Slave::runThread()
 			_tasks.pop();
 			_running++;
 		}
-//		std::cout << "I received a command and I am now parsing !" << std::endl;
 		try {
 			doParsing(std::move(task));
 			_running--;
@@ -119,7 +118,6 @@ void plz::Slave::findData(const std::string &reg, Command &&command)
 		std::sregex_iterator cmdEnd{};
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-//			std::cout << "found [" << match.str() << "]" << std::endl;
 			data.push_back(std::move(match.str()));
 		}
 	}
