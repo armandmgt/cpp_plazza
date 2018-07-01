@@ -8,6 +8,7 @@
 #pragma once
 
 #include <deque>
+#include <sstream>
 #include "parser/Parser.hpp"
 #include "network/LinkDescriptor.hpp"
 
@@ -22,8 +23,10 @@ namespace plz {
 	private:
 		unsigned _nbThreads;
 		Parser _parser;
-		std::deque<LinkDescriptor> _slaves{};
+		std::ostringstream _oss;
+		std::ofstream _logFile;
 
+		std::deque<LinkDescriptor> _slaves{};
 		void printData(std::list<Data> data);
 	};
 }

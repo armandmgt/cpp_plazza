@@ -6,38 +6,34 @@
 */
 
 #include <iostream>
-#include <sstream>
 #include <iomanip>
-#include <ctime>
 #include <fstream>
 #include "enums.hpp"
 #include "Master.hpp"
 
-plz::Master::Master(unsigned nbThreads) : _nbThreads{nbThreads} {
+plz::Master::Master(unsigned nbThreads) : _nbThreads{nbThreads}
+{
+	auto t = std::time(nullptr);
+	auto tm = *std::localtime(&t);
+
+	_oss << std::put_time(&tm, "logfile-%d%m%Y-%H%M.log");
 }
 
 void plz::Master::run() {
 	while (std::cin.good()) {
 		auto commands = _parser.getLine();
-		//getSlavesWorkLoad -> asks each slave how much work they are currently processing
 		runQueueCommand(commands);
 		std::this_thread::sleep_for(std::chrono::milliseconds{1});
 	}
 }
 
 void plz::Master::printData(std::list<plz::Data> data) {
-	auto t = std::time(nullptr);
-	auto tm = *std::localtime(&t);
-	std::ofstream logFile;
-
-	std::ostringstream oss;
-	oss << std::put_time(&tm, "logfile-%d%m%Y-%H%M.log");
-	logFile = std::ofstream(oss.str());
+	_logFile = std::ofstream(_oss.str());
 	for (auto const &d : data) {
 		std::cout << d.type << ":" << std::endl;
 		for (auto const &e : d.data) {
 			std::cout << "match: [" << e << "]" << std::endl;
-			logFile << e << std::endl;
+			_logFile << e << std::endl;
 		}
 	}
 }
