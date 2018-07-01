@@ -20,7 +20,11 @@ bool plz::LinkDescriptor::hasData() const {
 }
 
 std::list<plz::Data> plz::LinkDescriptor::getData() const {
-	return std::list<plz::Data>{};
+	std::list<Data> ld{};
+	Data d;
+	while (_data >> d)
+		ld.push_back(std::move(d));
+	return std::move(ld);
 }
 
 bool plz::LinkDescriptor::hasCommand() const {
@@ -29,4 +33,8 @@ bool plz::LinkDescriptor::hasCommand() const {
 
 bool plz::LinkDescriptor::sendCommand(const Command &command) const {
 	return _commands && _commands << command;
+}
+
+bool plz::LinkDescriptor::sendData(plz::Data data) {
+	return _data && _data << data;
 }

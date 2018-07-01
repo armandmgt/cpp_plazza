@@ -32,7 +32,6 @@ namespace plz {
 		std::condition_variable _cv{};
 		LinkDescriptor _master;
 		std::queue<Command> _tasks{};
-		std::queue<std::pair<InfoType, std::string>> _data{};
 		std::mutex _mTask{};
 		std::mutex _mData{};
 		std::chrono::steady_clock::time_point _timer;

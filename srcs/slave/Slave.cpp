@@ -31,25 +31,20 @@ plz::Slave::~Slave() {
 }
 
 void plz::Slave::exec() {
-	Command c{};
+	Command c;
 	while (!timedOut()) {
 		if (_master.hasCommand()) {
 			_master.getCommand(c);
-			{
-				std::lock_guard<std::mutex> guard{printMutex};
-				std::cout << "deserialized " << c.type << " " << c.filename << std::endl;
-			}
+			std::cout << "deserialized " << c.type << " " << c.filename << std::endl;
 			{
 				std::lock_guard<std::mutex> lock{_mTask};
 				_tasks.push(std::move(c));
 			}
 			_cv.notify_one();
 		}
+//		std::this_thread::yield();
 	}
-	{ // Use this to print safely (no mix of outputs) in a thread
-		std::lock_guard<std::mutex> lock{printMutex};
-		std::cout << "Timed out ! Now exiting" << std::endl;
-	}
+	std::cout << "Timed out ! Now exiting" << std::endl;
 }
 
 bool plz::Slave::timedOut()
@@ -71,16 +66,15 @@ void plz::Slave::runThread()
 		{
 			std::unique_lock<std::mutex> lock{_mTask};
 			_cv.wait(lock);
-			if (_tasks.empty())
+			if (_tasks.empty()) {
+				_running--;
 				return;
+			}
 			task = std::move(_tasks.front());
 			_tasks.pop();
 			_running++;
 		}
-		{
-			std::lock_guard<std::mutex> guard{printMutex};
-			std::cout << "I received a command and I am now parsing !" << std::endl;
-		}
+		std::cout << "I received a command and I am now parsing !" << std::endl;
 		try {
 			doParsing(std::move(task));
 			_running--;
@@ -98,31 +92,25 @@ void plz::Slave::doParsing(Command &&cmd)
 	static regexUMap const regexMatch{
 		{InfoType::PHONE_NUMBER, R"((?:(?:\+|00)33|0)\s*[1-9](?:[\s]*\d{2}){4})"},
 		{InfoType::EMAIL_ADDRESS, R"((\w+)(\.|_)?(\w*)@(\w+)(\.(\w+))+)"},
-		{InfoType::IP_ADDRESS, R"(\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?)"}
+		{InfoType::IP_ADDRESS, R"(\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b)"}
 	};
 
 	try {
 		findData(regexMatch.at(cmd.type), std::move(cmd));
 	} catch (std::out_of_range &e) {
-		{
-			std::lock_guard<std::mutex> guard{printMutex};
-			std::cerr << "Type requested is unknown" << std::endl;
-		}
+		std::cerr << "Type requested is unknown" << std::endl;
 	} catch (std::exception &e) {
-		{
-			std::lock_guard<std::mutex> guard{printMutex};
-			std::cerr << "Search error: " << e.what() << std::endl;
-		}
+		std::cerr << "Search error: " << e.what() << std::endl;
 	}
 }
 
 void plz::Slave::findData(const std::string &reg, Command &&command)
 {
 	std::ifstream file{command.filename};
-	std::regex regex(reg);
+	std::regex regex{reg};
 	std::string fileLine;
 	std::smatch match;
-
+	std::list<std::string> data{};
 
 	if (!file)
 		throw std::runtime_error{"Invalid file"};
@@ -131,8 +119,12 @@ void plz::Slave::findData(const std::string &reg, Command &&command)
 		std::sregex_iterator cmdEnd{};
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			_data.emplace(command.type, match.str());
-			std::cout << match.str() << std::endl;
+			std::cout << "found [" << match.str() << "]" << std::endl;
+				data.push_back(std::move(match.str()));
 		}
+	}
+	{
+		std::lock_guard<std::mutex> lock{_mData};
+		_master.sendData(Data{command.type, std::move(data)});
 	}
 }

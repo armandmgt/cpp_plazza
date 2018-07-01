@@ -8,17 +8,26 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
+#include <thread>
+#include <deque>
 #include "serializable/Command.hpp"
 
 namespace plz {
 	class Parser {
 	public:
-		Parser() = default;
-
+		Parser();
 		~Parser() = default;
 
-		std::vector<Command> getLine();
+		std::deque<Command> getLine();
 
-		std::vector<Command> parseCommand(std::istringstream sst);
+		std::vector<Command> parseCommand(const std::string &input);
+
+	private:
+		std::mutex _m{};
+		std::thread _th;
+		std::deque<Command> _deque{};
+
+		void runThread();
 	};
 }
