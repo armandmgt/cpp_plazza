@@ -9,6 +9,7 @@
 
 #include <deque>
 #include <sstream>
+#include <fstream>
 #include "parser/Parser.hpp"
 #include "network/LinkDescriptor.hpp"
 
