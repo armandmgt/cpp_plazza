@@ -17,7 +17,8 @@ std::string plz::Data::serialize() const
 	ser += "type:";
 	ser += std::to_string(static_cast<int>(type));
 	ser += sepJson;
-	ser += "data:" + startJsonArr;
+	ser += "data:";
+	ser += startJsonArr;
 	for (auto value = data.begin(); value != data.end();) {
 		ser += "\"" + *value + "\"";
 		if ((++value) != data.end())
