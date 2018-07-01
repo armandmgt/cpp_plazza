@@ -14,7 +14,7 @@
 #include "constants.hpp"
 
 #ifdef GRAPHICAL
-# include "Graphic.hpp"
+# include "../include/Graphic.hpp"
 #endif
 
 int main(int argc, char const *argv[])

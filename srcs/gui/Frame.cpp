@@ -4,7 +4,7 @@
 ** File description:
 ** Frame
 */
-#include "Frame.hpp"
+#include "../include/Frame.hpp"
 
 MyFrame::MyFrame(const Glib::ustring &label) : Gtk::Frame(label)
 {}

@@ -6,9 +6,9 @@
 */
 
 #include <iostream>
-#include "Shell.hpp"
-#include "Utils.hpp"
-#include "Graphic.hpp"
+#include "../include/Shell.hpp"
+#include "../include/Utils.hpp"
+#include "../include/Graphic.hpp"
 
 gfx::Graphic::Graphic(int nbThread)
 	: masterProcess(nbThread), m_principalBox(Gtk::ORIENTATION_VERTICAL),

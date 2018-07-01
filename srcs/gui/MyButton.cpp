@@ -5,7 +5,7 @@
 ** my_button
 */
 
-#include "MyButton.hpp"
+#include "../include/MyButton.hpp"
 
 
 gfx::myButton::myButton(const Glib::ustring& label, bool mnemonic) :
