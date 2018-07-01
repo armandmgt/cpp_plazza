@@ -21,34 +21,39 @@ std::vector<std::string> splitStringAt(std::istringstream &&input, char delim) {
 	return commands;
 }
 
-std::vector<plz::Command> plz::Parser::getLine() {
+plz::Parser::Parser() : _th{[this]() { runThread(); }} {
+}
+
+void plz::Parser::runThread() {
 	std::string input;
-	std::vector<plz::Command> commands{};
 
 	while (std::cin.good()) {
 		std::getline(std::cin, input);
 		auto parts = splitStringAt(std::istringstream{input}, ';');
 		for (auto const &c : parts) {
-			auto &&next = parseCommand(std::istringstream{c});
-			std::move(next.begin(), next.end(), std::back_inserter(commands));
+			auto &&next = parseCommand(c);
+			std::lock_guard<std::mutex> lock{_m};
+			std::move(next.begin(), next.end(), std::back_inserter(_deque));
 		}
-		if (!commands.empty())
-			return commands;
 	}
-	return {};
 }
 
-std::vector<plz::Command> plz::Parser::parseCommand(std::istringstream sst) {
-	std::vector<Command> cmds{};
-	std::string filename;
+std::deque<plz::Command> plz::Parser::getLine() {
+	std::lock_guard<std::mutex> lock{_m};
+	return std::move(_deque);
+}
 
-	while (!sst.eof()) {
-		std::getline(sst, filename, ' ');
-		cmds.emplace_back("PHONE_NUMBER", std::move(filename));
+std::vector<plz::Command> plz::Parser::parseCommand(const std::string &input) {
+	std::vector<Command> cmds{};
+
+	auto parts = splitStringAt(std::istringstream{input}, ' ');
+	auto type = parts.back();
+	try {
+		std::for_each(parts.begin(), parts.end() - 1, [&type, &cmds](std::string &p) {
+			cmds.emplace_back(type, std::move(p));
+		});
+	} catch (std::out_of_range const &e) {
+		std::cerr << "Invalid command" << std::endl;
 	}
-	auto type = cmds.back().filename;
-	std::for_each(cmds.begin(), cmds.end(), [type](auto &c) { c = Command{type, std::move(c.filename)}; });
-	cmds.pop_back();
-	std::for_each(cmds.begin(), cmds.end(), [type](auto &c) { std::cout << c.type << " " << c.filename << std::endl; });
 	return cmds;
 }

@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
+#include <iostream>
 #include "LinkDescriptor.hpp"
 #include "slave/Slave.hpp"
 

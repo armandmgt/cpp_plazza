@@ -22,5 +22,7 @@ namespace plz {
 		unsigned _nbThreads;
 		Parser _parser;
 		std::deque<LinkDescriptor> _slaves{};
+
+		void printData(std::list<Data> data);
 	};
 }

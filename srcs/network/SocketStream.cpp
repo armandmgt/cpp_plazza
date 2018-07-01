@@ -10,6 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include <poll.h>
+#include <sys/wait.h>
 #include "SocketStream.hpp"
 
 plz::SocketStream::SocketStream(int socket) : _socket{socket} {
@@ -40,7 +41,7 @@ bool plz::SocketStream::hasData() const {
 	return static_cast<bool>(fds.revents & POLLIN);
 }
 
-bool plz::SocketStream::operator<<(const plz::ISerializable &obj[[maybe_unused]]) const {
+bool plz::SocketStream::operator<<(const plz::ISerializable &obj) const {
 	if (_socket == -1)
 		return false;
 	auto &&s = obj.serialize();
@@ -60,6 +61,8 @@ bool plz::SocketStream::getLine(std::string &string) const {
 	if (cbuf[0] != 0)
 		rsize -= strlen(cbuf);
 	if (read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize)) <= 0) {
+		std::cout << "socket " << _socket << " closed" << std::endl;
+		wait(nullptr);
 		_socket = -1;
 		return false;
 	}
@@ -69,7 +72,7 @@ bool plz::SocketStream::getLine(std::string &string) const {
 		_buffer.push(std::move(line));
 	if (cbuf[strlen(cbuf) - 1] != '\n') {
 		strcpy(cbuf, _buffer.back().c_str());
-		_buffer.pop();
+		_buffer.back() = "";
 	}
 	if (_buffer.empty())
 		return false;

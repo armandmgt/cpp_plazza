@@ -15,6 +15,7 @@
 namespace plz {
 	struct Command : public ISerializable {
 		Command() = default;
+		Command(Command const &) = default;
 		Command(Command &&) = default;
 		Command(const std::string &t, std::string &&f) : filename{f} {
 			static std::map<std::string, InfoType> const assoc{
@@ -24,12 +25,13 @@ namespace plz {
 			type = assoc.at(t);
 		}
 
+		Command &operator =(Command const &) = default;
 		Command &operator =(Command &&) = default;
 
 		std::string serialize() const final;
 		void deserialize(std::string &&data) final;
 
 		InfoType type{};
-		std::string filename;
+		std::string filename{};
 	};
 }

@@ -7,6 +7,9 @@
 
 #include "Data.hpp"
 
+plz::Data::Data(plz::InfoType type, std::list<std::string> &&data) : type{type}, data{std::move(data)} {
+}
+
 std::string plz::Data::serialize() const
 {
 	std::string ser{startJsonObj};
@@ -15,32 +18,32 @@ std::string plz::Data::serialize() const
 	ser += std::to_string(static_cast<int>(type));
 	ser += sepJson;
 	ser += "data:" + startJsonArr;
-	for (auto value = _data.begin(); value != _data.end();) {
+	for (auto value = data.begin(); value != data.end();) {
 		ser += "\"" + *value + "\"";
-		if ((++value) != _data.end())
+		if ((++value) != data.end())
 			ser += sepJson;
 	}
 	ser += endJsonArr;
 	return ser + endJsonObj;
 }
 
-void plz::Data::deserialize(std::string &&data)
+void plz::Data::deserialize(std::string &&obj)
 {
 	size_t i = 0;
-	for (; data[i] && data[i] != ':'; i++);
+	for (; obj[i] && obj[i] != ':'; i++);
 	i++;
-	if (!data[i])
+	if (!obj[i])
 		return;
-	type = static_cast<InfoType>(data[i] - '0');
-	for (; data[i] && data[i] != '"'; i++);
-	for (; data[i] && data[i] != endJsonArr; i++) {
+	type = static_cast<InfoType>(obj[i] - '0');
+	for (; obj[i] && obj[i] != '"'; i++);
+	for (; obj[i] && obj[i] != endJsonArr; i++) {
 		std::string newData;
-		if (data[i] == '"') {
+		if (obj[i] == '"') {
 			i++;
-			for (; data[i] && data[i] != '"'; i++) {
-				newData += data[i];
+			for (; obj[i] && obj[i] != '"'; i++) {
+				newData += obj[i];
 			}
-			_data.push_back(newData);
+			data.push_back(newData);
 		}
 	}
 }

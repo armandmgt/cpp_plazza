@@ -31,6 +31,8 @@ namespace plz {
 			return _commands >> obj;
 		}
 
+		bool sendData(Data data);
+
 	private:
 		SocketStream _commands{ -1 };
 		SocketStream _data{ -1 };

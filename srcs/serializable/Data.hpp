@@ -15,10 +15,11 @@
 namespace plz {
 	struct Data : public ISerializable{
 		Data() = default;
+		Data(InfoType type, std::list<std::string> &&data);
 
 		std::string serialize() const final;
-		void deserialize(std::string &&data) final;
+		void deserialize(std::string &&obj) final;
 		InfoType type{};
-		std::list<std::string> _data{};
+		std::list<std::string> data{};
 	};
 }
