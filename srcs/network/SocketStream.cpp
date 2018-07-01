@@ -55,13 +55,12 @@ plz::SocketStream::operator bool() const {
 }
 
 bool plz::SocketStream::getLine(std::string &string) const {
-	static char cbuf[4097]{0};
 	ssize_t rsize = 4096;
 
 	if (cbuf[0] != 0)
 		rsize -= strlen(cbuf);
 	if (read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize)) <= 0) {
-		std::cout << "socket " << _socket << " closed" << std::endl;
+//		std::cout << "socket " << _socket << " closed" << std::endl;
 		wait(nullptr);
 		_socket = -1;
 		return false;

@@ -17,7 +17,7 @@ plz::Slave::Slave(plz::LinkDescriptor &&descriptor, unsigned nbThread)
 	: _master{std::move(descriptor)},
 	  _timer{std::chrono::steady_clock::now()},
 	  _threads(nbThread) {
-	std::cout << "Hello from newly constructed Slave" << std::endl;
+//	std::cout << "Hello from newly constructed Slave" << std::endl;
 	std::generate(_threads.begin(), _threads.end(), [this]() {
 		return std::thread{[this]() { runThread(); }};
 	});
@@ -27,7 +27,7 @@ plz::Slave::~Slave() {
 	_cv.notify_all();
 	for (auto &th : _threads)
 		th.join();
-	std::cout << "All threads are exited" << std::endl;
+//	std::cout << "All threads are exited" << std::endl;
 }
 
 void plz::Slave::exec() {
@@ -35,7 +35,7 @@ void plz::Slave::exec() {
 	while (!timedOut()) {
 		if (_master.hasCommand()) {
 			_master.getCommand(c);
-			std::cout << "deserialized " << c.type << " " << c.filename << std::endl;
+//			std::cout << "deserialized " << c.type << " " << c.filename << std::endl;
 			{
 				std::lock_guard<std::mutex> lock{_mTask};
 				_tasks.push(std::move(c));
@@ -44,7 +44,7 @@ void plz::Slave::exec() {
 		}
 //		std::this_thread::yield();
 	}
-	std::cout << "Timed out ! Now exiting" << std::endl;
+//	std::cout << "Timed out ! Now exiting" << std::endl;
 }
 
 bool plz::Slave::timedOut()
@@ -74,7 +74,7 @@ void plz::Slave::runThread()
 			_tasks.pop();
 			_running++;
 		}
-		std::cout << "I received a command and I am now parsing !" << std::endl;
+//		std::cout << "I received a command and I am now parsing !" << std::endl;
 		try {
 			doParsing(std::move(task));
 			_running--;
@@ -119,8 +119,8 @@ void plz::Slave::findData(const std::string &reg, Command &&command)
 		std::sregex_iterator cmdEnd{};
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			std::cout << "found [" << match.str() << "]" << std::endl;
-				data.push_back(std::move(match.str()));
+//			std::cout << "found [" << match.str() << "]" << std::endl;
+			data.push_back(std::move(match.str()));
 		}
 	}
 	{
