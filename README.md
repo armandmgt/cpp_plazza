@@ -26,14 +26,14 @@ To parse your files you need to prototype your command as follows :
 
 ### DATA_TYPE
 
-* PHONE_NUMBER
-* EMAIL_ADDRESS
-* IP_ADDRESS
+  * PHONE_NUMBER
+  * EMAIL_ADDRESS
+  * IP_ADDRESS
 
 ---
 
 ## Author
 
-* **Sandra Lundh** - *Jar Jar Binks*
-* **Armand Megrot** - *Yoda*
-* **Thomas Burgaud** - *Darth Vader*
+  * **Sandra Lundh** - *Jar Jar Binks*
+  * **Armand Megrot** - *Yoda*
+  * **Thomas Burgaud** - *Darth Vader*
