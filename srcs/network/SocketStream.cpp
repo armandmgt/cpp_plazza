@@ -58,17 +58,19 @@ bool plz::SocketStream::getLine(std::string &string) const {
 	ssize_t rsize = 4096;
 
 	if (cbuf[0] != 0)
-		rsize -= strlen(cbuf);
-	if (read(_socket, cbuf + strlen(cbuf), static_cast<size_t>(rsize)) <= 0) {
+		rsize -= strnlen(cbuf, sizeof(cbuf));
+	ssize_t ret = read(_socket, cbuf + strnlen(cbuf, sizeof(cbuf)), static_cast<size_t>(rsize));
+	if (ret <= 0) {
 		wait(nullptr);
 		_socket = -1;
 		return false;
 	}
+	cbuf[ret] = 0;
 	std::istringstream sst{cbuf};
 	std::string line;
 	while (std::getline(sst, line))
 		_buffer.push(std::move(line));
-	if (cbuf[strlen(cbuf) - 1] != '\n') {
+	if (cbuf[strnlen(cbuf, sizeof(cbuf)) - 1] != '\n') {
 		strcpy(cbuf, _buffer.back().c_str());
 		_buffer.back() = "";
 	}

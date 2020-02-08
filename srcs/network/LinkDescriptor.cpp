@@ -24,7 +24,7 @@ std::list<plz::Data> plz::LinkDescriptor::getData() const {
 	Data d;
 	while (_data >> d)
 		ld.push_back(std::move(d));
-	return std::move(ld);
+	return ld;
 }
 
 bool plz::LinkDescriptor::hasCommand() const {
