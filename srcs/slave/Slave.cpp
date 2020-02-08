@@ -17,7 +17,6 @@ plz::Slave::Slave(plz::LinkDescriptor &&descriptor, unsigned nbThread)
 	: _master{std::move(descriptor)},
 	  _timer{std::chrono::steady_clock::now()},
 	  _threads(nbThread) {
-//	std::cout << "Hello from newly constructed Slave" << std::endl;
 	std::generate(_threads.begin(), _threads.end(), [this]() {
 		return std::thread{[this]() { runThread(); }};
 	});
@@ -118,7 +117,7 @@ void plz::Slave::findData(const std::string &reg, Command &&command)
 		std::sregex_iterator cmdEnd{};
 		for (std::sregex_iterator i = cmdBegin; i != cmdEnd; i++) {
 			match = *i;
-			data.push_back(std::move(match.str()));
+			data.push_back(match.str());
 		}
 	}
 	{
