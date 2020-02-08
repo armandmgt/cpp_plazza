@@ -4,12 +4,12 @@ The goal of the project is to find prototyped data (email, phone number, ip addr
 
 ## Make the project
 
-```
+```bash
 make fclean && make
 ```
 ## Run the project
 
-```
+```bash
 ./plazza [number of threads]
 ```
 
@@ -20,7 +20,7 @@ by the father process
 
 To parse your files you need to prototype your command as follows : 
 
-```
+```sh
 [filename ...] [DATA_TYPE] ; [filename ...] [DATA_TYPE] ...
 ```
 
