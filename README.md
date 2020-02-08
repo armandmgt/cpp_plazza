@@ -2,12 +2,12 @@
 
 The goal of the project is to find prototyped data (email, phone number, ip address).
 
-### Make the project
+## Make the project
 
 ```
 make fclean && make
 ```
-### Run the project
+## Run the project
 
 ```
 ./plazza [number of threads]
@@ -16,7 +16,7 @@ make fclean && make
 Number of threads : This is the maximum number of threads for each process created 
 by the father process 
 
-### Command 
+## Command 
 
 To parse your files you need to prototype your command as follows : 
 
@@ -24,13 +24,15 @@ To parse your files you need to prototype your command as follows :
 [filename ...] [DATA_TYPE] ; [filename ...] [DATA_TYPE] ...
 ```
 
-##### DATA_TYPE :
+### DATA_TYPE :
 
 * PHONE_NUMBER
 * EMAIL_ADDRESS
 * IP_ADDRESS
 
-### Author
+---
+
+## Author
 
 * **Sandra Lundh** - *Jar Jar Binks*
 * **Armand Megrot** - *Yoda*
