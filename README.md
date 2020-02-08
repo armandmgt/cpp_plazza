@@ -24,7 +24,7 @@ To parse your files you need to prototype your command as follows :
 [filename ...] [DATA_TYPE] ; [filename ...] [DATA_TYPE] ...
 ```
 
-### DATA_TYPE :
+### DATA_TYPE
 
 * PHONE_NUMBER
 * EMAIL_ADDRESS
