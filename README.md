@@ -1,5 +1,7 @@
 # Plazza
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d656352219c9428bae1312d4a3db1ba5)](https://app.codacy.com/manual/armandmgt/cpp_plazza?utm_source=github.com&utm_medium=referral&utm_content=armandmgt/cpp_plazza&utm_campaign=Badge_Grade_Dashboard)
+
 The goal of the project is to find prototyped data (email, phone number, ip address).
 
 ## Make the project
